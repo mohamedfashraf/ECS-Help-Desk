@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const securitySchema = new Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -26,6 +26,6 @@ const UserSchema = new Schema({
     }
 });
 
-const Ticket = mongoose.model('Security', securitySettings);
+const Security = mongoose.model('Security', securitySchema);
 
 module.exports = Security;
