@@ -1,0 +1,26 @@
+[{
+  "_id": {
+    "$oid": "655cf63ca3b261a383bd7575"
+  },
+  "admin_id": "unique_user_identifier",
+  "branding": {
+    "theme": {
+      "primaryColor": "#005f73",
+      "secondaryColor": "#0a9396",
+      "backgroundColor": "#94d2bd",
+      "headerColor": "#e9d8a6",
+      "footerColor": "#ee9b00",
+      "fontColor": "#ca6702",
+      "buttonTextColor": "#bb3e03",
+      "linkColor": "#ae2012",
+      "hoverEffectColor": "#9b2226"
+    },
+    "logo": {
+      "url": "/images/logo.png",
+      "altText": "Company Logo"
+    }
+  },
+  "updatedAt": {
+    "$date": "2023-11-21T00:00:00.000Z"
+  }
+}]

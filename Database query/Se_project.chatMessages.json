@@ -1,0 +1,23 @@
+[{
+  "_id": {
+    "$oid": "655cef3ddd49e90bc3e4ca91"
+  },
+  "ticketId": {
+    "$oid": "655cef4ddd49e90bc3e4ca92"
+  },
+  "participants": [
+    {
+      "$oid": "655cf061dd49e90bc3e4ca93"
+    },
+    {
+      "$oid": "655cf061dd49e90bc3e4ca93"
+    }
+  ],
+  "messages": [
+    {
+      "sender": "UserId",
+      "message": "Hello, I need help with...",
+      "timestamp": "2023-03-01T12:00:00Z"
+    }
+  ]
+}]
