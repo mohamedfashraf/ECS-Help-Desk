@@ -1,18 +1,20 @@
-[{
+{
   "_id": {
-    "$oid": "655a46f59a23bc477dd8a6fb"
+    "$oid": "655dec44a3b261a383bd75a9"
   },
-  "user_id": 12,
-  "description": "  ",
-  "category": "Network Issue",
-  "createdBy": {
-    "$oid": "655a3cc89a23bc477dd8a6f3"
-  },
-  "assignedTo": {
-    "$oid": "655a3cc89a23bc477dd8a6f3"
-  },
-  "subCategory": "printer",
+  "user_id": "5f50c31e54a234668fb3c2ef",
+  "description": "The printer is not connecting to the network.",
+  "category": "Hardware",
+  "subCategory": "Printer",
   "priority": "high",
-  "workflow": "    ",
-  "issueType": "software"
-}]
+  "status": "open",
+  "assignedTo": "5f50c3af54a234668fb3c2f1",
+  "createdBy": "5f50c31e54a234668fb3c2ef",
+  "resolutionDetails": "",
+  "createdAt": {
+    "$date": "2020-09-02T12:00:00.000Z"
+  },
+  "updatedAt": {
+    "$date": "2020-09-02T12:00:00.000Z"
+  }
+}
