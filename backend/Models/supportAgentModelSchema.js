@@ -1,22 +1,43 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
-
-// Define the main document schema
-const UserSchema = new Schema({
-    name: String,
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    primaryResponsibility: {
-        type: String,
-        enum: ['Software', 'Hardware', 'Network']
-    }
+const supportAgentSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  role: {
+    type: String,
+    default: 'support_agent',
+    enum: ['support_agent'] 
+  },
+  specialization: {
+    type: String,
+    enum: ['Software', 'Hardware', 'Network'],
+    required: true
+  },
+  assignedTickets: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Ticket'
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-// Compile the model from the schema
-const User = mongoose.model('User', UserSchema);
+const SupportAgent = mongoose.model('SupportAgent', supportAgentSchema);
 
-module.exports = User;
+module.exports = SupportAgent;

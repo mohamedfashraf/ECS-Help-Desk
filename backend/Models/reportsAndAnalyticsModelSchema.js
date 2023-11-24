@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-// Define the main document schema
 const ReportSchema = new Schema({
     _id: {
         type: Schema.Types.ObjectId,
@@ -10,7 +9,7 @@ const ReportSchema = new Schema({
     },
     type: {
         type: String,
-        required: true // If type is always required. If not, remove this line.
+        required: true
     },
     generatedBy: {
         type: Schema.Types.ObjectId,
@@ -22,7 +21,6 @@ const ReportSchema = new Schema({
     }
 });
 
-// Compile the model from the schema
 const Report = mongoose.model('Report', ReportSchema);
 
 module.exports = Report;
