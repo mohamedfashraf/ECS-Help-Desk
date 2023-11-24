@@ -7,6 +7,10 @@ const userSessionSchema = new mongoose.Schema({
     ref: "userModelSchema",
     required: true,
   },
+  token: {
+    type: String,
+    requied: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
