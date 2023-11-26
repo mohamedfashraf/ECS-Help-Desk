@@ -2,8 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const userRoutes = require("./Routes/usersRoute"); // Adjust path as needed
-// JWT Token Generation Example
+const userRoutes = require("./Routes/usersRoute"); 
+// JWT Token 
 
 // MongoDB Connection
 const mongoURI = 'mongodb://127.0.0.1:27017/Se_project';
@@ -14,10 +14,9 @@ mongoose.connect(mongoURI)
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
 // Middlewares
-app.use(express.json()); // If you are expecting JSON payloads in your requests
+app.use(express.json()); 
 
 // Routes
-// Define your routes here
 
 app.use("/api/users", userRoutes);
 
