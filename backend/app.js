@@ -21,7 +21,7 @@ app.use(express.json());
 //
 
 app.use("/api/users", userRoutes);
-app.use("/api/zobry", ticketsRoute);
+app.use("/api/tickets", ticketsRoute);
 
 // Starting the Server
 const port = process.env.PORT || 3000;
