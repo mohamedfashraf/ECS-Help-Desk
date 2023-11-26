@@ -5,10 +5,11 @@ const mongoose = require("mongoose");
 const userRoutes = require("./Routes/usersRoute"); 
 const ticketsRoute = require("./Routes/ticketsRoute");
 
+const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
 // JWT Token 
 
 // MongoDB Connection
-const mongoURI = 'mongodb://127.0.0.1:27017/Se-Db';
+const mongoURI = 'mongodb://127.0.0.1:27017';
 mongoose.connect(mongoURI)
 
 
@@ -22,6 +23,7 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/tickets", ticketsRoute);
+app.use("/api/automatedWorkflows", automatedWorkflowsRoute);
 
 // Starting the Server
 const port = process.env.PORT || 3000;
