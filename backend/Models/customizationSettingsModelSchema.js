@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-// Define the Theme schema
 const ThemeSchema = new Schema({
     primaryColor: String,
     secondaryColor: String,
@@ -15,7 +14,6 @@ const ThemeSchema = new Schema({
     hoverEffectColor: String
 });
 
-// Define the Logo schema
 const LogoSchema = new Schema({
     url: {
         type: String,
@@ -24,13 +22,11 @@ const LogoSchema = new Schema({
     altText: String
 });
 
-// Define the Branding schema
 const BrandingSchema = new Schema({
     theme: ThemeSchema,
     logo: LogoSchema
 });
 
-// Define the main document schema
 const BrandingSettingsSchema = new Schema({
     _id: {
         type: Schema.Types.ObjectId,
@@ -47,7 +43,6 @@ const BrandingSettingsSchema = new Schema({
     }
 });
 
-// Compile the model from the schema
 const BrandingSettings = mongoose.model('BrandingSettings', BrandingSettingsSchema);
 
 module.exports = BrandingSettings;

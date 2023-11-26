@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-// Define the Message schema
 const MessageSchema = new Schema({
     sender: {
         type: String,
@@ -18,7 +17,6 @@ const MessageSchema = new Schema({
     }
 });
 
-// Define the main document schema
 const ConversationSchema = new Schema({
     _id: {
         type: Schema.Types.ObjectId,
@@ -35,7 +33,6 @@ const ConversationSchema = new Schema({
     messages: [MessageSchema]
 });
 
-// Compile the model from the schema
 const Conversation = mongoose.model('Conversation', ConversationSchema);
 
 module.exports = Conversation;
