@@ -3,10 +3,12 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const userRoutes = require("./Routes/usersRoute"); 
+const ticketsRoute = require("./Routes/ticketsRoute");
+
 // JWT Token 
 
 // MongoDB Connection
-const mongoURI = 'mongodb://127.0.0.1:27017/Se_project';
+const mongoURI = 'mongodb://127.0.0.1:27017/Se-Db';
 mongoose.connect(mongoURI)
 
 
@@ -16,9 +18,10 @@ mongoose.connect(mongoURI)
 // Middlewares
 app.use(express.json()); 
 
-// Routes
+//
 
 app.use("/api/users", userRoutes);
+app.use("/api/zobry", ticketsRoute);
 
 // Starting the Server
 const port = process.env.PORT || 3000;
