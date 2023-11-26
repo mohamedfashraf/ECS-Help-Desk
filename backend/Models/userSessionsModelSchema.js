@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const userModelSchema = require("./usersModelSchema");
+const userModelSchema = require("..Models/usersModelSchema");
 
 const userSessionSchema = new mongoose.Schema({
   userId: {
