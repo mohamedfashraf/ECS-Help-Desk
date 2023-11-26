@@ -1,24 +1,20 @@
-const userModel = require("../Models/usersModelSchema");
+const User = require("../Models/usersModelSchema");
 
 const bcrypt = require("bcrypt");
-const sessionModel = require("../Models/sessionModel");
-const jwt = require("jsonwebtoken");
-require('dotenv').config();
+require("dotenv").config();
 
-const secretKey =process.env.SECRET_KEY ;
+const secretKey = process.env.SECRET_KEY;
 async function createUser(req, res) {
   try {
     const { name, role, email, password } = req.body;
-    // Hashing the password
-    const salt = await bcrypt.genSalt(10); // 10 rounds of salting
+    const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = new User({ name, role, email, password: hashedPassword });
     await user.save();
 
-    // Optionally, you might want to remove or modify the response to not include sensitive data
     const userResponse = user.toObject();
-    delete userResponse.password; // Removing password from the response
+    delete userResponse.password;
 
     res.status(201).send(userResponse);
   } catch (error) {
