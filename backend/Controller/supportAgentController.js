@@ -1,6 +1,6 @@
 const SupportAgent = require('../Models/supportAgentModelSchema');
 
-// Create a new support agent
+// Create a new support agent "works"
 async function createSupportAgent(req, res) {
     try {
         const { name, email, password, specialization } = req.body;
@@ -22,7 +22,7 @@ async function getAllSupportAgents(req, res) {
     }
 }
 
-// Get a support agent by ID
+// Get a support agent by ID "works"
 async function getSupportAgentById(req, res) {
     try {
         const supportAgent = await SupportAgent.findById(req.params.id);
@@ -35,7 +35,7 @@ async function getSupportAgentById(req, res) {
     }
 }
 
-// Update a support agent by ID
+// Update a support agent by ID "works"
 async function updateSupportAgent(req, res) {
     try {
         const updates = Object.keys(req.body);
@@ -51,7 +51,7 @@ async function updateSupportAgent(req, res) {
     }
 }
 
-// Delete a support agent by ID
+// Delete a support agent by ID "works"
 async function deleteSupportAgent(req, res) {
     try {
         const supportAgent = await SupportAgent.findByIdAndDelete(req.params.id);
