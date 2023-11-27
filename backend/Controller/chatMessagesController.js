@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const ChatMessages = require('../Models/chatMessagesModelSchema');
 
-// Create a new conversation
+// Create a new conversation "works"
 async function createConversation(req, res) {
     try {
         const { ticketId, participants, messages } = req.body;
@@ -19,7 +19,7 @@ async function createConversation(req, res) {
     }
 }
 
-// Get all conversations
+// Get all conversations "works"
 async function getAllConversations(req, res) {
     try {
         const conversations = await ChatMessages.find({});
@@ -30,7 +30,7 @@ async function getAllConversations(req, res) {
     }
 }
 
-// Get a specific conversation by ID
+// Get a specific conversation by ID "works"
 async function getConversationById(req, res) {
     try {
         const conversation = await ChatMessages.findById(req.params.id);
@@ -43,7 +43,7 @@ async function getConversationById(req, res) {
     }
 }
 
-// Update a conversation by ID
+// Update a conversation by ID "works"
 async function updateConversation(req, res) {
     try {
         const updates = req.body;
@@ -57,7 +57,7 @@ async function updateConversation(req, res) {
     }
 }
 
-// Delete a conversation by ID
+// Delete a conversation by ID "works"
 async function deleteConversation(req, res) {
     try {
         const conversation = await ChatMessages.findByIdAndDelete(req.params.id);
