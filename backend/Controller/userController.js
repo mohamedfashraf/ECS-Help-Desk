@@ -27,35 +27,31 @@ async function login(req, res) {
   try {
     const { email, password } = req.body;
 
-    // Find the user by email
     const user = await UserModel.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "email not found" });
     }
 
-    // Check if the password is correct
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(405).json({ message: "incorrect password" });
     }
 
     const currentDateTime = new Date();
-    const expiresAt = new Date(currentDateTime.getTime() + 1800000); // expire in 30 minutes
+    const expiresAt = new Date(currentDateTime.getTime() + 1800000); 
 
-    // Generate a JWT token
     const token = jwt.sign(
       { user: { userId: user._id, role: user.role } },
       secretKey,
-      { expiresIn: '30m' } // token expires in 30 minutes
+      { expiresIn: '30m' } 
     );
 
-    // Send the token in a cookie
     return res
       .cookie("token", token, {
         expires: expiresAt,
-        httpOnly: true, // set to true for security reasons
-        SameSite: 'None', // adjust according to your requirements
-        secure: true // set to true if using https
+        httpOnly: true, 
+        SameSite: 'None', 
+        secure: true 
       })
       .status(200)
       .json({ message: "login successfully", user });
