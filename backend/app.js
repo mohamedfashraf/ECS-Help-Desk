@@ -7,6 +7,7 @@ const chatMessagesRoutes = require('./Routes/chatMessagesRoute');
 const securitySettingsRoutes = require('./Routes/securitySettingsRoute');
 const knowledgeBaseRoutes = require('./Routes/knowledgeBaseRoute');
 const reportsAndAnalyticsRoutes = require('./Routes/reportsAndAnalyticsRoute');
+const supportAgentRoutes = require('./Routes/supportAgentRoute');
 // JWT Token 
 
 // MongoDB Connection
@@ -30,6 +31,8 @@ app.use("/api", securitySettingsRoutes);
 app.use("/api", knowledgeBaseRoutes);
 
 app.use("/api", reportsAndAnalyticsRoutes);
+
+app.use("/api", supportAgentRoutes);
 
 // Starting the Server
 const port = process.env.PORT || 3000;

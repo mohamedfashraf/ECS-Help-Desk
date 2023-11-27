@@ -1,4 +1,4 @@
-const SupportAgent = require('../Models/supportAgentModel'); // Adjust the path based on your project structure
+const SupportAgent = require('../Models/supportAgentModelSchema');
 
 // Create a new support agent
 async function createSupportAgent(req, res) {
@@ -12,7 +12,7 @@ async function createSupportAgent(req, res) {
     }
 }
 
-// Get all support agents
+// Get all support agents "works"
 async function getAllSupportAgents(req, res) {
     try {
         const supportAgents = await SupportAgent.find({});

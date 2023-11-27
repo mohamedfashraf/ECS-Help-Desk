@@ -22,7 +22,7 @@ async function getAllReports(req, res) {
     }
 }
 
-// Get a report by ID 
+// Get a report by ID "works"
 async function getReportById(req, res) {
     try {
         const report = await Report.findById(req.params.id);
@@ -35,7 +35,7 @@ async function getReportById(req, res) {
     }
 }
 
-// Update a report by ID
+// Update a report by ID "works"
 async function updateReport(req, res) {
     try {
         const updates = Object.keys(req.body);
@@ -51,7 +51,7 @@ async function updateReport(req, res) {
     }
 }
 
-// Delete a report by ID
+// Delete a report by ID "works"
 async function deleteReport(req, res) {
     try {
         const report = await Report.findByIdAndDelete(req.params.id);
