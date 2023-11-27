@@ -26,6 +26,6 @@ const securitySchema = new Schema({
     }
 });
 
-const Security = mongoose.model('Security', securitySchema);
+const Security = mongoose.model('securitySettings', securitySchema);
 
 module.exports = Security;

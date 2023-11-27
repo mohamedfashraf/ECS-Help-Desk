@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const userRoutes = require("./Routes/usersRoute");
 const chatMessagesRoutes = require('./Routes/chatMessagesRoute');
+const securitySettingsRoutes = require('./Routes/securitySettingsRoute');
 // JWT Token 
 
 // MongoDB Connection
@@ -18,10 +19,12 @@ mongoose.connect(mongoURI)
 app.use(express.json());
 
 // Routes
-
 app.use("/api/users", userRoutes);
 
 app.use("/api/chatMessages", chatMessagesRoutes);
+
+app.use("/api", securitySettingsRoutes);
+
 
 // Starting the Server
 const port = process.env.PORT || 3000;
