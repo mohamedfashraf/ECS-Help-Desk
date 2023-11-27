@@ -9,7 +9,7 @@ const customizationSettingsRoute = require("./Routes/customizationSettingsRoute"
 // JWT Token 
 
 // MongoDB Connection
-const mongoURI = 'mongodb://127.0.0.1:27017';
+const mongoURI = 'mongodb://127.0.0.1:27017/Se-Db';
 mongoose.connect(mongoURI)
 
 
@@ -23,7 +23,7 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/tickets", ticketsRoute);
-app.use("/api/automatedWorkflows", automatedWorkflowsRoute);
+app.use("/api/customizationSettings", customizationSettingsRoute);
 
 // Starting the Server
 const port = process.env.PORT || 3000;

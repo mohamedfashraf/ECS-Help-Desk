@@ -1,54 +1,57 @@
+const automatedWorkflowsModel = require('../Models/automatedWorkflowsModelSchema'); // Update with the correct path
 
+// Create Function
+async function createWorkflow(req, res) {
+    try {
+        const newWorkflow = new automatedWorkflowsModel(req.body);
+        const savedWorkflow = await newWorkflow.save();
+        res.status(201).json(savedWorkflow);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
 
-// Controller actions
-const getAllAutomatedWorkflows = (req, res) => {
-  res.json(automatedWorkflows);
-};
+// Read Function
+async function getWorkflow(req, res) {
+    try {
+        const workflow = await automatedWorkflowsModel.findById(req.params.id);
+        if (!workflow) {
+            return res.status(404).json({ message: 'Workflow not found' });
+        }
+        res.json(workflow);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
-const createAutomatedWorkflow = (req, res) => {
-  const newWorkflow = req.body;
-  automatedWorkflows.push(newWorkflow);
-  res.status(201).json(newWorkflow);
-};
+// Update Function
+async function updateWorkflow(req, res) {
+    try {
+        const updatedWorkflow = await automatedWorkflowsModel.findByIdAndUpdate(
+            req.params.id, 
+            req.body, 
+            { new: true }
+        );
+        if (!updatedWorkflow) {
+            return res.status(404).json({ message: 'Workflow not found' });
+        }
+        res.json(updatedWorkflow);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
 
-const getAutomatedWorkflowById = (req, res) => {
-  const workflowId = req.params.id;
-  const workflow = automatedWorkflows.find(workflow => workflow._id.$oid === workflowId);
-  if (workflow) {
-    res.json(workflow);
-  } else {
-    res.status(404).json({ message: "Workflow not found" });
-  }
-};
+// Delete Function
+async function deleteWorkflow(req, res) {
+    try {
+        const deletedWorkflow = await automatedWorkflowsModel.findByIdAndDelete(req.params.id);
+        if (!deletedWorkflow) {
+            return res.status(404).json({ message: 'Workflow not found' });
+        }
+        res.json({ message: 'Workflow deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
-const updateAutomatedWorkflow = (req, res) => {
-  const workflowId = req.params.id;
-  const updatedWorkflow = req.body;
-  const workflowIndex = automatedWorkflows.findIndex(workflow => workflow._id.$oid === workflowId);
-  if (workflowIndex !== -1) {
-    automatedWorkflows[workflowIndex] = updatedWorkflow;
-    res.json(updatedWorkflow);
-  } else {
-    res.status(404).json({ message: "Workflow not found" });
-  }
-};
-
-const deleteAutomatedWorkflow = (req, res) => {
-  const workflowId = req.params.id;
-  const workflowIndex = automatedWorkflows.findIndex(workflow => workflow._id.$oid === workflowId);
-  if (workflowIndex !== -1) {
-    automatedWorkflows.splice(workflowIndex, 1);
-    res.json({ message: "Workflow deleted" });
-  } else {
-    res.status(404).json({ message: "Workflow not found" });
-  }
-};
-
-// Export controller actions
-module.exports = {
-  getAllAutomatedWorkflows,
-  createAutomatedWorkflow,
-  getAutomatedWorkflowById,
-  updateAutomatedWorkflow,
-  deleteAutomatedWorkflow
-};
+module.exports = { createWorkflow, getWorkflow, updateWorkflow, deleteWorkflow };
