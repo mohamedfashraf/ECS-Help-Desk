@@ -3,7 +3,15 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const userRoutes = require("./Routes/usersRoute");
-// JWT Token
+const cookieParser=require('cookie-parser');
+const auth = require("./Routes/auth")
+const authenticationMiddleware = require("./Middleware/authentication");
+
+app.use(cookieParser());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/Se_project";
@@ -17,8 +25,9 @@ mongoose
 app.use(express.json());
 
 // Routes
+app.use("/api/v1",auth);
 
-app.use("/api/users", userRoutes);
+app.use("/api/v1/users", userRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
