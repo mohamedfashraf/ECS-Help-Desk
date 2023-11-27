@@ -11,7 +11,7 @@ async function register(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
 
-    const user = new User({ name, role, email, password });
+    const user = new UserModel({ name, role, email, password: hashedPassword });
     await user.save();
 
     const userResponse = user.toObject();
@@ -24,53 +24,43 @@ async function register(req, res) {
 }
 
 async function login(req, res) {
-    try {
-      const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-      // Find the user by email
-      const user = await UserModel.findOne({ email });
-      if (!user) {
-        return res.status(404).json({ message: "email not found" });
-      }
-
-      console.log("password: ", user.password);
-      // Check if the password is correct
-
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        return res.status(405).json({ message: "incorect password" });
-      }
-
-      const currentDateTime = new Date();
-      const expiresAt = new Date(+currentDateTime + 1800000); // expire in 3 minutes
-      // Generate a JWT token
-      const token = jwt.sign(
-        { user: { userId: user._id, role: user.role } },
-        secretKey,
-        {
-          expiresIn: 3 * 60 * 60,
-        }
-      );
-      let newSession = new sessionModel({
-        userId: user._id,
-        token,
-        expiresAt: expiresAt,
-      });
-      await newSession.save();
-      return res
-        .cookie("token", token, {
-          expires: expiresAt,
-          withCredentials: true,
-          httpOnly: false,
-          SameSite:'none'
-        })
-        .status(200)
-        .json({ message: "login successfully", user });
-    } catch (error) {
-      console.error("Error logging in:", error);
-      res.status(500).json({ message: "Server error" ,error: error.message});
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "email not found" });
     }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(405).json({ message: "incorrect password" });
+    }
+
+    const currentDateTime = new Date();
+    const expiresAt = new Date(currentDateTime.getTime() + 1800000); 
+
+    const token = jwt.sign(
+      { user: { userId: user._id, role: user.role } },
+      secretKey,
+      { expiresIn: '30m' } 
+    );
+
+    return res
+      .cookie("token", token, {
+        expires: expiresAt,
+        httpOnly: true, 
+        SameSite: 'None', 
+        secure: true 
+      })
+      .status(200)
+      .json({ message: "login successfully", user });
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
+}
+
 
 
 async function getAllUsers(req, res) {
