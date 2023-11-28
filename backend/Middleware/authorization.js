@@ -1,10 +1,9 @@
-module.exports= function authorizationMiddleware(roles) {
-    return (req, res, next) => {
-      console.log('req:',req)
-      const userRole = req.user.role;
-      if (!roles.includes(userRole))
-        return res.status(403).json("unauthorized access");
-      // console.log('authormid')
-      next();
-    };
-  }
+module.exports = function authorizationMiddleware(roles) {
+  return (req, res, next) => {
+    const userRoles = req.user.role;
+    const hasRequiredRole = userRoles.some(role => roles.includes(role));
+    if (!hasRequiredRole)
+      return res.status(403).json({ message: "unauthorized access" });
+    next();
+  };
+};

@@ -49,9 +49,9 @@ async function login(req, res) {
     return res
       .cookie("token", token, {
         expires: expiresAt,
-        httpOnly: true, 
+        httpOnly: false, 
         SameSite: 'None', 
-        secure: true 
+        secure: false 
       })
       .status(200)
       .json({ message: "login successfully", user });
