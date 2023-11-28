@@ -1,3 +1,4 @@
+
 const express = require("express");
 const router = express.Router();
 const ticketsController = require("../Controller/ticketsController");
@@ -14,3 +15,4 @@ router.put("/:id",authorizationMiddleware(["supportAgent"]), ticketsController.u
 router.delete("/:id", ticketsController.deleteTicket);
 
 module.exports = router;
+
