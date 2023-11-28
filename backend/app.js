@@ -25,7 +25,7 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 app.use(express.json());
 
-// Routes
+// Routess
 
 app.use("/api/users", userRoutes);
 
