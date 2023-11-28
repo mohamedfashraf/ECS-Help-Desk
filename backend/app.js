@@ -2,32 +2,23 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const userRoutes = require("./Routes/usersRoute");
-const cookieParser = require("cookie-parser");
-const auth = require("./Routes/auth");
-const authenticationMiddleware = require("./Middleware/authentication");
-const ticketsRoute = require("./Routes/ticketsRoute");
-
-app.use(cookieParser());
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+const userRoutes = require("./Routes/usersRoute"); 
+// JWT Token 
 
 // MongoDB Connection
-const mongoURI = "mongodb://127.0.0.1:27017/Se_project";
-mongoose
-  .connect(mongoURI)
+const mongoURI = 'mongodb://127.0.0.1:27017/Se_project';
+mongoose.connect(mongoURI)
+
 
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
+// Middlewares
+app.use(express.json()); 
+
 // Routes
-app.use("/api/v1", auth);
-app.use(authenticationMiddleware);
 
-app.use("/api/v1/tickets", ticketsRoute);
-
-app.use("/api/v1/users", userRoutes);
+app.use("/api/users", userRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
