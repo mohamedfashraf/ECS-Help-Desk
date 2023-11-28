@@ -16,10 +16,11 @@ module.exports = function authenticationMiddleware(req, res, next) {
 
   jwt.verify(token, secretKey, (error, decoded) => {
     if (error) {
+      console.error("Token verification error:", error);
       return res.status(403).json({ message: "Invalid token" });
     }
-
     req.user = decoded.user;
     next();
   });
+  
 };
