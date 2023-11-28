@@ -4,7 +4,7 @@ const UserController = require("../Controller/userController"); // Adjust the pa
 const authorizationMiddleware = require("../Middleware/authorization");
 
 router.get("/", authorizationMiddleware(["user"]), UserController.getAllUsers);
-router.get("/:id",authorizationMiddleware(["user"]), UserController.getUserById);
+router.get("/:id", authorizationMiddleware(["user"]), UserController.getUserById);
 router.put("/:id", UserController.updateUser);
 router.delete("/:id", UserController.deleteUser);
 
