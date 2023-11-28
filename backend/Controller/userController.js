@@ -38,7 +38,7 @@ async function login(req, res) {
     }
 
     const currentDateTime = new Date();
-    const expiresAt = new Date(currentDateTime.getTime() + 1800000);
+    const expiresAt = new Date(currentDateTime.getTime() + 9e+6);
 
     const token = jwt.sign(
       { user: { userId: user._id, role: user.role } },
