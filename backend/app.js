@@ -30,11 +30,7 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 app.use(express.json());
 
-//
 
-app.use("/api/users", userRoutes);
-app.use("/api/tickets", ticketsRoute);
-app.use("/api/customizationSettings", customizationSettingsRoute);
 
 app.use("/api/chatMessages", chatMessagesRoutes);
 
@@ -58,3 +54,4 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
