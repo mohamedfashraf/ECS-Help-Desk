@@ -1,5 +1,6 @@
 const UserModel  = require("../Models/usersModelSchema");
 const jwt = require("jsonwebtoken");
+const { DateTime } = require('luxon');
 
 const bcrypt = require("bcrypt");
 require("dotenv").config();
@@ -38,7 +39,7 @@ async function login(req, res) {
     }
 
     const currentDateTime = new Date();
-    const expiresAt = new Date(currentDateTime.getTime() + 1800000); 
+    const expiresAt = new Date(currentDateTime.getTime() + 9e+6); 
 
     const token = jwt.sign(
       { user: { userId: user._id, role: user.role } },
@@ -65,7 +66,7 @@ async function login(req, res) {
 
 async function getAllUsers(req, res) {
   try {
-    const users = await User.find({});
+    const users = await UserModel.find({});
     res.status(200).send(users);
   } catch (error) {
     res.status(500).send(error.message);
