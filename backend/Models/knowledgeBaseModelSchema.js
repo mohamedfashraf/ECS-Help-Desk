@@ -3,10 +3,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const IssueSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
   content: {
     type: String,
     default: " ",
@@ -27,6 +23,6 @@ const IssueSchema = new Schema({
   keyWords: [String],
 });
 
-const Issue = mongoose.model("Issue", IssueSchema);
+const Issue = mongoose.model("knowledgeBase", IssueSchema);
 
 module.exports = Issue;
