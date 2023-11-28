@@ -17,7 +17,7 @@ const supportAgentSchema = new mongoose.Schema({
   role: {
     type: String,
     default: 'support_agent',
-    enum: ['support_agent'] 
+    enum: ['support_agent']
   },
   specialization: {
     type: String,
@@ -28,13 +28,12 @@ const supportAgentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Ticket'
   }],
+  // Remove default values for createdAt and updatedAt
   createdAt: {
-    type: Date,
-    default: Date.now
+    type: Date
   },
   updatedAt: {
-    type: Date,
-    default: Date.now
+    type: Date
   }
 });
 
