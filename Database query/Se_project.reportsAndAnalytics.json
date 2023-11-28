@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "655a5a2591c65dfb19a196cb"
+  },
+  "type": "",
+  "generatedBy": {
+    "$oid": "655a5a7f91c65dfb19a196d3"
+  },
+  "generatedAt": {
+    "$date": "1999-12-31T22:00:00.000Z"
+  }
+}]

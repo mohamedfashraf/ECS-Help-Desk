@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "655cf7b3a3b261a383bd758b"
+  },
+  "agentAvailability": true,
+  "workflowType": "Ticket Routing",
+  "workflowDetails": {
+    "priorityLevels": [
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "routingRules": {
+      "High": "Agent1",
+      "Medium": "Agent2",
+      "Low": "Agent3"
+    },
+    "escalationPath": [
+      "Level1",
+      "Level2",
+      "Level3"
+    ]
+  }
+}]
