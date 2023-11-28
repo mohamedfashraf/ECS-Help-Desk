@@ -1,16 +1,17 @@
-const User = require("../Models/usersModelSchema");
+const UserModel  = require("../Models/usersModelSchema");
+const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const secretKey = process.env.SECRET_KEY;
-async function createUser(req, res) {
+async function register(req, res) {
   try {
     const { name, role, email, password } = req.body;
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({ name, role, email, password: hashedPassword });
+
+    const user = new UserModel({ name, role, email, password: hashedPassword });
     await user.save();
 
     const userResponse = user.toObject();
@@ -21,6 +22,46 @@ async function createUser(req, res) {
     res.status(400).send(error.message);
   }
 }
+
+async function login(req, res) {
+  try {
+    const { email, password } = req.body;
+
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "email not found" });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(405).json({ message: "incorrect password" });
+    }
+
+    const currentDateTime = new Date();
+    const expiresAt = new Date(currentDateTime.getTime() + 1800000); 
+
+    const token = jwt.sign(
+      { user: { userId: user._id, role: user.role } },
+      secretKey,
+      { expiresIn: '30m' } 
+    );
+
+    return res
+      .cookie("token", token, {
+        expires: expiresAt,
+        httpOnly: false, 
+        SameSite: 'None', 
+        secure: false 
+      })
+      .status(200)
+      .json({ message: "login successfully", user });
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+
 
 async function getAllUsers(req, res) {
   try {
@@ -71,7 +112,8 @@ async function deleteUser(req, res) {
 }
 
 module.exports = {
-  createUser,
+  register,
+  login,
   getAllUsers,
   getUserById,
   updateUser,

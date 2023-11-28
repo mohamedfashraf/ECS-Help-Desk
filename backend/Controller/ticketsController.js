@@ -2,8 +2,15 @@ const Ticket = require('../Models/ticektsModelSchema');
 
 async function createTicket(req, res) {
     try {
-        const { user_id, description, category, subCategory, priority, status, assignedTo, createdBy, resolutionDetails } = req.body;
-        const ticket = new Ticket({ user_id, description, category, subCategory, priority, status, assignedTo, createdBy, resolutionDetails });
+        // Extracting additional fields from the request body if needed
+        const { description, category, subCategory, priority, status, assignedTo, resolutionDetails } = req.body;
+
+        // Assuming req.user is set after successful authentication and contains the user's information
+        const user_id = req.user.userId;  // Adjusted to match the token structure
+
+        // Create a new ticket with the current user's ID
+        const ticket = new Ticket({ user_id, description, category, subCategory, priority, status, assignedTo, createdBy: user_id, resolutionDetails });
+        
         await ticket.save();
         res.status(201).json(ticket);
     } catch (error) {
@@ -66,3 +73,4 @@ module.exports = {
     updateTicket,
     deleteTicket,
 };
+

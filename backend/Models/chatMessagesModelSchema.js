@@ -17,22 +17,18 @@ const MessageSchema = new Schema({
     }
 });
 
-const ConversationSchema = new Schema({
-    _id: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },
+const ChatMessagesSchema = new Schema({
     ticketId: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,  // Use Schema.Types.ObjectId directly here
         required: true
     },
     participants: [{
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,  // Use Schema.Types.ObjectId directly here
         required: true
     }],
     messages: [MessageSchema]
 });
 
-const Conversation = mongoose.model('Conversation', ConversationSchema);
+const ChatMessages = mongoose.model('chatMessages', ChatMessagesSchema);
 
-module.exports = Conversation;
+module.exports = ChatMessages;
