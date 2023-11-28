@@ -12,8 +12,8 @@ const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
 const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
 const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
-app.use(cookieParser());
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
