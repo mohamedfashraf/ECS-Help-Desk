@@ -28,7 +28,6 @@ app.use(express.json());
 
 // Routes
 
-app.use("/api/users", userRoutes);
 
 app.use("/api/chatMessages", chatMessagesRoutes);
 
@@ -50,3 +49,4 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+

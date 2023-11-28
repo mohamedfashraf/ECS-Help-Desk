@@ -10,7 +10,7 @@ router.post(
 );
 router.get("/", ticketsController.getAllTickets);
 router.get("/:id", ticketsController.getTicketById);
-router.put("/:id", ticketsController.updateTicket);
+router.put("/:id",authorizationMiddleware(["supportAgent"]), ticketsController.updateTicket);
 router.delete("/:id", ticketsController.deleteTicket);
 
 module.exports = router;
