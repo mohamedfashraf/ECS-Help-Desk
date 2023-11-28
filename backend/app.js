@@ -12,10 +12,7 @@ const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
 const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
 const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
-
-
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
-// JWT Token 
 
 
 app.use(cookieParser());
@@ -34,6 +31,7 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/tickets", ticketsRoute);
+
 app.use("/api/customizationSettings", customizationSettingsRoute);
 
 app.use("/api/chatMessages", chatMessagesRoutes);
