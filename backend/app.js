@@ -28,7 +28,12 @@ mongoose
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
+
 app.use("/api/tickets", ticketsRoute);
+
+app.use("/api/v1", auth);
+
+app.use(authenticationMiddleware);
 
 app.use("/api/customizationSettings", customizationSettingsRoute);
 
@@ -41,10 +46,6 @@ app.use("/api", knowledgeBaseRoutes);
 app.use("/api", reportsAndAnalyticsRoutes);
 
 app.use("/api", supportAgentRoutes);
-
-app.use("/api/v1", auth);
-
-app.use(authenticationMiddleware);
 
 app.use("/api/v1/tickets", ticketsRoute);
 
