@@ -1,4 +1,3 @@
-
 const express = require("express");
 const router = express.Router();
 const ticketsController = require("../Controller/ticketsController");
@@ -22,4 +21,3 @@ router.delete("/:id", authorizationMiddleware(["admin", "agent"])
   , ticketsController.deleteTicket);
 
 module.exports = router;
-
