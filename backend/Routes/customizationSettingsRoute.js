@@ -15,4 +15,5 @@ router.put('/:admin_id', authorizationMiddleware(["admin"])
 router.delete('/:admin_id', authorizationMiddleware(['admin'])
     , customizationSettingsController.deleteSetting);
 
+
 module.exports = router;

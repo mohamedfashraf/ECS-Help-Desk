@@ -12,6 +12,7 @@ const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
 const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
 const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
+
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
 
 
@@ -38,6 +39,8 @@ app.use(authenticationMiddleware);
 app.use("/api/customizationSettings", customizationSettingsRoute);
 
 app.use("/api/chatMessages", chatMessagesRoutes);
+
+app.use("/api/customization", customizationSettingsRoute);
 
 app.use("/api", securitySettingsRoutes);
 
