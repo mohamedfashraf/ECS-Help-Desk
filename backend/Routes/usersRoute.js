@@ -10,4 +10,5 @@ router.get("/:id",authorizationMiddleware(["user"]), UserController.getUserById)
 router.put("/:id", UserController.updateUser);
 router.delete("/:id", UserController.deleteUser);
 
+
 module.exports = router;

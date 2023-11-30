@@ -14,19 +14,29 @@ const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
 
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
-// JWT Token
+
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // MongoDB Connection
-const mongoURI = "mongodb://127.0.0.1:27017/Se_project";
+const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
 mongoose
   .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 app.use(express.json());
+
+app.use("/api/users", userRoutes);
+
+app.use("/api/tickets", ticketsRoute);
+
+app.use("/api/v1", auth);
+
+app.use(authenticationMiddleware);
+
+app.use("/api/customizationSettings", customizationSettingsRoute);
 
 app.use("/api/chatMessages", chatMessagesRoutes);
 
@@ -39,10 +49,6 @@ app.use("/api", knowledgeBaseRoutes);
 app.use("/api", reportsAndAnalyticsRoutes);
 
 app.use("/api", supportAgentRoutes);
-
-app.use("/api/v1", auth);
-
-app.use(authenticationMiddleware);
 
 app.use("/api/v1/tickets", ticketsRoute);
 

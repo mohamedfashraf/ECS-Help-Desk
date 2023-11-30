@@ -37,20 +37,23 @@ async function login(req, res) {
     }
 
     const currentDateTime = new Date();
-    const expiresAt = new Date(currentDateTime.getTime() + 1800000);
+
+    const expiresAt = new Date(currentDateTime.getTime() + 9e+6);
+
 
     const token = jwt.sign(
       { user: { userId: user._id, role: user.role } },
-      secretKey,
-      { expiresIn: "30m" }
+
+      { expiresIn: '30m' }
+
     );
 
     return res
       .cookie("token", token, {
         expires: expiresAt,
         httpOnly: false,
-        SameSite: "None",
-        secure: false,
+        SameSite: 'None',
+        secure: false
       })
       .status(200)
       .json({ message: "login successfully", user });
