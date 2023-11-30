@@ -21,20 +21,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // MongoDB Connection
-const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
+const mongoURI = "mongodb://127.0.0.1:27017/Se_project";
 mongoose
   .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 app.use(express.json());
 
-app.use("/api/users", userRoutes);
-
-app.use("/api/tickets", ticketsRoute);
 
 app.use("/api/v1", auth);
 
+
+app.use("/api/v1/users", userRoutes);
+
+app.use("/api/tickets", ticketsRoute);
+
 app.use(authenticationMiddleware);
+
 
 app.use("/api/customizationSettings", customizationSettingsRoute);
 
@@ -52,7 +55,6 @@ app.use("/api", supportAgentRoutes);
 
 app.use("/api/v1/tickets", ticketsRoute);
 
-app.use("/api/v1/users", userRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
