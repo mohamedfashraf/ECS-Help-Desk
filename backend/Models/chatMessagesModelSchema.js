@@ -19,11 +19,11 @@ const MessageSchema = new Schema({
 
 const ChatMessagesSchema = new Schema({
     ticketId: {
-        type: Schema.Types.ObjectId,  // Use Schema.Types.ObjectId directly here
+        type: Schema.Types.ObjectId, 
         required: true
     },
     participants: [{
-        type: Schema.Types.ObjectId,  // Use Schema.Types.ObjectId directly here
+        type: Schema.Types.ObjectId,  
         required: true
     }],
     messages: [MessageSchema]
