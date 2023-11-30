@@ -1,3 +1,4 @@
+
 import SignupComponent from "./components/SignUp";
 
 function App() {
@@ -7,5 +8,4 @@ function App() {
     </>
   );
 }
-
 export default App;
