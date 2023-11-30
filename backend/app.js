@@ -13,10 +13,8 @@ const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
 const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
 
-
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
-// JWT Token 
-
+// JWT Token
 
 app.use(cookieParser());
 app.use(express.json());
@@ -30,9 +28,9 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 app.use(express.json());
 
-
-
 app.use("/api/chatMessages", chatMessagesRoutes);
+
+app.use("/api/customization", customizationSettingsRoute);
 
 app.use("/api", securitySettingsRoutes);
 
@@ -54,4 +52,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-

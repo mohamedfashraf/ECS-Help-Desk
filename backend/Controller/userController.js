@@ -36,11 +36,8 @@ async function login(req, res) {
       return res.status(405).json({ message: "incorrect password" });
     }
 
-    const currentDateInEgypt = currentDateObject.toLocaleString(
-      "en-US",
-      options
-    );
-    const expiresAt = new Date(currentDateInEgypt.getTime() + 1800000);
+    const currentDateTime = new Date();
+    const expiresAt = new Date(currentDateTime.getTime() + 1800000);
 
     const token = jwt.sign(
       { user: { userId: user._id, role: user.role } },
