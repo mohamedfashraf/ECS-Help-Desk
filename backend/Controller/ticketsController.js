@@ -18,7 +18,6 @@ async function createTicket(req, res) {
     }
 }
 
-
 async function getAllTickets(req, res) {
     try {
       const tickets = await Ticket.find({});
@@ -74,3 +73,4 @@ module.exports = {
     updateTicket,
     deleteTicket,
 };
+

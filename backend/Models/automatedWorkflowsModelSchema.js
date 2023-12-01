@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const WorkflowDetailsSchema = new Schema({
+const automatedWorkflowsModelSchema = new Schema({
   priorityLevels: {
     type: [String],
     enum: ["High", "Medium", "Low"],
@@ -24,6 +24,6 @@ const TicketRoutingSchema = new Schema({
   },
   workflowDetails: WorkflowDetailsSchema,
 });
-const TicketRouting = mongoose.model("TicketRouting", TicketRoutingSchema);
+const automatedWorkflowsModel = mongoose.model("automatedWorkflowsModel", automatedWorkflowsModelSchema);
 
 module.exports = TicketRouting;

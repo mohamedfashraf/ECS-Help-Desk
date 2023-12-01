@@ -4,13 +4,20 @@ const ticketsController = require("../Controller/ticketsController");
 const authorizationMiddleware = require("../Middleware/authorization");
 
 router.post(
-  "/",
-  authorizationMiddleware(["user"]),
-  ticketsController.createTicket
+  "/", authorizationMiddleware(["user", "admin"])
+  , ticketsController.createTicket
 );
-router.get("/", ticketsController.getAllTickets);
-router.get("/:id", ticketsController.getTicketById);
-router.put("/:id", ticketsController.updateTicket);
-router.delete("/:id", ticketsController.deleteTicket);
+
+router.get("/", authorizationMiddleware(["user", "admin", "agent"])
+  , ticketsController.getAllTickets);
+
+router.get("/:id", authorizationMiddleware(["user", "admin", "agent"])
+  , ticketsController.getTicketById);
+
+router.put("/:id", authorizationMiddleware(["user", "admin", "agent"])
+  , ticketsController.updateTicket);
+
+router.delete("/:id", authorizationMiddleware(["admin", "agent"])
+  , ticketsController.deleteTicket);
 
 module.exports = router;

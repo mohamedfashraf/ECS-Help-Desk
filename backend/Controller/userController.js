@@ -1,16 +1,15 @@
-const UserModel  = require("../Models/usersModelSchema");
+const UserModel = require("../Models/usersModelSchema");
 const jwt = require("jsonwebtoken");
 const { DateTime } = require('luxon');
 
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
-const secretKey = process.env.SECRET_KEY;
+const secretKey = "s1234rf,.lp";
 async function register(req, res) {
   try {
     const { name, role, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-
 
     const user = new UserModel({ name, role, email, password: hashedPassword });
     await user.save();
@@ -39,20 +38,20 @@ async function login(req, res) {
     }
 
     const currentDateTime = new Date();
-    const expiresAt = new Date(currentDateTime.getTime() + 9e+6); 
+    const expiresAt = new Date(currentDateTime.getTime() + 1800000); 
 
     const token = jwt.sign(
       { user: { userId: user._id, role: user.role } },
       secretKey,
-      { expiresIn: '30m' } 
+      { expiresIn: '30m' }
     );
 
     return res
       .cookie("token", token, {
         expires: expiresAt,
-        httpOnly: false, 
-        SameSite: 'None', 
-        secure: false 
+        httpOnly: false,
+        SameSite: 'None',
+        secure: false
       })
       .status(200)
       .json({ message: "login successfully", user });
@@ -61,8 +60,6 @@ async function login(req, res) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 }
-
-
 
 async function getAllUsers(req, res) {
   try {
@@ -75,7 +72,7 @@ async function getAllUsers(req, res) {
 
 async function getUserById(req, res) {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await UserModel.findById(req.params.id);
     if (!user) {
       return res.status(404).send();
     }
@@ -88,7 +85,7 @@ async function getUserById(req, res) {
 async function updateUser(req, res) {
   try {
     const updates = Object.keys(req.body);
-    const user = await User.findById(req.params.id);
+    const user = await UserModel.findById(req.params.id);
     if (!user) {
       return res.status(404).send();
     }
@@ -102,7 +99,7 @@ async function updateUser(req, res) {
 
 async function deleteUser(req, res) {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user = await UserModel.findByIdAndDelete(req.params.id);
     if (!user) {
       return res.status(404).send();
     }
