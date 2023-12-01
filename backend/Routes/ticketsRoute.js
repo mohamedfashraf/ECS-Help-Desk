@@ -3,8 +3,7 @@ const router = express.Router();
 const ticketsController = require("../Controller/ticketsController");
 const authorizationMiddleware = require("../Middleware/authorization");
 
-router.post(
-  "/", authorizationMiddleware(["user", "admin"])
+router.post("/", authorizationMiddleware(["user", "admin"])
   , ticketsController.createTicket
 );
 

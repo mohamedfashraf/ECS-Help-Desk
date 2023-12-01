@@ -25,21 +25,8 @@ async function updateSetting(req, res) {
   }
 }
 
-async function deleteSetting(req, res) {
-  try {
-    const setting = await CustomizationSetting.findOneAndDelete({ admin_id: req.params.admin_id });
-    if (!setting) {
-      return res.status(404).send();
-    }
-    res.status(200).send(setting);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-}
 
 module.exports = {
-  
   getSetting,
-  updateSetting,
-  deleteSetting,
+  updateSetting
 };

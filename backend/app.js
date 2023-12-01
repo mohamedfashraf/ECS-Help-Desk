@@ -27,10 +27,6 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 app.use(express.json());
 
-app.use("/api/users", userRoutes);
-
-app.use("/api/tickets", ticketsRoute);
-
 app.use("/api/v1", auth);
 
 app.use(authenticationMiddleware);
@@ -39,17 +35,17 @@ app.use("/api/customizationSettings", customizationSettingsRoute);
 
 app.use("/api/chatMessages", chatMessagesRoutes);
 
-app.use("/api", securitySettingsRoutes);
+app.use("/api/security-settings", securitySettingsRoutes);
 
-app.use("/api", knowledgeBaseRoutes);
+app.use("/api/knowledgeBase", knowledgeBaseRoutes);
 
-app.use("/api", reportsAndAnalyticsRoutes);
+app.use("/api/reports", reportsAndAnalyticsRoutes);
 
-app.use("/api", supportAgentRoutes);
+app.use("/api/support-agents", supportAgentRoutes);
 
-app.use("/api/v1/tickets", ticketsRoute);
+app.use("/api/tickets", ticketsRoute);
 
-app.use("/api/v1/users", userRoutes);
+app.use("/api/users", userRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
