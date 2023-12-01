@@ -3,19 +3,19 @@ const router = express.Router();
 const securitySettingsController = require('../Controller/securitySettingsController');
 const authorizationMiddleware = require("../Middleware/authorization"); //authorizationMiddleware(["user"])
 
-router.post('/security-settings', authorizationMiddleware(["admin", "user"])
+router.post('/', authorizationMiddleware(["admin", "user"])
     , securitySettingsController.createSecuritySettings);
 
-router.get('/security-settings', authorizationMiddleware(['admin', "user"])
+router.get('/', authorizationMiddleware(['admin', "user"])
     , securitySettingsController.getAllSecuritySettings);
 
-router.get('/security-settings/:id', authorizationMiddleware(["admin"])
+router.get('/:id', authorizationMiddleware(["admin"])
     , securitySettingsController.getSecuritySettingById);
 
-router.put('/security-settings/:id', authorizationMiddleware(["admin", "user"])
+router.put('/:id', authorizationMiddleware(["admin", "user"])
     , securitySettingsController.updateSecuritySetting);
 
-router.delete('/security-settings/:id', authorizationMiddleware(["admin"])
+router.delete('/:id', authorizationMiddleware(["admin"])
     , securitySettingsController.deleteSecuritySetting);
 
 

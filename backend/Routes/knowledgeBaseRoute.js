@@ -3,19 +3,19 @@ const router = express.Router();
 const knowledgeBaseController = require('../Controller/knowledgeBaseController');
 const authorizationMiddleware = require("../Middleware/authorization"); //authorizationMiddleware(["user"])
 
-router.post('/knowledgeBase', authorizationMiddleware(["admin"])
+router.post('/', authorizationMiddleware(["admin"])
     , knowledgeBaseController.createIssue);
 
-router.get('/knowledgeBase', authorizationMiddleware(["user"])
+router.get('/', authorizationMiddleware(["user"])
     , knowledgeBaseController.getAllIssues);
 
-router.get('/knowledgeBase/:id', authorizationMiddleware(["user"])
+router.get('/:id', authorizationMiddleware(["user"])
     , knowledgeBaseController.getIssueById);
 
-router.put('/knowledgeBase/:id', authorizationMiddleware(["admin"])
+router.put('/:id', authorizationMiddleware(["admin"])
     , knowledgeBaseController.updateIssue);
 
-router.delete('/knowledgeBase/:id', authorizationMiddleware(["admin"])
+router.delete('/:id', authorizationMiddleware(["admin"])
     , knowledgeBaseController.deleteIssue);
 
 module.exports = router;
