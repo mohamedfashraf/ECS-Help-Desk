@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+module.exports = {
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   theme: {
     colors: {
-      "custom-black": "#0F0F0F",
-      // other colors...
+      linearButton: "linear-gradient(to right, #2E4CEE, #221EBF, #040F75)",
+      customblack: "#0F0F0F",      // other colors...
     },
     backgroundImage: {
       linearButton: "linear-gradient(to right, #2E4CEE, #221EBF, #040F75)",
@@ -13,8 +13,8 @@ export default {
 
     extend: {
       height: {
-        "screen-150": "150vh", // This means 150% of the viewport height
-      }
+        "screen-150": "13px", // This means 150% of the viewport height
+      },
     },
     screens: {
       sm: "640px",
@@ -33,5 +33,7 @@ export default {
       // => @media (min-width: 1536px) { ... }
     },
   },
-  plugins: [],
-};
+  variants: {
+    extend: {},
+  },
+  plugins: [],};
