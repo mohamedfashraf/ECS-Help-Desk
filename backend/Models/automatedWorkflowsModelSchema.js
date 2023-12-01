@@ -22,8 +22,8 @@ const TicketRoutingSchema = new Schema({
     type: String,
     default: "Ticket Routing",
   },
-  workflowDetails: WorkflowDetailsSchema,
+  workflowDetails: automatedWorkflowsModelSchema,
 });
-const automatedWorkflowsModel = mongoose.model("automatedWorkflowsModel", automatedWorkflowsModelSchema);
+const TicketRouting = mongoose.model("automatedWorkflowsModel", automatedWorkflowsModelSchema);
 
 module.exports = TicketRouting;

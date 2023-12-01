@@ -1,57 +1,88 @@
-const automatedWorkflowsModel = require('../Models/automatedWorkflowsModelSchema'); // Update with the correct path
+const mongoose = require('mongoose');
+const AutomatedWorkflow = require('../Models/automatedWorkflowsModelSchema');
 
-// Create Function
-async function createWorkflow(req, res) {
+// Create new automated workflow
+async function createAutomatedWorkflow(req, res) {
     try {
-        const newWorkflow = new automatedWorkflowsModel(req.body);
-        const savedWorkflow = await newWorkflow.save();
-        res.status(201).json(savedWorkflow);
+        const {
+            agentAvailability,
+            workflowType,
+            workflowDetails: { priorityLevels, routingRules, escalationPath }
+        } = req.body;
+
+        const automatedWorkflow = new AutomatedWorkflow({
+            agentAvailability,
+            workflowType,
+            workflowDetails: {
+                priorityLevels,
+                routingRules,
+                escalationPath
+            }
+        });
+
+        await automatedWorkflow.save();
+        res.status(201).json(automatedWorkflow);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ error: error.message });
     }
 }
 
-// Read Function
-async function getWorkflow(req, res) {
+// Get all automated workflows
+async function getAllAutomatedWorkflows(req, res) {
     try {
-        const workflow = await automatedWorkflowsModel.findById(req.params.id);
-        if (!workflow) {
-            return res.status(404).json({ message: 'Workflow not found' });
+        const automatedWorkflows = await AutomatedWorkflow.find({});
+        res.status(200).json(automatedWorkflows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+// Get specific automated workflow by ID
+async function getAutomatedWorkflowById(req, res) {
+    try {
+        const automatedWorkflow = await AutomatedWorkflow.findById(req.params.id);
+        if (!automatedWorkflow) {
+            return res.status(404).json({ error: 'Automated workflow not found' });
         }
-        res.json(workflow);
+        res.status(200).json(automatedWorkflow);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: error.message });
     }
 }
 
-// Update Function
-async function updateWorkflow(req, res) {
+// Update an automated workflow by ID
+async function updateAutomatedWorkflow(req, res) {
     try {
-        const updatedWorkflow = await automatedWorkflowsModel.findByIdAndUpdate(
-            req.params.id, 
-            req.body, 
-            { new: true }
-        );
-        if (!updatedWorkflow) {
-            return res.status(404).json({ message: 'Workflow not found' });
+        const updates = Object.keys(req.body);
+        const automatedWorkflow = await AutomatedWorkflow.findById(req.params.id);
+        if (!automatedWorkflow) {
+            return res.status(404).json({ error: 'Automated workflow not found' });
         }
-        res.json(updatedWorkflow);
+        updates.forEach((update) => (automatedWorkflow[update] = req.body[update]));
+        await automatedWorkflow.save();
+        res.status(200).json(automatedWorkflow);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ error: error.message });
     }
 }
 
-// Delete Function
-async function deleteWorkflow(req, res) {
+// Delete an automated workflow by ID
+async function deleteAutomatedWorkflow(req, res) {
     try {
-        const deletedWorkflow = await automatedWorkflowsModel.findByIdAndDelete(req.params.id);
-        if (!deletedWorkflow) {
-            return res.status(404).json({ message: 'Workflow not found' });
+        const automatedWorkflow = await AutomatedWorkflow.findByIdAndDelete(req.params.id);
+        if (!automatedWorkflow) {
+            return res.status(404).json({ error: 'Automated workflow not found' });
         }
-        res.json({ message: 'Workflow deleted successfully' });
+        res.status(200).json({ message: 'Automated workflow deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: error.message });
     }
 }
 
-module.exports = { createWorkflow, getWorkflow, updateWorkflow, deleteWorkflow };
+module.exports = {
+    createAutomatedWorkflow,
+    getAllAutomatedWorkflows,
+    getAutomatedWorkflowById,
+    updateAutomatedWorkflow,
+    deleteAutomatedWorkflow
+};
