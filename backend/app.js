@@ -12,7 +12,6 @@ const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
 const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
 const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
-
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
 
 
@@ -21,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // MongoDB Connection
-const mongoURI = "mongodb://127.0.0.1:27017/Se_project";
+const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
 mongoose
   .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB..."))
@@ -38,23 +37,21 @@ app.use("/api/tickets", ticketsRoute);
 
 app.use(authenticationMiddleware);
 
-
 app.use("/api/customizationSettings", customizationSettingsRoute);
 
 app.use("/api/chatMessages", chatMessagesRoutes);
 
-app.use("/api/customization", customizationSettingsRoute);
+app.use("/api/security-settings", securitySettingsRoutes);
 
-app.use("/api", securitySettingsRoutes);
+app.use("/api/knowledgeBase", knowledgeBaseRoutes);
 
-app.use("/api", knowledgeBaseRoutes);
+app.use("/api/reports", reportsAndAnalyticsRoutes);
 
-app.use("/api", reportsAndAnalyticsRoutes);
+app.use("/api/support-agents", supportAgentRoutes);
 
-app.use("/api", supportAgentRoutes);
+app.use("/api/tickets", ticketsRoute);
 
-app.use("/api/v1/tickets", ticketsRoute);
-
+app.use("/api/users", userRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

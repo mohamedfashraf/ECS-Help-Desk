@@ -1,5 +1,7 @@
 const Ticket = require('../Models/ticektsModelSchema');
 
+
+
 async function createTicket(req, res) {
     try {
         // Extracting additional fields from the request body if needed

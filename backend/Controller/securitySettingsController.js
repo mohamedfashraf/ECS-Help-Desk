@@ -4,7 +4,8 @@ const SecuritySettings = require('../Models/securitySettingsModelSchema');
 // Create new security settings "works"
 async function createSecuritySettings(req, res) {
     try {
-        const { user_id, sensitive_data_protection, data_backup_enabled, recovery_procedures, MFA_enabled } = req.body;
+        const { sensitive_data_protection, data_backup_enabled, recovery_procedures, MFA_enabled } = req.body;
+        const user_id = req.user.userId;  // Adjusted to match the token structure
         const securitySettings = new SecuritySettings({
             user_id,
             sensitive_data_protection,
