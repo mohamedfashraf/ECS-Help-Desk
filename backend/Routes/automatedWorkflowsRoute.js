@@ -4,8 +4,9 @@ const automatedWorkflowsModelController = require('../Controller/automatedWorkfl
 
 router.post('/', automatedWorkflowsModelController.createAutomatedWorkflow);
 router.get('/', automatedWorkflowsModelController.getAllAutomatedWorkflows);  
-router.put('/:id', automatedWorkflowsModelController.getAutomatedWorkflowById);
-router.delete('/:id', automatedWorkflowsModelController.updateAutomatedWorkflow); 
+router.get('/:id', automatedWorkflowsModelController.getAutomatedWorkflowById);  
+router.put('/:id', automatedWorkflowsModelController.updateAutomatedWorkflow);
+router.delete('/:id', automatedWorkflowsModelController.deleteAutomatedWorkflow); 
 
 
 module.exports = router;

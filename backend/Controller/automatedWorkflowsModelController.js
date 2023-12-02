@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const AutomatedWorkflow = require('../Models/automatedWorkflowsModelSchema');
 
-// Create new automated workflow
+// Create new automated workflow  WORKINGGGGGGGGGGGGGGGGG
 async function createAutomatedWorkflow(req, res) {
     try {
         const {
@@ -27,7 +27,7 @@ async function createAutomatedWorkflow(req, res) {
     }
 }
 
-// Get all automated workflows
+// Get all automated workflows WORKINGGGGGGGGGGGGGGGGGGG
 async function getAllAutomatedWorkflows(req, res) {
     try {
         const automatedWorkflows = await AutomatedWorkflow.find({});
@@ -37,7 +37,7 @@ async function getAllAutomatedWorkflows(req, res) {
     }
 }
 
-// Get specific automated workflow by ID
+// Get specific automated workflow by ID  WORKINGGGGGGGGGGGGGGG
 async function getAutomatedWorkflowById(req, res) {
     try {
         const automatedWorkflow = await AutomatedWorkflow.findById(req.params.id);
@@ -50,7 +50,7 @@ async function getAutomatedWorkflowById(req, res) {
     }
 }
 
-// Update an automated workflow by ID
+// Update an automated workflow by ID  WORKINGGGGGGGGGGGGGGGG
 async function updateAutomatedWorkflow(req, res) {
     try {
         const updates = Object.keys(req.body);
@@ -66,7 +66,7 @@ async function updateAutomatedWorkflow(req, res) {
     }
 }
 
-// Delete an automated workflow by ID
+// Delete an automated workflow by ID WORKINGGGGGGGGGGGGGGGGGGGGGG
 async function deleteAutomatedWorkflow(req, res) {
     try {
         const automatedWorkflow = await AutomatedWorkflow.findByIdAndDelete(req.params.id);
