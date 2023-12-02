@@ -5,16 +5,25 @@ const Schema = mongoose.Schema;
 const ReportSchema = new Schema({
     type: {
         type: String,
-        required: true
+        required: true,
+    },
+    keyWords: {
+        type: [String],
+        default: [],
+    },
+    ticketId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Ticket',
     },
     generatedBy: {
         type: Schema.Types.ObjectId,
-        required: true
+        required: true,
     },
     generatedAt: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
+
 });
 
 const Report = mongoose.model('reportsAndAnalyticsModelSchema', ReportSchema);
