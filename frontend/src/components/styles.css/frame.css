@@ -1,9 +1,0 @@
-.frame {
-    width: 30rem;
-    height: 49.75rem;
-    border-radius: 1.25rem;
-    border: 1px solid #AFAFAF; /* Replace with CSS variable if needed */
-    background: linear-gradient(321deg, rgba(191, 191, 191, 0.06) 5.98%, rgba(0, 0, 0, 0.00) 66.28%), rgba(0, 0, 0, 0.14);
-    box-shadow: -8px 4px 5px 0px rgba(0, 0, 0, 0.24);
-    backdrop-filter: blur(26.5px);
-  }

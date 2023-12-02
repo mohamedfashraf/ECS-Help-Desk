@@ -1,11 +1,18 @@
 /* customStyles.css */
+
+body, html {
+  height: 64rem;
+  background-color: #0F0F0F; /* Replace with your desired background color */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
 .frame-style {
-    width: 400px;
-    height: 500px;
-    border-radius: 20px;
-    border: 1px solid #AFAFAF;
-    box-shadow: -8px 4px 5px 0px rgba(0, 0, 0, 0.24);
-    backdrop-filter: blur(26.5px);
+  width: 350px; /* Fixed width as originally specified */
+  height: 793px;
+  border-radius: 20px;
+  border: 1px solid #AFAFAF;
+  box-shadow: -8px 4px 5px 0px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(26.5px);
   }
   .input-form {
     display: flex;
@@ -22,11 +29,13 @@
   
   .input-form input {
     margin-bottom: 10px;
-    padding: 8px;
+    padding: 10px;
     border-radius: 0.75rem;
-border: 1px solid #FFF;
+    border: 1px solid #FFF;
     background-color: transparent;
     color: #fff; /* Set input text color to white */
+    margin-bottom: 1.8rem; /* Adjust this value as needed for the gap */
+
   }/* Style the placeholder text color */
 .input-form input::placeholder {
   color: #fff;
@@ -49,17 +58,15 @@ border: 1px solid #FFF;
 .form-title {
   font-size: 2rem; /* Adjust the size as needed */
   margin-bottom: 0.5rem;
-  text-align: center;
   color: white;
 }
 
 .form-subtitle {
   font-size: 1rem; /* Adjust the size as needed */
   margin-bottom: 1.5rem;
-  text-align: center;
   opacity: 0.8; /* Optional: adjust opacity for subtlety */
   color: white;
-
+  
 }
 
 .divider {
@@ -91,4 +98,54 @@ border: 1px solid #FFF;
   width: 40px; /* Adjust size as needed */
   height: auto;
   cursor: pointer; /* Changes the cursor to pointer on hover */
+}
+
+@media screen and (max-width: 600px) {
+  .frame-style {
+    backdrop-filter: none; /* Disable backdrop-filter for small screens */
+  }
+}
+
+
+@media (min-width: 1024px) { /* Tailwind's 'lg' breakpoint */
+  .frame-style {
+    width: 400px; /* Fixed width as originally specified */
+    height: 793px; /* Fixed height as originally specified */
+    
+  }
+}
+
+/* Custom positioning for the signup frame */
+.signup-position {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.text-style {
+  color: #FFF;
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 20px;
+  text-align: center;
+}
+.subText-style{
+  color: #FFF;
+  margin-top: 15px;
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+/* Media query for screens smaller than 600px */
+@media screen and (max-width: 500px) {
+  .signup-position {
+    position: absolute; /* Keep it absolute to allow centering */
+    justify-items: center;
+    
+  }
 }
