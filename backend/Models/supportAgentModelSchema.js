@@ -14,7 +14,8 @@ const supportAgentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-   specialization: {
+
+  specialization: {
     type: String,
     enum: ['Software', 'Hardware', 'Network'],
     required: true

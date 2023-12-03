@@ -1,19 +1,13 @@
+// customizationSettingsRoute.js
 const express = require('express');
 const router = express.Router();
 const customizationSettingsController = require('../Controller/customizationSettingsController');
-const authorizationMiddleware = require("../Middleware/authorization"); //authorizationMiddleware(["user"])
+const authorizationMiddleware = require('../Middleware/authorization');
 
-router.get('/', authorizationMiddleware(["admin"])
-    , customizationSettingsController.getSetting);
+router.get('/', authorizationMiddleware(['admin'])
+    , customizationSettingsController.getSettings);
 
-router.get('/:admin_id', authorizationMiddleware(["admin"])
-    , customizationSettingsController.getSetting);
-
-router.put('/:admin_id', authorizationMiddleware(["admin"])
-    , customizationSettingsController.updateSetting);
-
-router.delete('/:admin_id', authorizationMiddleware(['admin'])
-    , customizationSettingsController.deleteSetting);
-
+router.put('/', authorizationMiddleware(['admin'])
+    , customizationSettingsController.updateSettings);
 
 module.exports = router;

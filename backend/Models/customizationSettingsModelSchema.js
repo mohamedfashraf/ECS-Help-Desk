@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const CustomizationSettingsSchema = new mongoose.Schema({
-  admin_id: {
-    type: String,
-    required: true,
-    unique: true // unique_user_identifier
-  },
   branding: {
     theme: {
       primaryColor: {

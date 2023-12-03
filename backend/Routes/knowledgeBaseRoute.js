@@ -1,21 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const knowledgeBaseController = require('../Controller/knowledgeBaseController');
-const authorizationMiddleware = require("../Middleware/authorization"); //authorizationMiddleware(["user"])
+const authorizationMiddleware = require("../Middleware/authorization");
 
-router.post('/knowledgeBase', authorizationMiddleware(["admin"])
+// Create a new issue
+router.post('/', authorizationMiddleware(["admin"])
     , knowledgeBaseController.createIssue);
 
-router.get('/knowledgeBase', authorizationMiddleware(["user"])
-    , knowledgeBaseController.getAllIssues);
+// Get all issues or search based on keyword
+router.get('/', authorizationMiddleware(["user", "admin"])
+    , knowledgeBaseController.getAllOrSearchIssues);
 
-router.get('/knowledgeBase/:id', authorizationMiddleware(["user"])
+// Get all issues grouped by category
+router.get('/categories', authorizationMiddleware(["user", "admin"])
+    , knowledgeBaseController.getAllIssuesByCategory);
+
+// Get an issue by ID
+router.get('/:id', authorizationMiddleware(["user", "admin"])
     , knowledgeBaseController.getIssueById);
 
-router.put('/knowledgeBase/:id', authorizationMiddleware(["admin"])
+// Update an issue by ID
+router.put('/:id', authorizationMiddleware(["admin"])
     , knowledgeBaseController.updateIssue);
 
-router.delete('/knowledgeBase/:id', authorizationMiddleware(["admin"])
+// Delete an issue by ID
+router.delete('/:id', authorizationMiddleware(["admin"])
     , knowledgeBaseController.deleteIssue);
 
 module.exports = router;

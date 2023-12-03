@@ -2,7 +2,6 @@
   "_id": {
     "$oid": "655cf63ca3b261a383bd7575"
   },
-  "admin_id": "unique_user_identifier",
   "branding": {
     "theme": {
       "primaryColor": "#005f73",
