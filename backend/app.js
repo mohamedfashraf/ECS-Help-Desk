@@ -1,6 +1,4 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const userRoutes = require("./Routes/usersRoute");
 const cookieParser = require("cookie-parser");
@@ -14,7 +12,17 @@ const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
 
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
+const express = require("express");
+const cors = require("cors");
 
+const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:3001", // Frontend URL
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());
@@ -28,16 +36,13 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 app.use(express.json());
 
-
 app.use("/api/v1", auth);
-
 
 app.use("/api/v1/users", userRoutes);
 
 app.use("/api/tickets", ticketsRoute);
 
 app.use(authenticationMiddleware);
-
 
 app.use("/api/customizationSettings", customizationSettingsRoute);
 
@@ -54,7 +59,6 @@ app.use("/api", reportsAndAnalyticsRoutes);
 app.use("/api", supportAgentRoutes);
 
 app.use("/api/v1/tickets", ticketsRoute);
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

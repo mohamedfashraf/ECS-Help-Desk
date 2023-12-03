@@ -6,7 +6,7 @@ const SignupComponent = () => {
   return (
     <div className="bg-customblack flex flex-col min-h-fit relative mt-5 ">
       <p
-        className="hidden sm:block absolute text-white ml-[220px] mt-[430px] font-sans "
+        className="hidden sm:block absolute text-white ml-[173px] mt-[430px] font-sans "
         style={{
           fontFamily: "'Noto Sans', sans-serif",
           fontSize: "96px",
@@ -22,7 +22,7 @@ const SignupComponent = () => {
       <img
         src={eclipse1}
         alt="Eclipse 1"
-        className="hidden sm:block absolute mr-60 top-4 right-5"
+        className="hidden sm:block absolute mr-80 top-4 right-5"
       />
 
       <svg
@@ -46,7 +46,7 @@ const SignupComponent = () => {
       </svg>
 
       <svg
-        className="hidden sm:block absolute  ml-[220px] mt-[530px] "
+        className="hidden sm:block absolute  ml-[180px] mt-[530px] "
         xmlns="http://www.w3.org/2000/svg"
         width="244"
         height="80"
