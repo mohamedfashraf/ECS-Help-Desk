@@ -3,8 +3,8 @@ const SupportAgent = require('../Models/supportAgentModelSchema');
 // Create a new support agent "works"
 async function createSupportAgent(req, res) {
     try {
-        const { name, email, password, specialization } = req.body;
-        const supportAgent = new SupportAgent({ name, email, password, specialization });
+        const { name, email, password, specialization, assignedTickets } = req.body;
+        const supportAgent = new SupportAgent({ name, email, password, specialization, assignedTickets });
         await supportAgent.save();
         res.status(201).json(supportAgent);
     } catch (error) {

@@ -14,11 +14,7 @@ const supportAgentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  role: {
-    type: String,
-    default: 'support_agent',
-    enum: ['support_agent']
-  },
+
   specialization: {
     type: String,
     enum: ['Software', 'Hardware', 'Network'],

@@ -3,19 +3,27 @@ const router = express.Router();
 const reportsAndAnalyticsController = require('../Controller/reportsAndAnalyticsController');
 const authorizationMiddleware = require("../Middleware/authorization"); //authorizationMiddleware(["user"])
 
-router.post('/reports', authorizationMiddleware(["admin", "manager"])
+router.post('/', authorizationMiddleware(["admin", "manager"])
     , reportsAndAnalyticsController.createReport);
 
-router.get('/reports', authorizationMiddleware(["admin", "manager"])
+router.get('/', authorizationMiddleware(["admin", "manager"])
     , reportsAndAnalyticsController.getAllReports);
 
-router.get('/reports/:id', authorizationMiddleware(["admin", "manager"])
+router.get('/:id', authorizationMiddleware(["admin", "manager"])
     , reportsAndAnalyticsController.getReportById);
 
-router.put('/reports/:id', authorizationMiddleware(["admin", "manager"])
+router.put('/:id', authorizationMiddleware(["admin", "manager"])
     , reportsAndAnalyticsController.updateReport);
 
-router.delete('/reports/:id', authorizationMiddleware(["admin", "manager"])
+router.delete('/:id', authorizationMiddleware(["admin", "manager"])
     , reportsAndAnalyticsController.deleteReport);
+
+router.get('/ticketStatus-report/:id', authorizationMiddleware(["admin", "manager"])
+    , reportsAndAnalyticsController.getReportsByTicketStatus);
+
+router.get('/issuesanalytics', authorizationMiddleware(["admin", "manager"]), reportsAndAnalyticsController.getCommonIssuesAnalytics);
+
+
+
 
 module.exports = router;

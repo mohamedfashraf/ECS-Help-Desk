@@ -109,7 +109,7 @@ body, html {
 
 @media (min-width: 1024px) { /* Tailwind's 'lg' breakpoint */
   .frame-style {
-    width: 400px; /* Fixed width as originally specified */
+    width: 480px; /* Fixed width as originally specified */
     height: 793px; /* Fixed height as originally specified */
     
   }

@@ -35,11 +35,27 @@ const SignupComponent = () => {
   };
 
   return (
-    <div className="bg-customblack flex flex-col min-h-fit relative mt-5">
-      {/* Text and SVG elements */}
-      <p className="hidden sm:block absolute text-white ml-[220px] mt-[430px] font-sans" style={{ fontFamily: "'Noto Sans', sans-serif", fontSize: "96px", fontStyle: "normal", fontWeight: 600, lineHeight: "normal", color: "white" }}>
+    <div className="bg-customblack flex flex-col min-h-fit relative mt-5 ">
+      <p
+        className="hidden sm:block absolute text-white ml-[173px] mt-[430px] font-sans "
+        style={{
+          fontFamily: "'Noto Sans', sans-serif",
+          fontSize: "96px",
+          fontStyle: "normal",
+          fontWeight: 600,
+          lineHeight: "normal",
+          color: "white",
+        }}
+      >
         Roll the Carpet.!
       </p>
+      {/* SVG at the top, hidden on small screens */}
+      <img
+        src={eclipse1}
+        alt="Eclipse 1"
+        className="hidden sm:block absolute mr-80 top-4 right-5"
+      />
+
 
       <img src={eclipse1} alt="Eclipse 1" className="hidden sm:block absolute mr-60 top-4 right-5" />
 
@@ -48,9 +64,26 @@ const SignupComponent = () => {
         <line x1="0" y1="1" x2="1000" y2="1" stroke="#4D4D4D" strokeWidth="2" strokeLinecap="round" strokeDasharray="12 12" />
       </svg>
 
-      {/* Text SVG */}
-      <svg className="hidden sm:block absolute  ml-[220px] mt-[530px]" xmlns="http://www.w3.org/2000/svg" width="244" height="80" viewBox="0 0 244 80" fill="none">
-        <text x="50%" y="50%" fill="#FFF" fontFamily="'Noto Sans', sans-serif" fontSize="32" fontStyle="italic" fontWeight="600" dominantBaseline="middle" textAnchor="middle">
+      <svg
+        className="hidden sm:block absolute  ml-[180px] mt-[530px] "
+        xmlns="http://www.w3.org/2000/svg"
+        width="244"
+        height="80"
+        viewBox="0 0 244 80"
+        fill="none"
+      >
+        <text
+          x="50%"
+          y="50%"
+          fill="#FFF"
+          font-family="'Noto Sans', sans-serif"
+          font-size="32"
+          font-style="italic"
+          font-weight="600"
+          dominant-baseline="middle"
+          text-anchor="middle"
+        >
+
           Skip the lag?
         </text>
         <rect x="2" y="2" width="240" height="76" stroke="white" strokeWidth="4" />

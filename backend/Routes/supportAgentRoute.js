@@ -3,19 +3,19 @@ const router = express.Router();
 const supportAgentController = require('../Controller/supportAgentController');
 const authorizationMiddleware = require("../Middleware/authorization"); //authorizationMiddleware(["user"])
 
-router.post('/support-agents', authorizationMiddleware(["admin"])
+router.post('/', authorizationMiddleware(["admin"])
     , supportAgentController.createSupportAgent);
 
-router.get('/support-agents', authorizationMiddleware(["admin"])
+router.get('/', authorizationMiddleware(["admin"])
     , supportAgentController.getAllSupportAgents);
 
-router.get('/support-agents/:id', authorizationMiddleware(["admin"])
+router.get('/:id', authorizationMiddleware(["admin"])
     , supportAgentController.getSupportAgentById);
 
-router.put('/support-agents/:id', authorizationMiddleware(["admin"])
+router.put('/:id', authorizationMiddleware(["admin"])
     , supportAgentController.updateSupportAgent);
 
-router.delete('/support-agents/:id', authorizationMiddleware(["admin"])
+router.delete('/:id', authorizationMiddleware(["admin"])
     , supportAgentController.deleteSupportAgent);
 
 module.exports = router;
