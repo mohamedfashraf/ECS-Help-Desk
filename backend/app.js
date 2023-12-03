@@ -13,6 +13,7 @@ const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
 const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
+const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
 
 
 app.use(cookieParser());
@@ -46,6 +47,8 @@ app.use("/api/support-agents", supportAgentRoutes);
 app.use("/api/tickets", ticketsRoute);
 
 app.use("/api/users", userRoutes);
+
+app.use("/api/automatedWorkflows",automatedWorkflowsRoutes)
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

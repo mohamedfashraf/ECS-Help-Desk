@@ -1,5 +1,6 @@
 const UserModel = require("../Models/usersModelSchema");
 const jwt = require("jsonwebtoken");
+const { DateTime } = require('luxon');
 
 const bcrypt = require("bcrypt");
 require("dotenv").config();
@@ -37,7 +38,7 @@ async function login(req, res) {
     }
 
     const currentDateTime = new Date();
-    const expiresAt = new Date(currentDateTime.getTime() + 9e+6);
+    const expiresAt = new Date(currentDateTime.getTime() + 1800000); 
 
     const token = jwt.sign(
       { user: { userId: user._id, role: user.role } },
