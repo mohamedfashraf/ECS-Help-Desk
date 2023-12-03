@@ -1,6 +1,4 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const userRoutes = require("./Routes/usersRoute");
 const cookieParser = require("cookie-parser");
@@ -13,8 +11,18 @@ const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
 const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
-const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
+const express = require("express");
+const cors = require("cors");
 
+const app = express();
+
+
+app.use(
+  cors({
+    origin: "http://localhost:3001", // Frontend URL
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());
@@ -29,6 +37,11 @@ mongoose
 app.use(express.json());
 
 app.use("/api/v1", auth);
+
+app.use("/api/v1/users", userRoutes);
+
+app.use("/api/tickets", ticketsRoute);
+
 
 app.use(authenticationMiddleware);
 
@@ -48,7 +61,6 @@ app.use("/api/tickets", ticketsRoute);
 
 app.use("/api/users", userRoutes);
 
-app.use("/api/automatedWorkflows",automatedWorkflowsRoutes)
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
