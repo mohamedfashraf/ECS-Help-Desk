@@ -1,4 +1,6 @@
-import SignupComponent from "./components/SignUp";
+import SignupComponent from "./pages/SignUp";
+
+import ChatMessages from "./components/Message";
 
 function App() {
   return <SignupComponent />;
