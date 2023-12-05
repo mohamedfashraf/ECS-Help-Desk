@@ -1,4 +1,4 @@
-import FrameWithBorder from "./registerFrame";
+import FrameWithBorder from "../components/registerFrame";
 import eclipse1 from "../svgs/Ellipse1.svg";
 import eclipse2 from "../svgs/Ellipse2.svg";
 
