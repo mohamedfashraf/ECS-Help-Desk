@@ -9,7 +9,8 @@ router.post("/login", userController.login);
 // * register
 router.post("/register", userController.register);
 
-router.post("/admin-register", userController.adminRegister);
+router.post("/admin-register", authorizationMiddleware(["admin"])
+    , userController.adminRegister);
 
 
 module.exports = router; // ! Don't forget to export the router

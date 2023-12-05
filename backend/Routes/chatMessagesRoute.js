@@ -1,21 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const chatMessageController = require('../Controller/chatMessagesController');
-const authorizationMiddleware = require("../Middleware/authorization"); //authorizationMiddleware(["user"])
+const authorizationMiddleware = require("../Middleware/authorization");
 
-router.post('/', authorizationMiddleware(["user", "admin"])
+router.get('/receiveMessage', authorizationMiddleware(["user", "agent", "admin"])
+    , chatMessageController.receiveMessage);
+
+router.post('/', authorizationMiddleware(["user", "agent", "admin"])
     , chatMessageController.createConversation);
 
-router.get('/', authorizationMiddleware(["admin"])
+router.get('/', authorizationMiddleware(["agent", "admin"])
     , chatMessageController.getAllConversations);
 
-router.get('/:id', authorizationMiddleware(["admin"])
+router.get('/:id', authorizationMiddleware(["user", "agent", "admin"])
     , chatMessageController.getConversationById);
 
-router.put('/:id', authorizationMiddleware(["admin"])
-    , chatMessageController.updateConversation);
+router.post('/reply', authorizationMiddleware(["user", "agent", "admin"])
+    , chatMessageController.replyMessages);
 
-router.delete('/:id', authorizationMiddleware(["admin"])
+router.delete('/:id', authorizationMiddleware(["agent", "admin"])
     , chatMessageController.deleteConversation);
 
 module.exports = router;

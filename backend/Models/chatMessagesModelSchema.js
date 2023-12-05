@@ -19,13 +19,17 @@ const MessageSchema = new Schema({
 
 const ChatMessagesSchema = new Schema({
     ticketId: {
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,
         required: true
     },
-    participants: [{
-        type: Schema.Types.ObjectId,  
+    userId: {
+        type: Schema.Types.ObjectId,
         required: true
-    }],
+    },
+    agentId: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
     messages: [MessageSchema]
 });
 

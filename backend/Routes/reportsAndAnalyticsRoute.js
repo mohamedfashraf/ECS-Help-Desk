@@ -21,8 +21,8 @@ router.delete('/:id', authorizationMiddleware(["admin", "manager"])
 router.get('/ticketStatus-report/:id', authorizationMiddleware(["admin", "manager"])
     , reportsAndAnalyticsController.getReportsByTicketStatus);
 
-router.get('/issuesanalytics', authorizationMiddleware(["admin", "manager"]), reportsAndAnalyticsController.getCommonIssuesAnalytics);
-
+router.get('/issuesanalytics', authorizationMiddleware(["admin", "manager"])
+    , reportsAndAnalyticsController.getCommonIssuesAnalytics);
 
 
 
