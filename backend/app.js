@@ -1,7 +1,5 @@
 // Import required packages and modules
 require("dotenv").config();
-const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const userRoutes = require("./Routes/usersRoute");
 const cookieParser = require("cookie-parser");
