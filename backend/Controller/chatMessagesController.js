@@ -66,17 +66,20 @@ async function getConversationById(req, res) {
 async function replyMessages(req, res) {
     try {
         const ticketId = req.body.ticketId;
+        console.log(ticketId);
         const userId = req.user.userId;
+        console.log(userId);
         const loggedInUser = req.user.role;
         const newMessageContent = req.body.message;
         const senderName = req.user.name;
 
         if (loggedInUser == "agent" || loggedInUser == "admin") {
-            const conversation = await ChatMessages.findOne({ agentId: userId });
+            const conversation = await ChatMessages.findOne({
+                ticketId: ticketId, agentId: userId
+            });
             if (!conversation) {
                 return res.status(404).json({ error: 'Conversation not found or not assigned to this user' });
             }
-            // Add new message to the conversation's messages array
             const newMessage = {
                 sender: senderName,
                 message: newMessageContent
@@ -86,11 +89,10 @@ async function replyMessages(req, res) {
 
             res.status(200).json(updatedConversation);
         } else if (loggedInUser == "user") {
-            const conversation = await ChatMessages.findOne({ userId: userId });
+            const conversation = await ChatMessages.findOne({ ticketId: ticketId, userId: userId });
             if (!conversation) {
                 return res.status(404).json({ error: 'Conversation not found or not assigned to this user' });
             }
-            // Add new message to the conversation's messages array
             const newMessage = {
                 sender: senderName,
                 message: newMessageContent
