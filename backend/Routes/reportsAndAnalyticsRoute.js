@@ -18,4 +18,12 @@ router.put('/:id', authorizationMiddleware(["admin", "manager"])
 router.delete('/:id', authorizationMiddleware(["admin", "manager"])
     , reportsAndAnalyticsController.deleteReport);
 
+router.get('/ticketStatus-report/:id', authorizationMiddleware(["admin", "manager"])
+    , reportsAndAnalyticsController.getReportsByTicketStatus);
+
+router.get('/issuesanalytics', authorizationMiddleware(["admin", "manager"])
+    , reportsAndAnalyticsController.getCommonIssuesAnalytics);
+
+
+
 module.exports = router;

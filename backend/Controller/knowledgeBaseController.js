@@ -1,4 +1,4 @@
-const Issue = require('../Models/knowledgeBaseModelSchema'); // Adjust the path based on your project structure
+const Issue = require('../Models/knowledgeBaseModelSchema');
 
 // Create a new issue "works"
 async function createIssue(req, res) {
@@ -12,10 +12,37 @@ async function createIssue(req, res) {
     }
 }
 
-// Get all issues "works"
-async function getAllIssues(req, res) {
+// Get all issues grouped by category "works"
+async function getAllIssuesByCategory(req, res) {
     try {
-        const issues = await Issue.find({});
+        const issuesByCategory = await Issue.aggregate([
+            {
+                $group: {
+                    _id: '$category',
+                    issues: { $push: '$$ROOT' },
+                },
+            },
+        ]);
+        res.status(200).json(issuesByCategory);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+// Get all issues or search based on keyword "works"
+async function getAllOrSearchIssues(req, res) {
+    try {
+        const { keyword } = req.query;
+        let query = {};
+        if (keyword) {
+            query = {
+                $or: [
+                    { content: { $regex: keyword, $options: 'i' } }, // Case-insensitive search
+                    { keyWords: { $in: [keyword] } },
+                ],
+            };
+        }
+        const issues = await Issue.find(query);
         res.status(200).json(issues);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -67,7 +94,8 @@ async function deleteIssue(req, res) {
 
 module.exports = {
     createIssue,
-    getAllIssues,
+    getAllIssuesByCategory,
+    getAllOrSearchIssues,
     getIssueById,
     updateIssue,
     deleteIssue,

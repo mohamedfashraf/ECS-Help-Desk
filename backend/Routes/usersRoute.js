@@ -3,10 +3,10 @@ const router = express.Router();
 const UserController = require("../Controller/userController"); // Adjust the path to where your UserController is located
 const authorizationMiddleware = require("../Middleware/authorization");
 
-router.get("/", authorizationMiddleware(["user"])
+router.get("/", authorizationMiddleware(["admin"])
     , UserController.getAllUsers);
 
-router.get("/:id", authorizationMiddleware(["user"])
+router.get("/:id", authorizationMiddleware(["admin"])
     , UserController.getUserById);
 
 router.put("/:id", authorizationMiddleware(["admin"])
