@@ -30,6 +30,12 @@ app.get('/', (req, res) => {
 const server = http.createServer(app);
 const io = socketIO(server);
 
+app.use(
+  cors({
+    origin: "http://localhost:3001", // Frontend URL
+    credentials: true,
+  })
+);
 // Initialize ChatController with the Socket.IO instance
 const chatController = new ChatController(io);
 
@@ -50,6 +56,7 @@ mongoose.connect(mongoURI)
   .catch(err => console.error("Could not connect to MongoDB...", err));
 
 
+
 // routes
 app.use("/api/v1", auth);
 app.use(authenticationMiddleware);
@@ -63,6 +70,7 @@ app.use("/api/tickets", ticketsRoute);
 app.use("/api/users", userRoutes);
 app.use("/api/automatedWorkflows", automatedWorkflowsRoutes);
 // app.use("/api/liveChat", liveChatRoute);
+
 
 // Set the port for the server
 const port = process.env.PORT || 3000;
