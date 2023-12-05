@@ -66,9 +66,7 @@ async function getConversationById(req, res) {
 async function replyMessages(req, res) {
     try {
         const ticketId = req.body.ticketId;
-        console.log(ticketId);
         const userId = req.user.userId;
-        console.log(userId);
         const loggedInUser = req.user.role;
         const newMessageContent = req.body.message;
         const senderName = req.user.name;
