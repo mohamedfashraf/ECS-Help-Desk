@@ -5,7 +5,6 @@ const liveChatSchema = new mongoose.Schema({
     senderId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User' // Assuming sender is a User
     },
     agentId: {
         type: mongoose.Schema.Types.ObjectId,
