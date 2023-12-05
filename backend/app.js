@@ -16,7 +16,6 @@ const cors = require("cors");
 
 const app = express();
 
-
 app.use(
   cors({
     origin: "http://localhost:3001", // Frontend URL
@@ -42,7 +41,6 @@ app.use("/api/v1/users", userRoutes);
 
 app.use("/api/tickets", ticketsRoute);
 
-
 app.use(authenticationMiddleware);
 
 app.use("/api/customizationSettings", customizationSettingsRoute);
@@ -60,7 +58,6 @@ app.use("/api/support-agents", supportAgentRoutes);
 app.use("/api/tickets", ticketsRoute);
 
 app.use("/api/users", userRoutes);
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
