@@ -1,5 +1,7 @@
 // Import required packages and modules
 require("dotenv").config();
+const express = require('express');
+const app = express();
 const mongoose = require("mongoose");
 const userRoutes = require("./Routes/usersRoute");
 const cookieParser = require("cookie-parser");
@@ -48,7 +50,7 @@ mongoose.connect(mongoURI)
   .catch(err => console.error("Could not connect to MongoDB...", err));
 
 
-// Define your routes
+// routes
 app.use("/api/v1", auth);
 app.use(authenticationMiddleware);
 app.use("/api/customizationSettings", customizationSettingsRoute);

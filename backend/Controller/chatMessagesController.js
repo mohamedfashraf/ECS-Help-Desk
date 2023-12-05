@@ -68,14 +68,13 @@ async function replyMessages(req, res) {
         const ticketId = req.body.ticketId;
         const userId = req.user.userId;
         const loggedInUser = req.user.role;
-        const newMessageContent = req.body.message; // Assuming the new message is sent in the body
+        const newMessageContent = req.body.message;
         const senderName = req.user.name;
 
         if (loggedInUser == "agent" || loggedInUser == "admin") {
             const conversation = await ChatMessages.findOne({ agentId: userId });
             if (!conversation) {
                 return res.status(404).json({ error: 'Conversation not found or not assigned to this user' });
-
             }
             // Add new message to the conversation's messages array
             const newMessage = {
