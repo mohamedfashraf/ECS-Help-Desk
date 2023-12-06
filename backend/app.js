@@ -15,6 +15,7 @@ const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
 const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
+const cors = require("cors");
 // const liveChatRoute = require("./Routes/liveChatRoute");
 
 const http = require('http');
@@ -36,6 +37,7 @@ app.use(
     credentials: true,
   })
 );
+
 // Initialize ChatController with the Socket.IO instance
 const chatController = new ChatController(io);
 
@@ -55,8 +57,6 @@ mongoose.connect(mongoURI)
   .then(() => console.log("Connected to MongoDB..."))
   .catch(err => console.error("Could not connect to MongoDB...", err));
 
-
-
 // routes
 app.use("/api/v1", auth);
 app.use(authenticationMiddleware);
@@ -70,7 +70,6 @@ app.use("/api/tickets", ticketsRoute);
 app.use("/api/users", userRoutes);
 app.use("/api/automatedWorkflows", automatedWorkflowsRoutes);
 // app.use("/api/liveChat", liveChatRoute);
-
 
 // Set the port for the server
 const port = process.env.PORT || 3000;
