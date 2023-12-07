@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Emails = require('../Models/emailSystemModelSchema');
+const nodemailer = require('nodemailer');
 
-// Create a new conversation "works"
+// Create a new email and get notifications tp user Gmail "works"
 async function createEmail(req, res) {
     try {
         const loggedInUser = req.user.role;
@@ -11,6 +12,15 @@ async function createEmail(req, res) {
             const { userEmail, messages } = req.body;
             const agentName = req.user.name;
             const agentEmail = req.user.email;
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: agentEmail,
+                    pass: "grtrdrwufhoilhll"
+                },
+                secure: true
+            });
+
             const conversation = new Emails({
                 agentName,
                 agentEmail,
@@ -18,23 +28,49 @@ async function createEmail(req, res) {
                 messages: messages.map(({ message }) => ({ sender: senderName, message })),
             });
             await conversation.save();
+
+            // Send email notification for each message
+            for (const { message } of messages) {
+                const mailOptions = {
+                    from: agentEmail,
+                    to: userEmail,
+                    subject: 'New Message from ' + agentName,
+                    text: message
+                };
+
+                await transporter.sendMail(mailOptions);
+            }
+
             res.status(201).json(conversation);
         } else if (loggedInUser == "user") {
             const { messages } = req.body;
             const userName = req.user.name;
             const userEmail = req.user.email;
+
             const conversation = new Emails({
                 userName,
                 userEmail,
                 messages: messages.map(({ message }) => ({ sender: senderName, message })),
             });
 
-            await conversation.save();
+            // await conversation.save();
+            // for (const { message } of messages) {
+            //     const mailOptions = {
+            //         from: userEmail,
+            //         to: agentEmail,
+            //         subject: 'New Message from ' + agentName,
+            //         text: message
+            //     };
+
+            //     await transporter.sendMail(mailOptions);
+            // }
+
             res.status(201).json(conversation);
         } else {
             res.status(400).json({ error: 'Invalid user type' });
         }
     } catch (error) {
+        console.error('Error in createEmail:', error);
         res.status(400).json({ error: error.message });
     }
 }
