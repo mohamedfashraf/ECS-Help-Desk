@@ -1,30 +1,31 @@
 const mongoose = require('mongoose');
-const ChatMessages = require('../Models/chatMessagesModelSchema');
+const Emails = require('../Models/emailSystemModelSchema');
 
 // Create a new conversation "works"
-async function createConversation(req, res) {
+async function createEmail(req, res) {
     try {
         const loggedInUser = req.user.role;
         const senderName = req.user.name;
 
         if (loggedInUser == "agent" || loggedInUser == "admin") {
-            const { ticketId, userId, messages } = req.body;
-            const agentId = req.user.userId;
-            const conversation = new ChatMessages({
-                ticketId,
-                userId,
-                agentId,
+            const { userEmail, messages } = req.body;
+            const agentName = req.user.name;
+            const agentEmail = req.user.email;
+            const conversation = new Emails({
+                agentName,
+                agentEmail,
+                userEmail,
                 messages: messages.map(({ message }) => ({ sender: senderName, message })),
             });
             await conversation.save();
             res.status(201).json(conversation);
         } else if (loggedInUser == "user") {
-            const { ticketId, agentId, messages } = req.body;
-            const userId = req.user.userId;
-            const conversation = new ChatMessages({
-                ticketId,
-                userId,
-                agentId,
+            const { messages } = req.body;
+            const userName = req.user.name;
+            const userEmail = req.user.email;
+            const conversation = new Emails({
+                userName,
+                userEmail,
                 messages: messages.map(({ message }) => ({ sender: senderName, message })),
             });
 
@@ -41,7 +42,7 @@ async function createConversation(req, res) {
 // Get all conversations "works"
 async function getAllConversations(req, res) {
     try {
-        const conversations = await ChatMessages.find({});
+        const conversations = await Emails.find({});
         console.log('Retrieved Conversations:', conversations);
         res.status(200).json(conversations);
     } catch (error) {
@@ -52,7 +53,7 @@ async function getAllConversations(req, res) {
 // Get a specific conversation by ID "works"
 async function getConversationById(req, res) {
     try {
-        const conversation = await ChatMessages.findById(req.params.id);
+        const conversation = await Emails.findById(req.params.id);
         if (!conversation) {
             return res.status(404).json({ error: 'Conversation not found' });
         }
@@ -62,55 +63,54 @@ async function getConversationById(req, res) {
     }
 }
 
-// reply on a conversation by ID "works"
 async function replyMessages(req, res) {
     try {
-        const ticketId = req.body.ticketId;
-        console.log(ticketId);
-        const userId = req.user.userId;
-        console.log(userId);
-        const loggedInUser = req.user.role;
-        const newMessageContent = req.body.message;
-        const senderName = req.user.name;
+        const toMail = req.body.toMail; // Email of the recipient
+        const senderMail = req.user.email; // Email of the sender (logged-in user)
+        const loggedInUser = req.user.role; // Role of the logged-in user
+        const newMessageContent = req.body.message; // New message content
+        const senderName = req.user.name; // Name of the sender (logged-in user)
+
+        let conversation;
 
         if (loggedInUser == "agent" || loggedInUser == "admin") {
-            const conversation = await ChatMessages.findOne({
-                ticketId: ticketId, agentId: userId
-            });
-            if (!conversation) {
-                return res.status(404).json({ error: 'Conversation not found or not assigned to this user' });
-            }
-            const newMessage = {
-                sender: senderName,
-                message: newMessageContent
-            };
-            conversation.messages.push(newMessage);
-            const updatedConversation = await conversation.save();
-
-            res.status(200).json(updatedConversation);
+            // For agent or admin, the sender is the agent and recipient is the user
+            conversation = await Emails.findOne({ userEmail: toMail, agentEmail: senderMail });
         } else if (loggedInUser == "user") {
-            const conversation = await ChatMessages.findOne({ ticketId: ticketId, userId: userId });
-            if (!conversation) {
-                return res.status(404).json({ error: 'Conversation not found or not assigned to this user' });
-            }
-            const newMessage = {
-                sender: senderName,
-                message: newMessageContent
-            };
-            conversation.messages.push(newMessage);
-            const updatedConversation = await conversation.save();
-
-            res.status(200).json(updatedConversation);
+            // For user, the sender is the user and recipient is the agent
+            conversation = await Emails.findOne({ agentEmail: toMail, userEmail: senderMail });
         }
+
+        // Debugging logs
+        console.log(`User role: ${loggedInUser}`);
+        console.log(`Sender mail: ${senderMail}`);
+        console.log(`Recipient mail: ${toMail}`);
+        console.log(`Conversation found: ${conversation != null}`);
+
+        // Check if the conversation exists
+        if (!conversation) {
+            return res.status(404).json({ error: 'Conversation not found or not assigned to this user' });
+        }
+
+        // Add new message to the conversation
+        const newMessage = { sender: senderName, message: newMessageContent };
+        conversation.messages.push(newMessage);
+        const updatedConversation = await conversation.save();
+
+        // Send the updated conversation as a response
+        res.status(200).json(updatedConversation);
     } catch (error) {
+        // Error handling
+        console.error('Error in replyMessages:', error);
         res.status(400).json({ error: error.message });
     }
 }
 
+
 // Delete a conversation by ID "works"
 async function deleteConversation(req, res) {
     try {
-        const conversation = await ChatMessages.findByIdAndDelete(req.params.id);
+        const conversation = await Emails.findByIdAndDelete(req.params.id);
         if (!conversation) {
             return res.status(404).json({ error: 'Conversation not found' });
         }
@@ -125,7 +125,7 @@ async function receiveMessage(req, res) {
     try {
         const userId = req.user.userId;
 
-        const messages = await ChatMessages.find({ userId });
+        const messages = await Emails.find({ userId });
 
         res.status(200).json(messages);
     } catch (error) {
@@ -135,7 +135,7 @@ async function receiveMessage(req, res) {
 
 
 module.exports = {
-    createConversation,
+    createEmail,
     getAllConversations,
     getConversationById,
     replyMessages,
