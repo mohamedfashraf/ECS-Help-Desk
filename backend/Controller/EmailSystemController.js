@@ -101,46 +101,53 @@ async function getConversationById(req, res) {
 
 async function replyMessages(req, res) {
     try {
-        const toMail = req.body.toMail; // Email of the recipient
-        const senderMail = req.user.email; // Email of the sender (logged-in user)
-        const loggedInUser = req.user.role; // Role of the logged-in user
+        const toMail = req.body.toMail; // Recipient's email
+        const senderMail = req.user.email; // Sender's email (logged-in user)
+        const loggedInUser = req.user.role; // User's role
         const newMessageContent = req.body.message; // New message content
-        const senderName = req.user.name; // Name of the sender (logged-in user)
+        const senderName = req.user.name; // Sender's name
 
-        let conversation;
-
-        if (loggedInUser == "agent" || loggedInUser == "admin") {
-            // For agent or admin, the sender is the agent and recipient is the user
-            conversation = await Emails.findOne({ userEmail: toMail, agentEmail: senderMail });
-        } else if (loggedInUser == "user") {
-            // For user, the sender is the user and recipient is the agent
-            conversation = await Emails.findOne({ agentEmail: toMail, userEmail: senderMail });
+        let query = {};
+        if (loggedInUser === "agent" || loggedInUser === "admin") {
+            query = { userEmail: toMail, agentEmail: senderMail };
+        } else if (loggedInUser === "user") {
+            query = { agentEmail: toMail, userEmail: senderMail };
         }
 
-        // Debugging logs
-        console.log(`User role: ${loggedInUser}`);
-        console.log(`Sender mail: ${senderMail}`);
-        console.log(`Recipient mail: ${toMail}`);
-        console.log(`Conversation found: ${conversation != null}`);
-
-        // Check if the conversation exists
+        const conversation = await Emails.findOne(query);
         if (!conversation) {
             return res.status(404).json({ error: 'Conversation not found or not assigned to this user' });
         }
 
-        // Add new message to the conversation
         const newMessage = { sender: senderName, message: newMessageContent };
         conversation.messages.push(newMessage);
         const updatedConversation = await conversation.save();
+        // Email sending logic
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: senderMail, // Using the sender's email
+                pass: "grtrdrwufhoilhll" // Replace with your Gmail App Password
+            },
+            secure: true
+        });
 
-        // Send the updated conversation as a response
+        const mailOptions = {
+            from: senderMail,
+            to: toMail,
+            subject: 'New Message from ' + senderName,
+            text: newMessageContent
+        };
+
+
+        await transporter.sendMail(mailOptions);
         res.status(200).json(updatedConversation);
     } catch (error) {
-        // Error handling
         console.error('Error in replyMessages:', error);
         res.status(400).json({ error: error.message });
     }
 }
+
 
 
 // Delete a conversation by ID "works"
