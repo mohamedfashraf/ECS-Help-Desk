@@ -21,7 +21,9 @@
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.1",
-    "socket.io": "^4.7.2"
+    "nodemailer": "^6.9.7",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

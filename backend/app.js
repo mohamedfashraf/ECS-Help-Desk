@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const auth = require("./Routes/auth");
 const authenticationMiddleware = require("./Middleware/authentication");
 const ticketsRoute = require("./Routes/ticketsRoute");
-const chatMessagesRoutes = require("./Routes/chatMessagesRoute");
+const emailSystemRoutes = require("./Routes/emailSytsemRoute");
 const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
 const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
 const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
@@ -61,7 +61,7 @@ mongoose.connect(mongoURI)
 app.use("/api/v1", auth);
 app.use(authenticationMiddleware);
 app.use("/api/customizationSettings", customizationSettingsRoute);
-app.use("/api/chatMessages", chatMessagesRoutes);
+app.use("/api/emails", emailSystemRoutes);
 app.use("/api/security-settings", securitySettingsRoutes);
 app.use("/api/knowledgeBase", knowledgeBaseRoutes);
 app.use("/api/reports", reportsAndAnalyticsRoutes);
