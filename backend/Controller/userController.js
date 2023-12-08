@@ -93,7 +93,7 @@ async function login(req, res) {
 
 
     const token = jwt.sign(
-      { user: { userId: user._id, role: user.role } },
+      { user: { userId: user._id, role: user.role, name: user.name, email: user.email } },
       secretKey,
       { expiresIn: "30m" }
     );
@@ -160,6 +160,8 @@ async function deleteUser(req, res) {
     res.status(500).send(error.message);
   }
 }
+//
+//
 
 module.exports = {
   register,
