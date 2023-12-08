@@ -15,6 +15,8 @@ const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
 const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
+
+const cors =require("cors");
 // const liveChatRoute = require("./Routes/liveChatRoute");
 
 const http = require('http');

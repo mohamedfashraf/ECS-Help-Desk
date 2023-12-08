@@ -1,5 +1,5 @@
 const SupportAgent = require('../Models/supportAgentModelSchema');
-
+const Ticket = require("../Models/ticektsModelSchema");
 // Create a new support agent "works"
 async function createSupportAgent(req, res) {
     try {
