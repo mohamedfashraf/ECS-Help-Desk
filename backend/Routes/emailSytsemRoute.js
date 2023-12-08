@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const chatMessageController = require('../Controller/chatMessagesController');
+const chatMessageController = require('../Controller/EmailSystemController');
 const authorizationMiddleware = require("../Middleware/authorization");
 
 router.get('/receiveMessage', authorizationMiddleware(["user", "agent", "admin"])
     , chatMessageController.receiveMessage);
 
 router.post('/', authorizationMiddleware(["user", "agent", "admin"])
-    , chatMessageController.createConversation);
+    , chatMessageController.createEmail);
 
 router.get('/', authorizationMiddleware(["agent", "admin"])
     , chatMessageController.getAllConversations);
