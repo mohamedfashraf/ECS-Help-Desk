@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Emails = require('../Models/emailSystemModelSchema');
 const nodemailer = require('nodemailer');
 

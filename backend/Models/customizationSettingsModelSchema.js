@@ -1,60 +1,63 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const CustomizationSettingsSchema = new mongoose.Schema({
   branding: {
     theme: {
       primaryColor: {
         type: String,
-        default: '#005f73'
+        default: "#005f73",
       },
       secondaryColor: {
         type: String,
-        default: '#0a9396'
+        default: "#0a9396",
       },
       backgroundColor: {
         type: String,
-        default: '#94d2bd'
+        default: "#94d2bd",
       },
       headerColor: {
         type: String,
-        default: '#e9d8a6'
+        default: "#e9d8a6",
       },
       footerColor: {
         type: String,
-        default: '#ee9b00'
+        default: "#ee9b00",
       },
       fontColor: {
         type: String,
-        default: '#ca6702'
+        default: "#ca6702",
       },
       buttonTextColor: {
         type: String,
-        default: '#bb3e03'
+        default: "#bb3e03",
       },
       linkColor: {
         type: String,
-        default: '#ae2012'
+        default: "#ae2012",
       },
       hoverEffectColor: {
         type: String,
-        default: '#9b2226'
-      }
+        default: "#9b2226",
+      },
     },
     logo: {
       url: {
         type: String,
-        default: '/images/logo.png'
+        default: "/images/logo.png",
       },
       altText: {
         type: String,
-        default: 'Company Logo'
-      }
-    }
+        default: "Company Logo",
+      },
+    },
   },
   updatedAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model('customizationSettings', CustomizationSettingsSchema);
+module.exports = mongoose.model(
+  "customizationSettings",
+  CustomizationSettingsSchema
+);
