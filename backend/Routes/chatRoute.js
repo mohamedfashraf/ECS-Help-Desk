@@ -1,11 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const chatController = require('../Controller/ChatController');
+const authorizationMiddleware = require("../Middleware/authorization"); //authorizationMiddleware(["user"])
 
-router.post('/', chatController.createChat);
 
-router.get('/:userId', chatController.findUserChats);
+router.post('/', authorizationMiddleware(["user", "agent", "admin"])
+    , chatController.createChat);
 
-router.get('/find/:userId/:agentId', chatController.findChat);
+router.get('/:userId', authorizationMiddleware(["user", "agent", "admin"])
+    , chatController.findUserChats);
+
+router.get('/find/:userId/:agentId', authorizationMiddleware(["user", "agent", "admin"])
+    , chatController.findChat);
 
 module.exports = router;
