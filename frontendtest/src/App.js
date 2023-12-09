@@ -1,8 +1,15 @@
-import SignupComponent from "./components/SignUp";
-import IntegratedMessaging from "./components/integratedMessaging";
+// App.js
 
-function App() {
-  // return <SignupComponent />;
-  return <IntegratedMessaging />;
-}
+import React from 'react';
+import ChatComponent from './components/ChatComponent';
+
+const App = () => {
+  return (
+    <div>
+      <h1>Socket.IO Chat App</h1>
+      <ChatComponent />
+    </div>
+  );
+};
+
 export default App;
