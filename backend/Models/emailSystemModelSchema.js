@@ -32,7 +32,7 @@ const emailSystemSchema = new Schema({
     },
     agentEmail: {
         type: String,
-        default: "agent@gmail.com",
+        default: "agent.se.project@gmail.com",
         required: true
     },
     messages: [MessageSchema]
