@@ -16,35 +16,17 @@ const supportAgentRoutes = require("./Routes/supportAgentRoute");
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
 const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
 const cors = require("cors");
-// const liveChatRoute = require("./Routes/liveChatRoute");
+
+const chatRoute = require("./Routes/chatRoute");
+const messageRoute = require("./Routes/messageRoute");
 
 const http = require('http');
-const socketIO = require('socket.io');
-const ChatController = require('./Controller/ChatController'); // Import ChatController
-
-// Set up a basic route to serve an HTML file
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
-// Create an HTTP server and attach Socket.IO to it
 const server = http.createServer(app);
-const io = socketIO(server);
-
-app.use(
-  cors({
-    origin: "http://localhost:3001", // Frontend URL
-    credentials: true,
-  })
-);
-
-// Initialize ChatController with the Socket.IO instance
-const chatController = new ChatController(io);
-
-// Handle WebSocket connections using ChatController
-io.on('connection', (socket) => {
-  chatController.onConnection(socket);
-});
+const corsOptions = {
+  origin: 'http://localhost:5173', // or your frontend's origin
+  credentials: true, // this will enable sending cookies from the frontend
+};
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(cookieParser());
@@ -70,6 +52,9 @@ app.use("/api/tickets", ticketsRoute);
 app.use("/api/users", userRoutes);
 app.use("/api/automatedWorkflows", automatedWorkflowsRoutes);
 // app.use("/api/liveChat", liveChatRoute);
+
+app.use("/api/chat", chatRoute);
+app.use("/api/message", messageRoute);
 
 // Set the port for the server
 const port = process.env.PORT || 3000;

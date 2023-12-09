@@ -1,8 +1,7 @@
-const SupportAgentModel = require("../Models/supportAgentModelSchema");
 const UserModel = require("../Models/usersModelSchema");
 const jwt = require("jsonwebtoken");
-const { DateTime } = require('luxon');
 const agentModel = require("../Models/supportAgentModelSchema");
+const validator = require("validator");
 
 const bcrypt = require("bcrypt");
 require("dotenv").config();
@@ -41,25 +40,24 @@ async function adminRegister(req, res) {
 async function register(req, res) {
   try {
     const { name, email, password } = req.body;
+
+    let userTest = await UserModel.findOne({ email });
+    if (userTest) {
+      return res
+        .status(400).json({ message: "email already exists.." });
+    }
     const role = "user";
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new UserModel({ name, role, email, password: hashedPassword });
-    await user.save();
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ message: "Must be vaild email.." });
+    }
 
-    const userResponse = user.toObject();
-    delete userResponse.password;
+    if (!validator.isStrongPassword(password)) {
+      return res.status(400).json({ message: "Must be strong password.." });
+      // a strong password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character
 
-    res.status(201).send(userResponse);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-}
-
-async function createUser(req, res) {
-  try {
-    const { name, role, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    }
 
     const user = new UserModel({ name, role, email, password: hashedPassword });
     await user.save();
@@ -160,8 +158,6 @@ async function deleteUser(req, res) {
     res.status(500).send(error.message);
   }
 }
-//
-//
 
 module.exports = {
   register,
