@@ -1,7 +1,9 @@
 const Ticket = require('../Models/ticektsModelSchema');
 const SupportAgent = require('../Models/supportAgentModelSchema'); 
 
-const ticketQueue = [];
+const highPriorityQueue = [];
+const mediumPriorityQueue = [];
+const lowPriorityQueue = [];
 
 async function createTicket(req, res) {
     try {
@@ -16,7 +18,7 @@ async function createTicket(req, res) {
             await assignTicketToAgent(assignedAgent, user_id, description, category, subCategory, priority, "Pending", resolutionDetails);
             status = "Pending";
         } else {
-            // No available agent, add the ticket to the queue
+            // No available agent, add the ticket to the appropriate priority queue
             const ticket = new Ticket({
                 user_id,
                 description,
@@ -27,7 +29,8 @@ async function createTicket(req, res) {
                 createdBy: user_id,
                 resolutionDetails,
             });
-            ticketQueue.push(ticket);
+
+            addToPriorityQueue(ticket);
             await ticket.save();
             status = "Open";
         }
@@ -52,6 +55,70 @@ async function createTicket(req, res) {
 }
 
 
+function addToPriorityQueue(ticket) {
+    switch (ticket.priority) {
+        case 'High':
+            highPriorityQueue.push(ticket);
+            break;
+        case 'Medium':
+            mediumPriorityQueue.push(ticket);
+            break;
+        case 'Low':
+            lowPriorityQueue.push(ticket);
+            break;
+    }
+    return {
+        highPriority: [...highPriorityQueue],
+        mediumPriority: [...mediumPriorityQueue],
+        lowPriority: [...lowPriorityQueue],
+    };
+
+}
+
+function removeFromPriorityQueue(ticket) {
+    switch (ticket.priority) {
+        case 'High':
+            removeFromQueue(ticket, highPriorityQueue);
+            break;
+        case 'Medium':
+            removeFromQueue(ticket, mediumPriorityQueue);
+            break;
+        case 'Low':
+            removeFromQueue(ticket, lowPriorityQueue);
+            break;
+    }
+}
+
+function removeFromQueue(ticket, queue) {
+    queue = queue.filter(queueTicket => queueTicket._id.toString() !== ticket._id.toString());
+}
+
+async function processTicketQueues() {
+    // Process each priority queue independently
+    await processTicketQueue(highPriorityQueue);
+    await processTicketQueue(mediumPriorityQueue);
+    await processTicketQueue(lowPriorityQueue);
+}
+
+async function processTicketQueue(queue) {
+    // Check if there are tickets in the queue and assign them to available agents
+    while (queue.length > 0) {
+        const nextTicket = queue.shift();
+        const nextAvailableAgent = await findAvailableSupportAgent(nextTicket.category, nextTicket.priority);
+
+        if (nextAvailableAgent) {
+            await assignTicketToAgent(nextAvailableAgent, nextTicket.user_id, nextTicket.description, nextTicket.category, nextTicket.subCategory, nextTicket.priority, nextTicket.status, nextTicket.resolutionDetails);
+        } else {
+            // If no available agent, add the ticket back to the queue
+            queue.unshift(nextTicket);
+            break; // Stop further processing, as we don't have any available agents
+        }
+    }
+}
+
+
+
+
 async function  assignTicketToAgent(agent, user_id, description, category, subCategory, priority, status, resolutionDetails) {
     const ticket = new Ticket({
         user_id,
@@ -69,34 +136,14 @@ async function  assignTicketToAgent(agent, user_id, description, category, subCa
     await agent.save();
     await ticket.save();
 
+     // Remove the ticket from the appropriate priority queue
+     removeFromPriorityQueue(ticket);
+
     // Check the ticket queue and assign tickets to available agents
-    await processTicketQueue();
+    await processTicketQueues();
 }
 
-async function processTicketQueue() {
-    // Check if there are tickets in the queue and assign them to available agents
-    while (ticketQueue.length > 0) {
-        const nextTicket = ticketQueue.shift();
-        const nextAvailableAgent = await findAvailableSupportAgent(nextTicket.category, nextTicket.priority);
 
-        if (nextAvailableAgent) {
-            await assignTicketToAgent(
-                nextAvailableAgent,
-                nextTicket.user_id,
-                nextTicket.description,
-                nextTicket.category,
-                nextTicket.subCategory,
-                nextTicket.priority,
-                nextTicket.status,
-                nextTicket.resolutionDetails
-            );
-        } else {
-            // If no available agent, add the ticket back to the queue
-            ticketQueue.push(nextTicket);
-            break; // Stop further processing, as we don't have any available agents
-        }
-    }
-}
 
 // The rest of your findAvailableSupportAgent function remains unchanged
 async function findAvailableSupportAgent(category, priority) {
@@ -203,7 +250,7 @@ async function updateTicket(req, res) {
             }
 
             // Check the ticket queue and assign tickets to available agents
-            await processTicketQueue();
+            await processTicketQueues();
         }
 
         res.status(200).json(ticket);
