@@ -28,12 +28,14 @@ const ChatController = require("./Controller/ChatController"); // Import ChatCon
 const server = http.createServer(app);
 const io = socketIO(server);
 
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+
 app.use(
   cors({
     origin: "http://localhost:3001", // Frontend URL
+    methods: ["GET", "POST", "DELETE", "PUT"],
     credentials: true,
   })
 );
@@ -43,9 +45,6 @@ const chatController = new ChatController(io);
 // Handle WebSocket connections using ChatController
 
 // Middleware
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
