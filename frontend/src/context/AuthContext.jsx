@@ -21,10 +21,13 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   useEffect(() => {
+    // Restore user and token from localStorage
     const storedUserData = localStorage.getItem("User");
-    if (storedUserData) {
+    const storedToken = localStorage.getItem("Token");
+    // console.log("storedToken", storedToken);
+    if (storedUserData && storedToken) {
       const parsedUserData = JSON.parse(storedUserData);
-      setUser(parsedUserData.user);
+      setUser(parsedUserData); // Ensure this matches the structure of your user data
     }
   }, []);
 
@@ -65,25 +68,42 @@ export const AuthContextProvider = ({ children }) => {
       setLoginLoading(true);
       setLoginError(null);
 
-      const response = await postRequest(
-        `${baseUrl}/v1/login`,
-        JSON.stringify(loginInfo)
-      );
+      try {
+        const response = await fetch(`${baseUrl}/v1/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginInfo),
+        });
 
-      setLoginLoading(false);
+        const responseData = await response.json();
 
-      if (response.error) {
-        setLoginError(response);
-      } else {
-        localStorage.setItem("User", JSON.stringify(response));
-        setUser(response.user);
+        setLoginLoading(false);
+
+        if (response.ok) {
+          console.log(
+            "Login successful, storing user and token in localStorage"
+          );
+          localStorage.setItem("User", JSON.stringify(responseData.user));
+          localStorage.setItem("Token", responseData.token);
+          setUser(responseData.user);
+        } else {
+          console.error("Login failed");
+          setLoginError("Login failed");
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+        setLoginError(error.message || "An error occurred during login");
       }
     },
     [loginInfo]
   );
 
   const logoutUser = useCallback(() => {
+    console.log("Logging out, clearing user and token from localStorage");
     localStorage.removeItem("User");
+    localStorage.removeItem("Token");
     setUser(null);
   }, []);
 

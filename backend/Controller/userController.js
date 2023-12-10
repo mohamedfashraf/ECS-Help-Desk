@@ -71,45 +71,51 @@ async function register(req, res) {
   }
 }
 
-
 async function login(req, res) {
   try {
     const { email, password } = req.body;
 
     const user = await UserModel.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "email not found" });
+      return res.status(404).json({ message: "Email not found" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(405).json({ message: "incorrect password" });
+      return res.status(401).json({ message: "Incorrect password" });
     }
 
-    const currentDateTime = new Date();
-    const expiresAt = new Date(currentDateTime.getTime() + 9e6);
-
-
+    // Create a token
     const token = jwt.sign(
-      { user: { userId: user._id, role: user.role, name: user.name, email: user.email } },
+      { userId: user._id, role: user.role, name: user.name, email: user.email },
       secretKey,
-      { expiresIn: "30m" }
+      { expiresIn: "30m" } // Token expires in 30 minutes
     );
 
-    return res
-      .cookie("token", token, {
-        expires: expiresAt,
-        httpOnly: false,
-        SameSite: "None",
-        secure: false,
-      })
-      .status(200)
-      .json({ message: "login successfully", user });
+    // Calculate expiration time for the cookie
+    const currentDateTime = new Date();
+    const expiresAt = new Date(currentDateTime.getTime() + 9e6); // 9e6 milliseconds = 2.5 hours
+
+    // Set token in a cookie
+    res.cookie("token", token, {
+      expires: expiresAt,
+      httpOnly: false, // Consider setting to true for security
+      sameSite: "None", // Adjust based on your requirements
+      secure: false, // Set to true if using HTTPS
+    });
+
+    // Include the token in the JSON response
+    return res.status(200).json({
+      message: "Login successfully",
+      user,
+      token, // Send the token here
+    });
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 }
+
 
 async function getAllUsers(req, res) {
   try {

@@ -13,9 +13,9 @@ const createChat = async (req, res) => {
             members: [userId, agentId]
         });
 
-        const respomse = await newChat.save();
+        const response = await newChat.save();
 
-        res.status(200).json({ chat: respomse });
+        res.status(200).json({ chat: response });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Server error", error: error.message });

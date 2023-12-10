@@ -23,15 +23,19 @@ export const postRequest = async (url, body) => {
     return data;
 };
 
-export const getRequest = async (url) => {
+export const getRequest = async (url, token) => {
     const response = await fetch(url, {
-        credentials: 'include', // This ensures cookies are sent with the request
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, // Include the token in the request headers
+        },
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-        let message = "an error occured...";
+        let message = "an error occurred...";
 
         if (data?.message) {
             message = data.message;
