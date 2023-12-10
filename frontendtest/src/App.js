@@ -2,12 +2,12 @@
 
 import React from 'react';
 import ChatComponent from './components/ChatComponent';
-
+import Login from './pages/Login';
+import SignUp from './pages/SignUp'
 const App = () => {
   return (
     <div>
-      <h1>Socket.IO Chat App</h1>
-      <ChatComponent />
+      <Login />
     </div>
   );
 };
