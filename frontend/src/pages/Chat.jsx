@@ -25,7 +25,7 @@ const Chat = () => {
             {isUserChatsLoading && <p>Loading Chats...</p>}
             {userChats?.map((chat, index) => {
               return (
-                <div key={index} onClick={() => updateCurrentChat(chat)}>
+                <div key={index} onClick={async () => updateCurrentChat(chat)}>
                   <UserChat chat={chat} user={user} />
                 </div>
               );

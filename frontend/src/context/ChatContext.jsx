@@ -15,6 +15,8 @@ export const ChatContextProvider = ({ children, user }) => {
   const [messages, setMessages] = useState([]);
   const [isMessagesLoading, setIsMessagesLoading] = useState(false);
   const [messagesError, setMessagesError] = useState(null);
+  const [sendTextMessageError, setSendTextMessageError] = useState(null);
+  const [newMessage, setNewMessage] = useState(null);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -86,8 +88,20 @@ export const ChatContextProvider = ({ children, user }) => {
       }
     };
 
+    // Call getUserChats
     getUserChats();
-  }, [user]);
+
+    // Check if there's a new message and update messages state
+    if (newMessage && newMessage.chatId) {
+      // Fetch the latest messages for the current chat
+      const updatedMessages = getRequest(
+        `${baseUrl}/message/${newMessage.chatId}`
+      );
+
+      // Update the messages state with the latest messages
+      setMessages(updatedMessages.messages || []);
+    }
+  }, [user, newMessage]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -119,6 +133,43 @@ export const ChatContextProvider = ({ children, user }) => {
 
     getMessages();
   }, [currentChat]);
+
+  const sendTextMessage = useCallback(
+    async (textMessage, sender, currentChatId, setTextMessage) => {
+      try {
+        if (!textMessage) {
+          return console.log("You must type something...");
+        }
+
+        const response = await postRequest(
+          `${baseUrl}/message`,
+          JSON.stringify({
+            text: textMessage,
+            senderId: sender,
+            chatId: currentChatId,
+          })
+        );
+
+        if (response.error) {
+          setSendTextMessageError(response);
+        }
+
+        setNewMessage(response);
+
+        // Update messages by fetching the latest messages after sending a new message
+        const updatedMessages = await getRequest(
+          `${baseUrl}/message/${currentChatId}`
+        );
+
+        setMessages(updatedMessages.messages || []);
+
+        setTextMessage("");
+      } catch (error) {
+        console.error("Error sending text message:", error);
+      }
+    },
+    []
+  );
 
   const updateCurrentChat = useCallback((chat) => {
     setCurrentChat(chat);
@@ -159,6 +210,7 @@ export const ChatContextProvider = ({ children, user }) => {
         isMessagesLoading,
         messagesError,
         currentChat,
+        sendTextMessage,
       }}
     >
       {children}
