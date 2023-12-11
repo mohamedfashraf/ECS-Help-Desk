@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./styles/regframe.css"; // Ensure the correct path is used
-import facebookIcon from "../svgs/facebook.svg"; // Update with actual path
-import googleIcon from "../svgs/google.svg"; // Update with actual path
-import githubIcon from "../svgs/github.svg"; // Update with actual path
+import { useNavigate } from "react-router-dom"; // Change the import to useNavigate
+import "./styles/regframe.css";
+import facebookIcon from "../svgs/facebook.svg";
+import googleIcon from "../svgs/google.svg";
+import githubIcon from "../svgs/github.svg";
 
 export function SignInFrame() {
-  //connectopn for front and back(make it after frontend)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // Use the useNavigate hook instead of useHistory
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
-
-  const [successMsg, setSuccessMsg] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +28,11 @@ export function SignInFrame() {
         email,
         password,
       });
-      setSuccessMsg("Login successful! Please login.");
+      
+      setSuccessMsg("Login successful!");
+      
+      // Use navigate() to redirect to the security settings page
+      navigate("/security-settings");
     } catch (error) {
       if (error.response) {
         setErrorMsg(
@@ -40,11 +46,11 @@ export function SignInFrame() {
     }
   };
 
-  //end of connection
   return (
+    //end of connection
     <div className="frame-style pt-10">
       <div className="p-10">
-        <h2 className="form-title text-left animate-fade-down">Signup</h2>
+        <h2 className="form-title text-left animate-fade-down">Login</h2>
         <p className="form-subtitle text-left">Glad you’re back.! </p>
 
         <form className="input-form" onSubmit={handleSubmit}>
