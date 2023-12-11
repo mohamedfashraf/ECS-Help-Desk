@@ -4,14 +4,21 @@ const agentModel = require("../Models/supportAgentModelSchema");
 const validator = require("validator");
 const mongoose = require('mongoose');
 
+
+const { DateTime } = require("luxon");
+const otplib = require("otplib");
+const { authenticator } = otplib;
 const bcrypt = require("bcrypt");
+const qrcode = require("qrcode");
+
 require("dotenv").config();
 
 const secretKey = "s1234rf,.lp";
 
 async function adminRegister(req, res) {
   try {
-    const { name, email, role, password, specialization, assignedTickets } = req.body;
+    const { name, email, role, password, specialization, assignedTickets } =
+      req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const userRole = req.user.role;
     const newId = new mongoose.Types.ObjectId();
@@ -20,6 +27,7 @@ async function adminRegister(req, res) {
       const agent = new agentModel({ _id: newId, name, email, role, password: hashedPassword, specialization, assignedTickets });
       await agent.save();
       const user = new UserModel({ _id: newId, name, role, email, password: hashedPassword });
+
       await user.save();
 
       const agentResponse = agent.toObject();
@@ -28,7 +36,12 @@ async function adminRegister(req, res) {
       delete userResponse.password;
       res.status(201).send(agentResponse);
     } else {
-      const user = new UserModel({ name, role, email, password: hashedPassword });
+      const user = new UserModel({
+        name,
+        role,
+        email,
+        password: hashedPassword,
+      });
       await user.save();
 
       const userResponse = user.toObject();
@@ -76,7 +89,7 @@ async function register(req, res) {
 
 async function login(req, res) {
   try {
-    const { email, password } = req.body;
+    const { email, password, userEnteredToken } = req.body;
 
     const user = await UserModel.findOne({ email });
     if (!user) {
@@ -91,6 +104,7 @@ async function login(req, res) {
     // Create a token
     const token = jwt.sign(
       { userId: user._id, role: user.role, name: user.name, email: user.email },
+
       secretKey,
       { expiresIn: "30m" } // Token expires in 30 minutes
     );
@@ -113,10 +127,23 @@ async function login(req, res) {
       user,
       token, // Send the token here
     });
+
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
+}
+async function isValid2FA(user, token) {
+  if (user.twoFactorAuthEnabled) {
+    const isValid = authenticator.verify({
+      secret: user.twoFactorAuthSecret,
+      token,
+    });
+
+    return isValid;
+  }
+
+  return true; // 2FA is not enabled, no need to validate
 }
 
 
@@ -168,6 +195,50 @@ async function deleteUser(req, res) {
   }
 }
 
+async function enable2FA(req, res) {
+  try {
+    const { userId } = req.user;
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user.twoFactorAuthEnabled) {
+      return res
+        .status(400)
+        .json({ message: "2FA is already enabled for this user" });
+    }
+
+    // Generate a new 2FA secret for the user
+    const secret = authenticator.generateSecret();
+    const otpauthURL = authenticator.keyuri(user.email, "YourAppName", secret);
+
+    // Generate QR code for the OTP auth URL
+    const qrCodeURL = await generateQRCode(otpauthURL);
+
+    // Update the user with the 2FA secret and mark it as enabled
+    user.twoFactorAuthSecret = secret;
+    user.twoFactorAuthEnabled = true;
+    await user.save();
+
+    // Return the OTP auth URL and QR code URL to the client
+    res.status(200).json({ otpauthURL, qrCodeURL });
+  } catch (error) {
+    console.error("Error enabling 2FA:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+async function generateQRCode(data) {
+  try {
+    const qrCode = await qrcode.toDataURL(data);
+    return qrCode;
+  } catch (error) {
+    throw new Error("Error generating QR code");
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -175,5 +246,6 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
-  adminRegister
+  adminRegister,
+  enable2FA,
 };
