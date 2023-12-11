@@ -7,8 +7,8 @@ export const useFetchRecipientUser = (chat, user) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log("Chat in useFetchRecipientUser:", chat);
-        console.log("User in useFetchRecipientUser:", user);
+        // console.log("Chat in useFetchRecipientUser:", chat);
+        // console.log("User in useFetchRecipientUser:", user);
 
         if (!chat || !chat.members || !user?._id) {
             setLoading(false);
@@ -17,7 +17,7 @@ export const useFetchRecipientUser = (chat, user) => {
 
         const recipientId = chat.members.find((id) => id !== user._id);
 
-        console.log("TOP G", recipientId);
+        // console.log("TOP G", recipientId);
 
         if (!recipientId) {
             setLoading(false);
@@ -27,7 +27,7 @@ export const useFetchRecipientUser = (chat, user) => {
         async function getUser() {
             try {
                 const response = await getRequest(`${baseUrl}/users/${recipientId}`);
-                console.log("Recipient User - Users response:", response);
+                // console.log("Recipient User - Users response:", response);
 
                 if (response.error) {
                     setError(response.error);
