@@ -1,8 +1,11 @@
-const SupportAgentModel = require("../Models/supportAgentModelSchema");
 const UserModel = require("../Models/usersModelSchema");
 const jwt = require("jsonwebtoken");
-const { DateTime } = require("luxon");
 const agentModel = require("../Models/supportAgentModelSchema");
+const validator = require("validator");
+const mongoose = require('mongoose');
+
+
+const { DateTime } = require("luxon");
 const otplib = require("otplib");
 const { authenticator } = otplib;
 const bcrypt = require("bcrypt");
@@ -17,23 +20,14 @@ async function adminRegister(req, res) {
     const { name, email, role, password, specialization, assignedTickets } =
       req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
+    const userRole = req.user.role;
+    const newId = new mongoose.Types.ObjectId();
 
     if (role == "agent") {
-      const agent = new agentModel({
-        name,
-        email,
-        role,
-        password: hashedPassword,
-        specialization,
-        assignedTickets,
-      });
+      const agent = new agentModel({ _id: newId, name, email, role, password: hashedPassword, specialization, assignedTickets });
       await agent.save();
-      const user = new UserModel({
-        name,
-        role,
-        email,
-        password: hashedPassword,
-      });
+      const user = new UserModel({ _id: newId, name, role, email, password: hashedPassword });
+
       await user.save();
 
       const agentResponse = agent.toObject();
@@ -62,25 +56,24 @@ async function adminRegister(req, res) {
 async function register(req, res) {
   try {
     const { name, email, password } = req.body;
+
+    let userTest = await UserModel.findOne({ email });
+    if (userTest) {
+      return res
+        .status(400).json({ message: "email already exists.." });
+    }
     const role = "user";
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new UserModel({ name, role, email, password: hashedPassword });
-    await user.save();
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ message: "Must be valid email.." });
+    }
 
-    const userResponse = user.toObject();
-    delete userResponse.password;
+    if (!validator.isStrongPassword(password)) {
+      return res.status(400).json({ message: "Must be strong password.." });
+      // a strong password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character
 
-    res.status(201).send(userResponse);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-}
-
-async function createUser(req, res) {
-  try {
-    const { name, role, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    }
 
     const user = new UserModel({ name, role, email, password: hashedPassword });
     await user.save();
@@ -105,38 +98,36 @@ async function login(req, res) {
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(405).json({ message: "Incorrect password" });
+      return res.status(401).json({ message: "Incorrect password" });
     }
 
-    const is2FAValid = await isValid2FA(user, userEnteredToken);
-    if (!is2FAValid) {
-      return res.status(401).json({ message: "Invalid 2FA token" });
-    }
-    const currentDateTime = new Date();
-    const expiresAt = new Date(currentDateTime.getTime() + 9e6);
-
+    // Create a token
     const token = jwt.sign(
-      {
-        user: {
-          userId: user._id,
-          role: user.role,
-          name: user.name,
-          email: user.email,
-        },
-      },
+      { userId: user._id, role: user.role, name: user.name, email: user.email },
+
       secretKey,
-      { expiresIn: "30m" }
+      { expiresIn: "30m" } // Token expires in 30 minutes
     );
 
-    return res
-      .cookie("token", token, {
-        expires: expiresAt,
-        httpOnly: false,
-        SameSite: "None",
-        secure: false,
-      })
-      .status(200)
-      .json({ message: "Login successful", user });
+    // Calculate expiration time for the cookie
+    const currentDateTime = new Date();
+    const expiresAt = new Date(currentDateTime.getTime() + 9e6); // 9e6 milliseconds = 2.5 hours
+
+    // Set token in a cookie
+    res.cookie("token", token, {
+      expires: expiresAt,
+      httpOnly: false, // Consider setting to true for security
+      sameSite: "None", // Adjust based on your requirements
+      secure: false, // Set to true if using HTTPS
+    });
+
+    // Include the token in the JSON response
+    return res.status(200).json({
+      message: "Login successfully",
+      user,
+      token, // Send the token here
+    });
+
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ message: "Server error", error: error.message });
@@ -154,6 +145,7 @@ async function isValid2FA(user, token) {
 
   return true; // 2FA is not enabled, no need to validate
 }
+
 
 async function getAllUsers(req, res) {
   try {
@@ -202,8 +194,6 @@ async function deleteUser(req, res) {
     res.status(500).send(error.message);
   }
 }
-//
-//
 
 async function enable2FA(req, res) {
   try {

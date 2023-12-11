@@ -1,3 +1,4 @@
+
 // App.js
 
 import React from 'react';
@@ -6,6 +7,8 @@ import ChatComponent from './components/ChatComponent';
 import Login from './pages/Login';
 import SecuritySettings from './pages/securitySettings';
 import SignUp from './pages/SignUp';
+import { ChatContextProvider } from "./context/ChatContext";
+
 
 const App = () => {
   return (

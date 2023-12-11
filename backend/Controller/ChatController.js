@@ -1,42 +1,76 @@
-const ChatMessage = require("../Models/liveChatSchema");
+const chatModel = require('../models/ChatModelSchema');
 
-class ChatController {
-  constructor(io) {
-    this.io = io;
-  }
+const createChat = async (req, res) => {
+    const { firstId, secondId } = req.body;
 
-  onConnection(socket) {
-    console.log("A user connected");
-
-    socket.on("chat message", (data) => this.onChatMessage(socket, data));
-    socket.on("disconnect", () => this.onDisconnect());
-  }
-
-  async onChatMessage(socket, data) {
-    console.log("Message received:", data);
+    // Validate required parameters
+    if (!firstId || !secondId) {
+        return res.status(400).json({ message: 'Missing required parameters' });
+    }
 
     try {
-      const { senderId, agentId, message } = data;
+        const chat = await chatModel.findOne({
+            members: { $all: [firstId, secondId] },
+        });
 
-      // Save the message to the database
-      const chatMessage = new ChatMessage({
-        senderId,
-        agentId,
-        message,
-      });
+        if (chat) {
+            return res.status(200).json({ chat });
+        }
 
-      await chatMessage.save();
+        const newChat = new chatModel({
+            members: [firstId, secondId],
+        });
 
-      // Broadcast the message to all connected sockets
-      this.io.emit("chat message", chatMessage);
+        const response = await newChat.save();
+
+        res.status(200).json({ chat: response });
     } catch (error) {
-      console.error("Error saving message to the database:", error);
+        console.error(error);
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
-  }
+};
 
-  onDisconnect() {
-    console.log("User disconnected");
-  }
-}
+const findUserChats = async (req, res) => {
+    const { userId } = req.params;
 
-module.exports = ChatController;
+    // Validate required parameter
+    if (!userId) {
+        return res.status(400).json({ message: 'Missing required parameter: userId' });
+    }
+
+    try {
+        const chats = await chatModel.find({
+            members: { $in: [userId] },
+        });
+        res.status(200).json({ chats });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+const findChat = async (req, res) => {
+    const { firstId, secondId } = req.params;
+
+    // Validate required parameters
+    if (!firstId || !secondId) {
+        return res.status(400).json({ message: 'Missing required parameters' });
+    }
+
+    try {
+        const chat = await chatModel.findOne({
+            members: { $all: [firstId, secondId] },
+        });
+        res.status(200).json(chat);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+
+module.exports = {
+    createChat,
+    findUserChats,
+    findChat,
+};

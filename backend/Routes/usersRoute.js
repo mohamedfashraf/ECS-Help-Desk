@@ -5,11 +5,9 @@ const authorizationMiddleware = require("../Middleware/authorization");
 
 router.get("/", authorizationMiddleware(["admin"]), UserController.getAllUsers);
 
-router.get(
-  "/:id",
-  authorizationMiddleware(["admin"]),
-  UserController.getUserById
-);
+router.get("/:id", authorizationMiddleware(["user", "agent", "admin"])
+    , UserController.getUserById);
+
 
 router.put(
   "/:id",
@@ -24,5 +22,8 @@ router.delete(
 );
 
 router.post("/enable2fa", UserController.enable2FA);
+
+router.post("/admin-register", authorizationMiddleware(["admin"])
+    , UserController.adminRegister);
 
 module.exports = router;

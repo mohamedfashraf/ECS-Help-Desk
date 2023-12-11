@@ -3,17 +3,14 @@ const router = express.Router();
 const chatMessageController = require('../Controller/EmailSystemController');
 const authorizationMiddleware = require("../Middleware/authorization");
 
-router.get('/receiveMessage', authorizationMiddleware(["user", "agent", "admin"])
-    , chatMessageController.receiveMessage);
-
 router.post('/', authorizationMiddleware(["user", "agent", "admin"])
     , chatMessageController.createEmail);
 
-router.get('/', authorizationMiddleware(["agent", "admin"])
-    , chatMessageController.getAllConversations);
+router.get('/inbox', authorizationMiddleware(["user", "agent", "admin"])
+    , chatMessageController.getUserEmails);
 
 router.get('/:id', authorizationMiddleware(["user", "agent", "admin"])
-    , chatMessageController.getConversationById);
+    , chatMessageController.getEmailById);
 
 router.post('/reply', authorizationMiddleware(["user", "agent", "admin"])
     , chatMessageController.replyMessages);
