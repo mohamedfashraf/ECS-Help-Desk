@@ -1,46 +1,55 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
+import { baseUrl, getRequest, postRequest } from "../utils/services";
 
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children, user }) => {
-  const [userChats, setUserChats] = useState(null);
+  const [userChats, setUserChats] = useState([]);
   const [isUserChatsLoading, setIsUserChatsLoading] = useState(false);
   const [userChatError, setUserChatError] = useState(null);
+  const [createChatError, setCreateChatError] = useState(null);
+  const [potentialChats, setPotentialChats] = useState([]);
 
-  const baseUrl = "http://localhost:3000/api"; // Replace with your actual base URL
+  useEffect(() => {
+    const getUsers = async () => {
+      setIsUserChatsLoading(true);
+      try {
+        const response = await getRequest(`${baseUrl}/support-agents`);
+        if (response.error) {
+          console.error("Error fetching support agents", response.error);
+          setUserChatError(response.error);
+        } else {
+          const pChats = response.filter((u) => {
+            let isChatCreated = false;
 
-  // Local getRequest function
-  const getRequest = async (url) => {
-    // Retrieve the token and user from localStorage
-    const token = localStorage.getItem("Token");
-    const user = JSON.parse(localStorage.getItem("User")); // Parse the JSON string
+            if (user._id === u._id) {
+              return false;
+            }
 
-    console.log("User for request:", user);
-    console.log("User role:", user.role);
-    console.log("Token for request:", token);
+            if (userChats) {
+              isChatCreated = userChats.some((chat) => {
+                return chat.members.includes(u._id);
+              });
+            }
 
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the request headers
-        },
-        // Include 'credentials: "include"' only if you're using cookies for the token
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.error("Failed response:", data);
-        throw new Error(data.message || "Failed to fetch user chats");
+            return !isChatCreated;
+          });
+          setPotentialChats(pChats);
+        }
+      } catch (error) {
+        console.error("Error fetching support agents:", error);
+        setUserChatError(
+          error.message || "An error occurred while fetching support agents"
+        );
+      } finally {
+        setIsUserChatsLoading(false);
       }
+    };
 
-      return data;
-    } catch (error) {
-      console.error("Error fetching user chats:", error);
-      throw error;
+    if (user && user._id) {
+      getUsers();
     }
-  };
+  }, [user, userChats]);
 
   useEffect(() => {
     const getUserChats = async () => {
@@ -50,8 +59,11 @@ export const ChatContextProvider = ({ children, user }) => {
 
         try {
           const response = await getRequest(`${baseUrl}/chat/${user._id}`);
-          setUserChats(response);
-          console.log("User chats fetched successfully:", response);
+          if (response.error) {
+            setUserChatError(response.error);
+          } else {
+            setUserChats(response.chats || []);
+          }
         } catch (error) {
           console.error("Error during fetching user chats:", error);
           setUserChatError(
@@ -66,12 +78,35 @@ export const ChatContextProvider = ({ children, user }) => {
     getUserChats();
   }, [user]);
 
+  const createChat = useCallback(async (userId, agentId) => {
+    try {
+      const response = await postRequest(
+        `${baseUrl}/chat`,
+        JSON.stringify({ userId, agentId })
+      );
+
+      if (response.error) {
+        console.error("Error creating chat:", response);
+        setCreateChatError(response.message || "Error creating chat");
+        return;
+      }
+
+      setUserChats((prev) => [...prev, response]);
+    } catch (error) {
+      console.error("Error creating chat:", error);
+      setCreateChatError(error.message);
+    }
+  }, []);
+
   return (
     <ChatContext.Provider
       value={{
         userChats,
         isUserChatsLoading,
         userChatError,
+        createChatError,
+        potentialChats,
+        createChat,
       }}
     >
       {children}

@@ -12,7 +12,7 @@ async function adminRegister(req, res) {
   try {
     const { name, email, role, password, specialization, assignedTickets } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    const userRole = req.user.role;
     if (role == "agent") {
       const agent = new agentModel({ name, email, role, password: hashedPassword, specialization, assignedTickets });
       await agent.save();

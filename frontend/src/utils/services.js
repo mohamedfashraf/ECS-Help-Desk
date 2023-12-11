@@ -1,9 +1,12 @@
 export const baseUrl = "http://localhost:3000/api";
 
 export const postRequest = async (url, body) => {
+    const token = localStorage.getItem("Token");
+    const user = JSON.parse(localStorage.getItem("User"));
+
     const response = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`, },
         body,
     });
 
@@ -23,25 +26,32 @@ export const postRequest = async (url, body) => {
     return data;
 };
 
-export const getRequest = async (url, token) => {
-    const response = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`, // Include the token in the request headers
-        },
-    });
+export const getRequest = async (url) => {
+    const token = localStorage.getItem("Token");
 
-    const data = await response.json();
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-    if (!response.ok) {
-        let message = "an error occurred...";
-
-        if (data?.message) {
-            message = data.message;
+        if (!response.ok) {
+            // Handle non-2xx status codes
+            const errorText = await response.text();
+            throw new Error(errorText || "Failed to fetch data");
         }
-        return { error: true, message };
-    }
 
-    return data;
+        // Check if the response has content
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new Error("Invalid response format");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+    }
 };
