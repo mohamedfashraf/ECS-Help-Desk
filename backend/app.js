@@ -1,12 +1,17 @@
 // Import required packages and modules
 require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const userRoutes = require("./Routes/usersRoute");
 const cookieParser = require("cookie-parser");
-const auth = require("./Routes/auth");
+const cors = require("cors");
+const http = require('http');
+
+// Import routes and middleware
+const authRoutes = require("./Routes/auth");
 const authenticationMiddleware = require("./Middleware/authentication");
+const userRoutes = require("./Routes/usersRoute");
 const ticketsRoute = require("./Routes/ticketsRoute");
 const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
 const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
@@ -14,37 +19,25 @@ const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
 const supportAgentRoutes = require("./Routes/supportAgentRoute");
 const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
 const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
-const cors = require("cors");
+const chatRoute = require("./Routes/chatRoute");
+const messageRoute = require("./Routes/messageRoute");
 
-// const liveChatRoute = require("./Routes/liveChatRoute");
-
-const http = require("http");
-const socketIO = require("socket.io");
-const ChatController = require("./Controller/ChatController"); // Import ChatController
-
-// Set up a basic route to serve an HTML file
-
-// Create an HTTP server and attach Socket.IO to it
+// Initialize Express app and HTTP server
+const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
 
+// Set CORS options
+const corsOptions = {
+  origin: 'http://localhost:5173', // Replace with your frontend's origin
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
+// Middleware setup
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
-app.use(
-  cors({
-    origin: "http://localhost:3001", // Frontend URL
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    credentials: true,
-  })
-);
-// Initialize ChatController with the Socket.IO instance
-const chatController = new ChatController(io);
-
-// Handle WebSocket connections using ChatController
-
-// Middleware
 
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
@@ -53,22 +46,24 @@ mongoose
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
-// Set up a basic route to serve an HTML file
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-// routes
-app.use("/api/v1", auth);
-app.use(authenticationMiddleware);
-app.use("/api/customizationSettings", customizationSettingsRoute);
-app.use("/api/security-settings", securitySettingsRoutes);
-app.use("/api/knowledgeBase", knowledgeBaseRoutes);
-app.use("/api/reports", reportsAndAnalyticsRoutes);
-app.use("/api/support-agents", supportAgentRoutes);
-app.use("/api/tickets", ticketsRoute);
-app.use("/api/users", userRoutes);
-app.use("/api/automatedWorkflows", automatedWorkflowsRoutes);
-// app.use("/api/liveChat", liveChatRoute);
+// Public routes
+app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
+
+// Protected routes with authentication middleware
+app.use("/api/customizationSettings", authenticationMiddleware, customizationSettingsRoute);
+app.use("/api/emails", authenticationMiddleware, emailSystemRoutes);
+app.use("/api/security-settings", authenticationMiddleware, securitySettingsRoutes);
+app.use("/api/knowledgeBase", authenticationMiddleware, knowledgeBaseRoutes);
+app.use("/api/reports", authenticationMiddleware, reportsAndAnalyticsRoutes);
+app.use("/api/support-agents", authenticationMiddleware, supportAgentRoutes);
+app.use("/api/tickets", authenticationMiddleware, ticketsRoute);
+app.use("/api/users", authenticationMiddleware, userRoutes);
+app.use("/api/automatedWorkflows", authenticationMiddleware, automatedWorkflowsRoutes);
+
+// Chat and message routes (assuming these need authentication)
+app.use("/api/chat", authenticationMiddleware, chatRoute);
+app.use("/api/message", authenticationMiddleware, messageRoute);
+
 
 io.on("connection", (socket) => {
   chatController.onConnection(socket);
