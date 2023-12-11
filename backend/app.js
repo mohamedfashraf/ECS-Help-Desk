@@ -1,6 +1,8 @@
 // Import required packages and modules
 require("dotenv").config();
-const express = require('express');
+
+const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -11,7 +13,6 @@ const authRoutes = require("./Routes/auth");
 const authenticationMiddleware = require("./Middleware/authentication");
 const userRoutes = require("./Routes/usersRoute");
 const ticketsRoute = require("./Routes/ticketsRoute");
-const emailSystemRoutes = require("./Routes/emailSytsemRoute");
 const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
 const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
 const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
@@ -37,11 +38,13 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
-mongoose.connect(mongoURI)
+mongoose
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB..."))
-  .catch(err => console.error("Could not connect to MongoDB...", err));
+  .catch((err) => console.error("Could not connect to MongoDB...", err));
 
 // Public routes
 app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
@@ -61,6 +64,10 @@ app.use("/api/automatedWorkflows", authenticationMiddleware, automatedWorkflowsR
 app.use("/api/chat", authenticationMiddleware, chatRoute);
 app.use("/api/message", authenticationMiddleware, messageRoute);
 
+
+io.on("connection", (socket) => {
+  chatController.onConnection(socket);
+});
 // Set the port for the server
 const port = process.env.PORT || 3000;
 
