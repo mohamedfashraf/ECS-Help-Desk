@@ -4,22 +4,48 @@ import { baseUrl, getRequest } from "../utils/services";
 export const useFetchRecipientUser = (chat, user) => {
     const [recipientUser, setRecipient] = useState(null);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    const recipientId = chat?.members.find((id) => id !== user?._id);
-    console.log("recipientId", recipientId);
     useEffect(() => {
-        const getUser = async () => {
-            if (!recipientId) { return null };
+        console.log("Chat in useFetchRecipientUser:", chat);
+        console.log("User in useFetchRecipientUser:", user);
 
-            const response = await getRequest(`${baseUrl}/users/${recipientId}`);
+        if (!chat || !chat.members || !user?._id) {
+            setLoading(false);
+            return;
+        }
 
-            if (response.error) {
-                return setError(error);
-            };
+        const recipientId = chat.members.find((id) => id !== user._id);
 
-            setRecipient(response);
-        };
+        console.log("TOP G", recipientId);
+
+        if (!recipientId) {
+            setLoading(false);
+            return;
+        }
+
+        async function getUser() {
+            try {
+                const response = await getRequest(`${baseUrl}/users/${recipientId}`);
+                console.log("Recipient User - Users response:", response);
+
+                if (response.error) {
+                    setError(response.error);
+                } else {
+                    // Create a copy of the response to avoid potential reference issues
+                    const recipientUserCopy = { ...response };
+                    setRecipient(recipientUserCopy);
+                }
+            } catch (error) {
+                setError("An error occurred while fetching the recipient user");
+            } finally {
+                setLoading(false);
+            }
+        }
+
         getUser();
-    }, []);
-    return { recipientUser };
+    }, [chat, user]);
+
+    return { recipientUser, loading, error };
+
 };

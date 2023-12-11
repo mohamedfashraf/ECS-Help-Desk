@@ -2,6 +2,7 @@ const UserModel = require("../Models/usersModelSchema");
 const jwt = require("jsonwebtoken");
 const agentModel = require("../Models/supportAgentModelSchema");
 const validator = require("validator");
+const mongoose = require('mongoose');
 
 const bcrypt = require("bcrypt");
 require("dotenv").config();
@@ -13,10 +14,12 @@ async function adminRegister(req, res) {
     const { name, email, role, password, specialization, assignedTickets } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const userRole = req.user.role;
+    const newId = new mongoose.Types.ObjectId();
+
     if (role == "agent") {
-      const agent = new agentModel({ name, email, role, password: hashedPassword, specialization, assignedTickets });
+      const agent = new agentModel({ _id: newId, name, email, role, password: hashedPassword, specialization, assignedTickets });
       await agent.save();
-      const user = new UserModel({ name, role, email, password: hashedPassword });
+      const user = new UserModel({ _id: newId, name, role, email, password: hashedPassword });
       await user.save();
 
       const agentResponse = agent.toObject();
@@ -50,7 +53,7 @@ async function register(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     if (!validator.isEmail(email)) {
-      return res.status(400).json({ message: "Must be vaild email.." });
+      return res.status(400).json({ message: "Must be valid email.." });
     }
 
     if (!validator.isStrongPassword(password)) {
