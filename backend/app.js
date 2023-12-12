@@ -7,10 +7,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
-const socketIO = require("socket.io");
 
-const server = http.createServer(app);
-const io = socketIO(server);
 // Import routes and middleware
 const authRoutes = require("./Routes/auth");
 const authenticationMiddleware = require("./Middleware/authentication");
@@ -24,8 +21,11 @@ const customizationSettingsRoute = require("./Routes/customizationSettingsRoute"
 const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
 const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
-const emailSystemRoutes = require("./Routes/emailSytsemRoute");
+const emailSystemRoutes = require("./Routes/emailSystemRoute");
+
+
 // Initialize Express app and HTTP server
+
 
 // Set CORS options
 const corsOptions = {
@@ -77,9 +77,7 @@ app.use(
 app.use("/api/chat", authenticationMiddleware, chatRoute);
 app.use("/api/message", authenticationMiddleware, messageRoute);
 
-io.on("connection", (socket) => {
-  chatController.onConnection(socket);
-});
+
 // Set the port for the server
 const port = process.env.PORT || 3000;
 
