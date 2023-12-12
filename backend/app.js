@@ -1,12 +1,33 @@
 // Import required packages and modules
 require("dotenv").config();
-
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const http = require('http');
+const http = require("http");
+
+// Initialize Express app
+const app = express();
+
+// Set CORS options
+const corsOptions = {
+  origin: "http://localhost:3001", // Replace with your frontend's origin
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
+// Middleware setup
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// MongoDB Connection
+const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
+mongoose
+  .connect(mongoURI)
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch((err) => console.error("Could not connect to MongoDB...", err));
+
 
 // Import routes and middleware
 const authRoutes = require("./Routes/auth");
@@ -23,29 +44,6 @@ const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
 const emailSystemRoutes = require("./Routes/emailSystemRoute");
 
-// Initialize Express app and HTTP server
-const server = http.createServer(app);
-
-// Set CORS options
-const corsOptions = {
-  origin: 'http://localhost:5173', // Replace with your frontend's origin
-  credentials: true,
-};
-app.use(cors(corsOptions));
-
-// Middleware setup
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-
-// MongoDB Connection
-const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
-mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB..."))
-  .catch((err) => console.error("Could not connect to MongoDB...", err));
-
 // Public routes
 app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
 
@@ -60,12 +58,12 @@ app.use("/api/tickets", authenticationMiddleware, ticketsRoute);
 app.use("/api/users", authenticationMiddleware, userRoutes);
 app.use("/api/automatedWorkflows", authenticationMiddleware, automatedWorkflowsRoutes);
 
-
 // Chat and message routes (assuming these need authentication)
 app.use("/api/chat", authenticationMiddleware, chatRoute);
 app.use("/api/message", authenticationMiddleware, messageRoute);
 
-
+// Create an HTTP server using the Express app
+const server = http.createServer(app);
 
 // Set the port for the server
 const port = process.env.PORT || 3000;
