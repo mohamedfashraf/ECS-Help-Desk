@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const userModelSchema = require("..Models/usersModelSchema");
 
 const userSessionSchema = new mongoose.Schema({
   userId: {
@@ -9,7 +8,7 @@ const userSessionSchema = new mongoose.Schema({
   },
   token: {
     type: String,
-    requied: true,
+    required: true,
   },
   createdAt: {
     type: Date,

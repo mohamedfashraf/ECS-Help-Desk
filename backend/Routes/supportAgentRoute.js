@@ -6,7 +6,7 @@ const authorizationMiddleware = require("../Middleware/authorization"); //author
 router.post('/', authorizationMiddleware(["admin"])
     , supportAgentController.createSupportAgent);
 
-router.get('/', authorizationMiddleware(["admin"])
+router.get('/', authorizationMiddleware(["user", "admin"])
     , supportAgentController.getAllSupportAgents);
 
 router.get('/:id', authorizationMiddleware(["admin"])

@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Emails = require('../Models/emailSystemModelSchema');
 const nodemailer = require('nodemailer');
 
@@ -75,10 +74,11 @@ async function createEmail(req, res) {
     }
 }
 
-// Get all conversations "works"
-async function getAllConversations(req, res) {
+// Get all user emails "works"
+async function getUserEmails(req, res) {
     try {
-        const conversations = await Emails.find({});
+        const userEmail = req.user.email;
+        const conversations = await Emails.find({ userEmail: userEmail });
         console.log('Retrieved Conversations:', conversations);
         res.status(200).json(conversations);
     } catch (error) {
@@ -86,8 +86,8 @@ async function getAllConversations(req, res) {
     }
 }
 
-// Get a specific conversation by ID "works"
-async function getConversationById(req, res) {
+// Get a specific email by ID "works"
+async function getEmailById(req, res) {
     try {
         const conversation = await Emails.findById(req.params.id);
         if (!conversation) {
@@ -99,19 +99,24 @@ async function getConversationById(req, res) {
     }
 }
 
+// reply to messages and send mail to user "works"
 async function replyMessages(req, res) {
     try {
-        const toMail = req.body.toMail; // Recipient's email
-        const senderMail = req.user.email; // Sender's email (logged-in user)
-        const loggedInUser = req.user.role; // User's role
-        const newMessageContent = req.body.message; // New message content
-        const senderName = req.user.name; // Sender's name
+        const toMail = req.body.toMail;
+        const senderMail = req.user.email;
+        const loggedInUser = req.user.role;
+
+        const newMessageContent = req.body.message;
+        const senderName = req.user.name;
 
         let query = {};
-        if (loggedInUser === "agent" || loggedInUser === "admin") {
-            query = { userEmail: toMail, agentEmail: senderMail };
-        } else if (loggedInUser === "user") {
-            query = { agentEmail: toMail, userEmail: senderMail };
+        let shouldSendEmail = false;
+
+        if (loggedInUser[0] === "agent" || loggedInUser[0] === "admin") {
+            query = { userEmail: toMail, agentEmail: "agent.se.project@gmail.com" };
+            shouldSendEmail = true;
+        } else if (loggedInUser[0] === "user") {
+            query = { agentEmail: "agent.se.project@gmail.com", userEmail: senderMail };
         }
 
         const conversation = await Emails.findOne(query);
@@ -121,32 +126,36 @@ async function replyMessages(req, res) {
 
         const newMessage = { sender: senderName, message: newMessageContent };
         conversation.messages.push(newMessage);
-        const updatedConversation = await conversation.save();
-        // Email sending logic
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: senderMail, // Using the sender's email
-                pass: "grtrdrwufhoilhll" // Replace with your Gmail App Password
-            },
-            secure: true
-        });
+        await conversation.save();
 
-        const mailOptions = {
-            from: senderMail,
-            to: toMail,
-            subject: 'New Message from ' + senderName,
-            text: newMessageContent
-        };
+        if (shouldSendEmail) {
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: senderMail,
+                    pass: "grtrdrwufhoilhll"
+                },
+                secure: true
+            });
 
+            const mailOptions = {
+                from: senderMail,
+                to: toMail,
+                subject: 'New Message from ' + senderName,
+                text: newMessageContent
+            };
 
-        await transporter.sendMail(mailOptions);
-        res.status(200).json(updatedConversation);
+            await transporter.sendMail(mailOptions);
+        }
+
+        res.status(200).json(conversation);
     } catch (error) {
         console.error('Error in replyMessages:', error);
         res.status(400).json({ error: error.message });
     }
 }
+
+
 
 
 
@@ -163,25 +172,11 @@ async function deleteConversation(req, res) {
     }
 }
 
-// user receiving messages "works"
-async function receiveMessage(req, res) {
-    try {
-        const userId = req.user.userId;
-
-        const messages = await Emails.find({ userId });
-
-        res.status(200).json(messages);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
-
 
 module.exports = {
     createEmail,
-    getAllConversations,
-    getConversationById,
+    getUserEmails,
+    getEmailById,
     replyMessages,
-    deleteConversation,
-    receiveMessage
+    deleteConversation
 };
