@@ -21,9 +21,9 @@ const customizationSettingsRoute = require("./Routes/customizationSettingsRoute"
 const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
 const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
+const emailSystemRoutes = require("./Routes/emailSystemRoute");
 
 // Initialize Express app and HTTP server
-const app = express();
 const server = http.createServer(app);
 
 // Set CORS options
@@ -60,14 +60,13 @@ app.use("/api/tickets", authenticationMiddleware, ticketsRoute);
 app.use("/api/users", authenticationMiddleware, userRoutes);
 app.use("/api/automatedWorkflows", authenticationMiddleware, automatedWorkflowsRoutes);
 
+
 // Chat and message routes (assuming these need authentication)
 app.use("/api/chat", authenticationMiddleware, chatRoute);
 app.use("/api/message", authenticationMiddleware, messageRoute);
 
 
-io.on("connection", (socket) => {
-  chatController.onConnection(socket);
-});
+
 // Set the port for the server
 const port = process.env.PORT || 3000;
 
