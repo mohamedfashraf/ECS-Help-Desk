@@ -11,7 +11,9 @@ export function SignInFrame() {
   const [password, setPassword] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-
+  const [is2FAEnabled, setIs2FAEnabled] = useState(false);
+  const [twoFactorAuthToken, setTwoFactorAuthToken] = useState("");
+  
   // Use the useNavigate hook instead of useHistory
   const navigate = useNavigate();
 
@@ -22,17 +24,17 @@ export function SignInFrame() {
     e.preventDefault();
     setSuccessMsg("");
     setErrorMsg("");
-
+  
     try {
-      await axios.post("http://localhost:3000/api/v1/login", {
-        email,
-        password,
-      });
+      const response = await axios.post("http://localhost:3000/api/v1/login", { email, password });
       
-      setSuccessMsg("Login successful!");
-      
-      // Use navigate() to redirect to the security settings page
-      navigate("/security-settings");
+      localStorage.setItem("token", response.data.token);
+      setIs2FAEnabled(response.data.is2FAEnabled); // Assuming the server sends this information
+  
+      if (!response.data.is2FAEnabled) {
+        setSuccessMsg("Login successful!");
+        navigate("/security-settings");
+      }
     } catch (error) {
       if (error.response) {
         setErrorMsg(
