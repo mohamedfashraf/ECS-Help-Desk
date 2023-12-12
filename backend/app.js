@@ -11,10 +11,13 @@ const app = express();
 
 // Set CORS options
 const corsOptions = {
-  origin: "http://localhost:5173/", // Replace with your frontend's origin
+  origin: "http://localhost:5173",
   credentials: true,
 };
+
 app.use(cors(corsOptions));
+app.use(cors());
+
 
 // Middleware setup
 app.use(cookieParser());
