@@ -1,14 +1,18 @@
 // App.js
 
 import React from 'react';
-import ChatComponent from './components/ChatComponent';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import SignUp from './pages/SignUp'
+import Tickets from './components/Tickets';
+
 const App = () => {
   return (
-    <div>
-      <Login />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/tickets" element={<Tickets />} />
+      </Routes>
+    </Router>
   );
 };
 
