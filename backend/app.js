@@ -35,8 +35,8 @@ const session = require("express-session");
 app.use(
   session({
     secret: "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", // Replace with your own secret
-    resave: true,
-    saveUninitialized: true, // Change to true if you want to store sessions for unauthenticated users
+    resave: false,
+    saveUninitialized: false, // Change to true if you want to store sessions for unauthenticated users
     cookie: { secure: process.env.NODE_ENV === "production" }, // Secure cookies in production
   })
 );
@@ -44,8 +44,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/auth", authRoutes);
+
 // Set CORS options
 const corsOptions = {
+
   origin: "http://localhost:5173", // Replace with your frontend's origin
   credentials: true,
 };
@@ -57,7 +60,6 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/auth", authRoutes);
 
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
@@ -70,9 +72,17 @@ mongoose
 app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
 
 // Protected routes with authentication middleware
-app.use("/api/customizationSettings", authenticationMiddleware, customizationSettingsRoute);
+app.use(
+  "/api/customizationSettings",
+  authenticationMiddleware,
+  customizationSettingsRoute
+);
 app.use("/api/emails", authenticationMiddleware, emailSystemRoutes);
-app.use("/api/security-settings", authenticationMiddleware, securitySettingsRoutes);
+app.use(
+  "/api/security-settings",
+  authenticationMiddleware,
+  securitySettingsRoutes
+);
 app.use("/api/knowledgeBase", authenticationMiddleware, knowledgeBaseRoutes);
 app.use("/api/reports", authenticationMiddleware, reportsAndAnalyticsRoutes);
 app.use("/api/support-agents", authenticationMiddleware, supportAgentRoutes);
