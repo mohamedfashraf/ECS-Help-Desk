@@ -1,13 +1,10 @@
 // Import required packages and modules
 require("dotenv").config();
-
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
-const socketIO = require("socket.io");
 
 //google auth2
 
@@ -50,9 +47,13 @@ app.use(passport.session());
 // Set CORS options
 const corsOptions = {
   origin: "http://localhost:3001/", // Replace with your frontend's origin
+
   credentials: true,
 };
+
 app.use(cors(corsOptions));
+app.use(cors());
+
 
 // Middleware setup
 app.use(cookieParser());
@@ -63,25 +64,33 @@ app.use("/auth", authRoutes);
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
+
+
+// Import routes and middleware
+const authRoutes = require("./Routes/auth");
+const authenticationMiddleware = require("./Middleware/authentication");
+const userRoutes = require("./Routes/usersRoute");
+const ticketsRoute = require("./Routes/ticketsRoute");
+const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
+const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
+const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
+const supportAgentRoutes = require("./Routes/supportAgentRoute");
+const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
+const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
+const chatRoute = require("./Routes/chatRoute");
+const messageRoute = require("./Routes/messageRoute");
+const emailSystemRoutes = require("./Routes/emailSystemRoute");
 
 // Public routes
 app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
 
 // Protected routes with authentication middleware
-app.use(
-  "/api/customizationSettings",
-  authenticationMiddleware,
-  customizationSettingsRoute
-);
+app.use("/api/customizationSettings", authenticationMiddleware, customizationSettingsRoute);
 app.use("/api/emails", authenticationMiddleware, emailSystemRoutes);
-app.use(
-  "/api/security-settings",
-  authenticationMiddleware,
-  securitySettingsRoutes
-);
+app.use("/api/security-settings", authenticationMiddleware, securitySettingsRoutes);
 app.use("/api/knowledgeBase", authenticationMiddleware, knowledgeBaseRoutes);
 app.use("/api/reports", authenticationMiddleware, reportsAndAnalyticsRoutes);
 app.use("/api/support-agents", authenticationMiddleware, supportAgentRoutes);
@@ -93,13 +102,14 @@ app.use(
   automatedWorkflowsRoutes
 );
 
+
 // Chat and message routes (assuming these need authentication)
 app.use("/api/chat", authenticationMiddleware, chatRoute);
 app.use("/api/message", authenticationMiddleware, messageRoute);
 
-io.on("connection", (socket) => {
-  chatController.onConnection(socket);
-});
+// Create an HTTP server using the Express app
+const server = http.createServer(app);
+
 // Set the port for the server
 const port = process.env.PORT || 3000;
 
