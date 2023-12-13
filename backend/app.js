@@ -9,6 +9,8 @@ const cors = require("cors");
 const http = require("http");
 const socketIO = require("socket.io");
 
+//google auth2
+
 const server = http.createServer(app);
 const io = socketIO(server);
 // Import routes and middleware
@@ -26,10 +28,28 @@ const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
 const emailSystemRoutes = require("./Routes/emailSytsemRoute");
 // Initialize Express app and HTTP server
+//google auth2
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+const passportStrategy = require("./passport");
+
+const session = require("express-session");
+
+app.use(
+  session({
+    secret: "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", // Replace with your own secret
+    resave: true,
+    saveUninitialized: true, // Change to true if you want to store sessions for unauthenticated users
+    cookie: { secure: process.env.NODE_ENV === "production" }, // Secure cookies in production
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Set CORS options
 const corsOptions = {
-  origin: "http://localhost:3001", // Replace with your frontend's origin
+  origin: "http://localhost:3001/", // Replace with your frontend's origin
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -38,6 +58,7 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use("/auth", authRoutes);
 
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
@@ -65,8 +86,7 @@ app.use("/api/knowledgeBase", authenticationMiddleware, knowledgeBaseRoutes);
 app.use("/api/reports", authenticationMiddleware, reportsAndAnalyticsRoutes);
 app.use("/api/support-agents", authenticationMiddleware, supportAgentRoutes);
 app.use("/api/tickets", authenticationMiddleware, ticketsRoute);
-app.use("/api/users",   authenticationMiddleware,
-userRoutes);
+app.use("/api/users", authenticationMiddleware, userRoutes);
 app.use(
   "/api/automatedWorkflows",
   authenticationMiddleware,
