@@ -38,8 +38,8 @@ const session = require("express-session");
 app.use(
   session({
     secret: "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", // Replace with your own secret
-    resave: true,
-    saveUninitialized: true, // Change to true if you want to store sessions for unauthenticated users
+    resave: false,
+    saveUninitialized: false, // Change to true if you want to store sessions for unauthenticated users
     cookie: { secure: process.env.NODE_ENV === "production" }, // Secure cookies in production
   })
 );
@@ -47,9 +47,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use("/auth", authRoutes);
+
 // Set CORS options
 const corsOptions = {
-  origin: "http://localhost:3001/", // Replace with your frontend's origin
+  origin: "http://localhost:3001", // Replace with your frontend's origin
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -58,7 +60,6 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/auth", authRoutes);
 
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
