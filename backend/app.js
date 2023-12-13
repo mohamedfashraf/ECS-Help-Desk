@@ -1,6 +1,7 @@
 // Import required packages and modules
 require("dotenv").config();
 const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -21,7 +22,8 @@ const customizationSettingsRoute = require("./Routes/customizationSettingsRoute"
 const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
 const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
-const emailSystemRoutes = require("./Routes/emailSytsemRoute");
+const emailSystemRoutes = require("./Routes/emailSystemRoute");
+
 // Initialize Express app and HTTP server
 //google auth2
 const passport = require("passport");
@@ -46,7 +48,8 @@ app.use("/auth", authRoutes);
 
 // Set CORS options
 const corsOptions = {
-  origin: "http://localhost:3001/", // Replace with your frontend's origin
+
+  origin: "http://localhost:5173", // Replace with your frontend's origin
   credentials: true,
 };
 
@@ -64,21 +67,6 @@ mongoose
   .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
-
-// Import routes and middleware
-const authRoutes = require("./Routes/auth");
-const authenticationMiddleware = require("./Middleware/authentication");
-const userRoutes = require("./Routes/usersRoute");
-const ticketsRoute = require("./Routes/ticketsRoute");
-const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
-const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
-const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
-const supportAgentRoutes = require("./Routes/supportAgentRoute");
-const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
-const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
-const chatRoute = require("./Routes/chatRoute");
-const messageRoute = require("./Routes/messageRoute");
-const emailSystemRoutes = require("./Routes/emailSystemRoute");
 
 // Public routes
 app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
@@ -118,5 +106,5 @@ const port = process.env.PORT || 3000;
 
 // Start the server
 server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on port ${port} `);
 });
