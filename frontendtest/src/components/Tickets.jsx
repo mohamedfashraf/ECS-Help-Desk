@@ -7,9 +7,7 @@ const Tickets = () => {
     useEffect(() => {
       // Fetch data from the API endpoint
       axios.get("http://localhost:3000/api/tickets", {
-        headers: {
-            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJJZCI6IjY1NjlmMTY3OTU3NTU5MjFlNzZkZDlmZiIsInJvbGUiOlsidXNlciIsImFkbWluIl0sIm5hbWUiOiJmYWR5IiwiZW1haWwiOiJmYWR5QGdtYWlsLmNvbSJ9LCJpYXQiOjE3MDIzMjEyMTgsImV4cCI6MTcwMjMyMzAxOH0.1iuFI090WmohGS4-vvgJAFoIVPG9GiWYRz1tp0RcwOM'
-        }
+      
       })
         .then(response => {
           // Set the fetched data to the state
