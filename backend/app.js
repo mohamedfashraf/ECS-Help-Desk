@@ -6,12 +6,48 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
 
-// Initialize Express app
-const app = express();
+//google auth2
+
+const server = http.createServer(app);
+const io = socketIO(server);
+// Import routes and middleware
+const authRoutes = require("./Routes/auth");
+const authenticationMiddleware = require("./Middleware/authentication");
+const userRoutes = require("./Routes/usersRoute");
+const ticketsRoute = require("./Routes/ticketsRoute");
+const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
+const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
+const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
+const supportAgentRoutes = require("./Routes/supportAgentRoute");
+const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
+const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
+const chatRoute = require("./Routes/chatRoute");
+const messageRoute = require("./Routes/messageRoute");
+const emailSystemRoutes = require("./Routes/emailSytsemRoute");
+// Initialize Express app and HTTP server
+//google auth2
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+const passportStrategy = require("./passport");
+
+const session = require("express-session");
+
+app.use(
+  session({
+    secret: "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", // Replace with your own secret
+    resave: true,
+    saveUninitialized: true, // Change to true if you want to store sessions for unauthenticated users
+    cookie: { secure: process.env.NODE_ENV === "production" }, // Secure cookies in production
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Set CORS options
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "http://localhost:3001/", // Replace with your frontend's origin
+
   credentials: true,
 };
 
@@ -23,6 +59,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use("/auth", authRoutes);
 
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
@@ -59,7 +96,12 @@ app.use("/api/reports", authenticationMiddleware, reportsAndAnalyticsRoutes);
 app.use("/api/support-agents", authenticationMiddleware, supportAgentRoutes);
 app.use("/api/tickets", authenticationMiddleware, ticketsRoute);
 app.use("/api/users", authenticationMiddleware, userRoutes);
-app.use("/api/automatedWorkflows", authenticationMiddleware, automatedWorkflowsRoutes);
+app.use(
+  "/api/automatedWorkflows",
+  authenticationMiddleware,
+  automatedWorkflowsRoutes
+);
+
 
 // Chat and message routes (assuming these need authentication)
 app.use("/api/chat", authenticationMiddleware, chatRoute);
