@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Change the import to useNavigate
-import "./styles/regframe.css";
+import "./styles";
 import facebookIcon from "../svgs/facebook.svg";
 import googleIcon from "../svgs/google.svg";
 import githubIcon from "../svgs/github.svg";
@@ -13,29 +13,32 @@ export function SignInFrame() {
   const [errorMsg, setErrorMsg] = useState("");
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [twoFactorAuthToken, setTwoFactorAuthToken] = useState("");
-  
+
   // Use the useNavigate hook instead of useHistory
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
-// Google Authentication Handler
-const handleGoogleAuth = () => {
-  window.open(`http://localhost:3000/auth/google/`, "_self");
-};
+  // Google Authentication Handler
+  const handleGoogleAuth = () => {
+    window.open(`http://localhost:3000/auth/google/`, "_self");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMsg("");
     setErrorMsg("");
-  
+
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/login", { email, password });
-      
+      const response = await axios.post("http://localhost:3000/api/v1/login", {
+        email,
+        password,
+      });
+
       localStorage.setItem("token", response.data.token);
       setIs2FAEnabled(response.data.is2FAEnabled); // Assuming the server sends this information
-  
+
       if (!response.data.is2FAEnabled) {
         setSuccessMsg("Login successful!");
         navigate("/security-settings");
@@ -43,7 +46,7 @@ const handleGoogleAuth = () => {
     } catch (error) {
       if (error.response) {
         setErrorMsg(
-          error.response.data.message || "An error occurred during Login."
+          error.response.data.message || "An error occurred during Login.",
         );
       } else if (error.request) {
         setErrorMsg("No response from the server. Please try again later.");
@@ -57,7 +60,7 @@ const handleGoogleAuth = () => {
     //end of connection
     <div className="frame-style pt-10">
       <div className="p-10">
-        <h2 className="form-title text-left animate-fade-down">Login</h2>
+        <h2 className="form-title animate-fade-down text-left">Login</h2>
         <p className="form-subtitle text-left">Glad you’re back.! </p>
 
         <form className="input-form" onSubmit={handleSubmit}>
@@ -95,7 +98,12 @@ const handleGoogleAuth = () => {
           </div>
 
           <div className="social-icons">
-          <img src={googleIcon} alt="Google" onClick={handleGoogleAuth} style={{ cursor: 'pointer' }} />
+            <img
+              src={googleIcon}
+              alt="Google"
+              onClick={handleGoogleAuth}
+              style={{ cursor: "pointer" }}
+            />
             <img src={githubIcon} alt="GitHub" />
             <img src={facebookIcon} alt="Facebook" />
           </div>
@@ -107,16 +115,16 @@ const handleGoogleAuth = () => {
                 Login
               </a>
             </p>
-            <div className="flex justify-between subText-style text-w">
+            <div className="subText-style text-w flex justify-between">
               <p>Terms & Conditions</p>
               <p>Support</p>
               <p>Customer Care</p>
             </div>
           </div>
           {successMsg && (
-            <div className="text-green-500 mt-4">{successMsg}</div>
+            <div className="mt-4 text-green-500">{successMsg}</div>
           )}
-          {errorMsg && <div className="text-red-500 mt-4">{errorMsg}</div>}
+          {errorMsg && <div className="mt-4 text-red-500">{errorMsg}</div>}
         </form>
       </div>
     </div>

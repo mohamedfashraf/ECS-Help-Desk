@@ -1,13 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-// tailwind.config.js
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  extend: {
+    theme: {
 
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {
       colors: {
         linearButton: "linear-gradient(to right, #2E4CEE, #221EBF, #040F75)",
         customblack: "#0F0F0F", // other colors...
@@ -16,9 +12,12 @@ export default {
         linearButton: "linear-gradient(to right, #2E4CEE, #221EBF, #040F75)",
         // other background images...
       },
+
       height: {
         "screen-150": "13px", // This means 150% of the viewport height
       },
+
+
       keyframes: {
         fadeDown: {
           "0%": { opacity: "0", transform: "translateY(-10px)" },
@@ -26,6 +25,8 @@ export default {
         },
       },
     },
+
+
     screens: {
       sm: "640px",
       // => @media (min-width: 640px) { ... }

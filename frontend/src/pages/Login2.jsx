@@ -1,6 +1,6 @@
 import SignInFrame from "../components/signInFrame";
-import eclipse3 from "../svgs/Ellipse 3.svg";
-import eclipse4 from "../svgs/Ellipse 4.svg";
+import eclipse3 from "../svgs/Ellipse3.svg";
+import eclipse4 from "../svgs/Ellipse4.svg";
 
 const SignupComponent = () => {
   return (

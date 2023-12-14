@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Change the import to useNavigate
-import "./styles/regframe.css";
+import "../components/styles/regframe.css";
+
 import facebookIcon from "../svgs/facebook.svg";
 import googleIcon from "../svgs/google.svg";
 import githubIcon from "../svgs/github.svg";
+import { AuthContext } from "../context/AuthContext"; // Import AuthContext
 
 export function SignInFrame() {
   const [email, setEmail] = useState("");
@@ -15,6 +17,7 @@ export function SignInFrame() {
   const [twoFactorAuthToken, setTwoFactorAuthToken] = useState("");
 
   // Use the useNavigate hook instead of useHistory
+
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -24,35 +27,25 @@ export function SignInFrame() {
   const handleGoogleAuth = () => {
     window.open(`http://localhost:3000/auth/google/`, "_self");
   };
+  const handleSignUpRedirect = () => {
+    navigate("/SignUp"); // Update with your actual signup path
+  };
+
+  const { loginUser, loginInfo, updateLoginInfo, loginError, loginLoading } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    updateLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSuccessMsg("");
-    setErrorMsg("");
+    await loginUser();
 
-    try {
-      const response = await axios.post("http://localhost:3000/api/v1/login", {
-        email,
-        password,
-      });
+    if (loginInfo.user) {
+      navigate("/chat"); // Navigate to the chat page or desired route
 
-      localStorage.setItem("token", response.data.token);
-      setIs2FAEnabled(response.data.is2FAEnabled); // Assuming the server sends this information
-
-      if (!response.data.is2FAEnabled) {
-        setSuccessMsg("Login successful!");
-        navigate("/security-settings");
-      }
-    } catch (error) {
-      if (error.response) {
-        setErrorMsg(
-          error.response.data.message || "An error occurred during Login."
-        );
-      } else if (error.request) {
-        setErrorMsg("No response from the server. Please try again later.");
-      } else {
-        setErrorMsg("Error: " + error.message);
-      }
     }
   };
 
@@ -63,14 +56,15 @@ export function SignInFrame() {
         <h2 className="form-title text-left animate-fade-down">Login</h2>
         <p className="form-subtitle text-left">Glad you’re back.! </p>
 
-        <form className="input-form" onSubmit={handleSubmit}>
+        <form className="input-form" onSubmit={loginUser}>
           <input
             type="text"
             id="email"
             name="email"
             placeholder="Email/Phone"
             value={email}
-            onChange={handleEmailChange}
+            onChange={handleInputChange}
+
             className="input-style"
           />
 
@@ -80,7 +74,8 @@ export function SignInFrame() {
             name="password"
             placeholder="Password"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={handleInputChange}
+
             className="input-style"
           />
 
@@ -110,10 +105,12 @@ export function SignInFrame() {
 
           <div className="additional-text mt-4">
             <p className="text-style">
-              Already Registered?{" "}
-              <a href="/Signup" className="text-style underline">
-                Login
-              </a>
+              <span
+                className="text-style underline cursor-pointer"
+                onClick={handleSignUpRedirect}
+              >
+                Sign up
+              </span>
             </p>
             <div className="flex justify-between subText-style text-w">
               <p>Terms & Conditions</p>
