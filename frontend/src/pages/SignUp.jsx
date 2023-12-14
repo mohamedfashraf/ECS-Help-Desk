@@ -1,6 +1,6 @@
-import SignInFrame from "../components/signInFrame";
-import eclipse3 from "../svgs/Ellipse3.svg";
-import eclipse4 from "../svgs/Ellipse4.svg";
+import FrameWithBorder from "../components/registerFrame";
+import eclipse1 from "../svgs/Ellipse1.svg";
+import eclipse2 from "../svgs/Ellipse2.svg";
 
 const SignupComponent = () => {
   return (
@@ -16,12 +16,12 @@ const SignupComponent = () => {
           color: "white",
         }}
       >
-        Welcome Back .!{" "}
+        Roll the Carpet.!
       </p>
       {/* SVG at the top, hidden on small screens */}
       <img
-        src={eclipse3}
-        alt="Eclipse 3"
+        src={eclipse1}
+        alt="Eclipse 1"
         className="hidden sm:block absolute mr-80 top-4 right-5"
       />
 
@@ -79,14 +79,14 @@ const SignupComponent = () => {
 
       {/* SVG at the bottom, remains in position on larger screens, hidden on small screens */}
       <img
-        src={eclipse4}
-        alt="Eclipse 4"
+        src={eclipse2}
+        alt="Eclipse 2"
         className=" hidden sm:block absolute mt-[700px] right-9 "
       />
 
       <div className="flex-grow flex justify-center items-center ">
         <div className=" flex flex-col items-center justify-center sm:absolute sm:right-0 sm:top-0 lg:p-16 md:p-12 sm:p-8 p-4 sm:m-auto ">
-          <SignInFrame />
+          <FrameWithBorder />
         </div>
       </div>
     </div>
