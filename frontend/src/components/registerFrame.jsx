@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import "./styles/regframe.css"; // Ensure the correct path is used
 import facebookIcon from "../svgs/facebook.svg"; // Update with actual path
