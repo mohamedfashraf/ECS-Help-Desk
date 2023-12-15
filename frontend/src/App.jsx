@@ -1,40 +1,28 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { Container } from "react-bootstrap";
-import Chat from "./pages/Chat";
-import Register from "./pages/Register";
-import NavBar from "./components/NavBar";
-import Login from "./pages/Login2"
-import { AuthContext } from "./context/AuthContext";
-import { ChatContextProvider } from "./context/ChatContext";
-import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-// ... other imports remain the same
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+
+import "./css/style.css";
+
+import "./charts/ChartjsConfig";
+
+// Import pages
+import Dashboard from "./pages/Dashboard";
 
 function App() {
-  const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    // Redirect to the Chat page if the user is logged in
-    if (user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
+    document.querySelector("html").style.scrollBehavior = "auto";
+    window.scroll({ top: 0 });
+    document.querySelector("html").style.scrollBehavior = "";
+  }, [location.pathname]); // triggered on route change
 
   return (
-    <ChatContextProvider user={user}>
-      <NavBar />
-      <Container>
-        <Routes>
-          <Route path="/" element={user ? <Chat /> : <Login />} />
-          <Route path="/register" element={!user ? <Register /> : <Navigate replace to="/" />} />
-          <Route path="/login" element={!user ? <Login /> : <Navigate replace to="/" />} />
-          <Route path="*" element={<Navigate replace to={user ? "/" : "/login"} />} />
-    
-        </Routes>
-      </Container>
-    </ChatContextProvider>
+    <>
+      <Routes>
+        <Route exact path="/" element={<Dashboard />} />
+      </Routes>
+    </>
   );
 }
 
