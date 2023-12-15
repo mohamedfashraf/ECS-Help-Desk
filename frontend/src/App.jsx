@@ -31,6 +31,7 @@ function App() {
           <Route path="/register" element={!user ? <Register /> : <Navigate replace to="/" />} />
           <Route path="/login" element={!user ? <Login /> : <Navigate replace to="/" />} />
           <Route path="*" element={<Navigate replace to={user ? "/" : "/login"} />} />
+    
         </Routes>
       </Container>
     </ChatContextProvider>

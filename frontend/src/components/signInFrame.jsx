@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // Change the import to useNavigate
 import "../components/styles/regframe.css";
+
 import facebookIcon from "../svgs/facebook.svg";
 import googleIcon from "../svgs/google.svg";
 import githubIcon from "../svgs/github.svg";
@@ -16,6 +17,8 @@ export function SignInFrame() {
   const [twoFactorAuthToken, setTwoFactorAuthToken] = useState("");
 
   // Use the useNavigate hook instead of useHistory
+
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -42,6 +45,7 @@ export function SignInFrame() {
 
     if (loginInfo.user) {
       navigate("/chat"); // Navigate to the chat page or desired route
+
     }
   };
 
@@ -60,6 +64,7 @@ export function SignInFrame() {
             placeholder="Email/Phone"
             value={email}
             onChange={handleInputChange}
+
             className="input-style"
           />
 
@@ -70,6 +75,7 @@ export function SignInFrame() {
             placeholder="Password"
             value={password}
             onChange={handleInputChange}
+
             className="input-style"
           />
 

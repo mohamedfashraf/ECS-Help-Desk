@@ -1,8 +1,12 @@
 /* customStyles.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body, html {
+body,
+html {
   height: 64rem;
-  background-color: #0F0F0F; /* Replace with your desired background color */
+  background-color: #0f0f0f; /* Replace with your desired background color */
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
 }
@@ -10,33 +14,31 @@ body, html {
   width: 350px; /* Fixed width as originally specified */
   height: 793px;
   border-radius: 20px;
-  border: 1px solid #AFAFAF;
+  border: 1px solid #afafaf;
   box-shadow: -8px 4px 5px 0px rgba(0, 0, 0, 0.24);
   backdrop-filter: blur(26.5px);
-  }
-  .input-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .input-form label {
-    margin-bottom: 5px;
-    color: #fff; /* Set label text color to white */
-    opacity: 0.8;
-    margin-top: 12px;
+}
+.input-form {
+  display: flex;
+  flex-direction: column;
+}
 
-  }
-  
-  .input-form input {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 0.75rem;
-    border: 1px solid #FFF;
-    background-color: transparent;
-    color: #fff; /* Set input text color to white */
-    margin-bottom: 1.8rem; /* Adjust this value as needed for the gap */
+.input-form label {
+  margin-bottom: 5px;
+  color: #fff; /* Set label text color to white */
+  opacity: 0.8;
+  margin-top: 12px;
+}
 
-  }/* Style the placeholder text color */
+.input-form input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 0.75rem;
+  border: 1px solid #fff;
+  background-color: transparent;
+  color: #fff; /* Set input text color to white */
+  margin-bottom: 1.8rem; /* Adjust this value as needed for the gap */
+} /* Style the placeholder text color */
 .input-form input::placeholder {
   color: #fff;
   opacity: 0.5; /* Adjust opacity for placeholder text */
@@ -49,7 +51,12 @@ body, html {
   align-items: center;
   gap: 0.625rem;
   border-radius: 0.75rem;
-  background: linear-gradient(91deg, #2E4CEE 9.91%, #221EBF 53.29%, #040F75 91.56%);
+  background: linear-gradient(
+    91deg,
+    #2e4cee 9.91%,
+    #221ebf 53.29%,
+    #040f75 91.56%
+  );
   color: white; /* Set text color to white */
   border: none; /* Remove default border */
   cursor: pointer; /* Change cursor to pointer on hover */
@@ -64,7 +71,13 @@ body, html {
   align-items: center;
   gap: 0.625rem;
   border-radius: 0.75rem;
-  background: linear-gradient(91deg, #628EFF 9.91%, #8740CD 53.29%, #580475 91.56%);  color: white; /* Set text color to white */
+  background: linear-gradient(
+    91deg,
+    #628eff 9.91%,
+    #8740cd 53.29%,
+    #580475 91.56%
+  );
+  color: white; /* Set text color to white */
   border: none; /* Remove default border */
   cursor: pointer; /* Change cursor to pointer on hover */
   font-size: 1rem; /* Optional: Adjust font size */
@@ -80,7 +93,6 @@ body, html {
   margin-bottom: 1.5rem;
   opacity: 0.8; /* Optional: adjust opacity for subtlety */
   color: white;
-  
 }
 
 .divider {
@@ -93,12 +105,12 @@ body, html {
 .line {
   flex: 1;
   height: 2px;
-  background-color: #4D4D4D;
+  background-color: #4d4d4d;
 }
 
 .or-text {
   padding: 0 10px;
-  color: #4D4D4D;
+  color: #4d4d4d;
   font-size: 1rem;
 }
 .social-icons {
@@ -120,12 +132,11 @@ body, html {
   }
 }
 
-
-@media (min-width: 1024px) { /* Tailwind's 'lg' breakpoint */
+@media (min-width: 1024px) {
+  /* Tailwind's 'lg' breakpoint */
   .frame-style {
     width: 480px; /* Fixed width as originally specified */
     height: 793px; /* Fixed height as originally specified */
-    
   }
 }
 
@@ -137,8 +148,8 @@ body, html {
 }
 
 .text-style {
-  color: #FFF;
-  font-family: 'Noto Sans', sans-serif;
+  color: #fff;
+  font-family: "Noto Sans", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -146,10 +157,10 @@ body, html {
   margin-top: 20px;
   text-align: center;
 }
-.subText-style{
-  color: #FFF;
+.subText-style {
+  color: #fff;
   margin-top: 15px;
-  font-family: 'Noto Sans', sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -160,6 +171,5 @@ body, html {
   .signup-position {
     position: absolute; /* Keep it absolute to allow centering */
     justify-items: center;
-    
   }
 }

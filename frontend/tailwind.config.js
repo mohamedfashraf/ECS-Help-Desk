@@ -3,6 +3,7 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   extend: {
     theme: {
+
       colors: {
         linearButton: "linear-gradient(to right, #2E4CEE, #221EBF, #040F75)",
         customblack: "#0F0F0F", // other colors...
@@ -16,6 +17,7 @@ module.exports = {
         "screen-150": "13px", // This means 150% of the viewport height
       },
 
+
       keyframes: {
         fadeDown: {
           "0%": { opacity: "0", transform: "translateY(-10px)" },
@@ -23,6 +25,7 @@ module.exports = {
         },
       },
     },
+
 
     screens: {
       sm: "640px",
@@ -49,3 +52,4 @@ module.exports = {
   },
   plugins: [],
 };
+

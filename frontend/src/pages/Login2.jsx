@@ -39,9 +39,9 @@ const SignupComponent = () => {
           x2="1000"
           y2="1"
           stroke="#4D4D4D"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-dasharray="12 12"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeDasharray="12 12"
         />
       </svg>
 
@@ -57,12 +57,12 @@ const SignupComponent = () => {
           x="50%"
           y="50%"
           fill="#FFF"
-          font-family="'Noto Sans', sans-serif"
-          font-size="32"
-          font-style="italic"
-          font-weight="600"
-          dominant-baseline="middle"
-          text-anchor="middle"
+          fontFamily="'Noto Sans', sans-serif"
+          fontSize="32"
+          fontStyle="italic"
+          fontWeight="600"
+          dominantBaseline="middle"
+          textAnchor="middle"
         >
           Skip the lag?
         </text>
@@ -73,7 +73,7 @@ const SignupComponent = () => {
           width="240"
           height="76"
           stroke="white"
-          stroke-width="4"
+          strokeWidth="4"
         />
       </svg>
 
