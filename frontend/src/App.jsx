@@ -4,6 +4,7 @@ import { AuthContext } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/ChatContext";
 import Login from "./pages/Login2";
 import Chats from "./pages/Chat";
+import Register from "./pages/SignUp";
 
 import "./css/style.css";
 
@@ -35,6 +36,10 @@ function App() {
           <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
           <Route exact path="*" element={<Navigate to="/" />} />
           <Route path="/chats" element={user ? <Chats /> : <Login />} />
+          <Route
+            path="/register"
+            element={user ? <Dashboard /> : <Register />}
+          />
         </Routes>
       </ChatContextProvider>
     </>

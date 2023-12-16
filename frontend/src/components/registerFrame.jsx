@@ -71,7 +71,7 @@ export function FrameWithBorder() {
             type="text"
             id="email"
             name="email"
-            placeholder="Email/Phone"
+            placeholder="Email"
             value={email}
             onChange={handleEmailChange}
             className="input-style"
