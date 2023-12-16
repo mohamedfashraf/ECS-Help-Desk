@@ -1,5 +1,8 @@
-import React, { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
+import { ChatContextProvider } from "./context/ChatContext";
+import Login from "./pages/Login2";
 
 import "./css/style.css";
 
@@ -9,6 +12,8 @@ import "./charts/ChartjsConfig";
 import Dashboard from "./pages/Dashboard";
 
 function App() {
+  const { user } = useContext(AuthContext);
+  console.log(user);
   const location = useLocation();
 
   useEffect(() => {
@@ -19,9 +24,13 @@ function App() {
 
   return (
     <>
-      <Routes>
-        <Route exact path="/" element={<Dashboard />} />
-      </Routes>
+      <ChatContextProvider user={user}>
+        <Routes>
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
+          {/* <Route exact path="*" element={<Navigate to="/" />} /> */}
+        </Routes>
+      </ChatContextProvider>
     </>
   );
 }

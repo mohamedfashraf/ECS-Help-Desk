@@ -18,8 +18,6 @@ export function SignInFrame() {
 
   // Use the useNavigate hook instead of useHistory
 
-  const navigate = useNavigate();
-
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
@@ -33,7 +31,6 @@ export function SignInFrame() {
 
   const { loginUser, loginInfo, updateLoginInfo, loginError, loginLoading } =
     useContext(AuthContext);
-  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     updateLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
@@ -44,8 +41,7 @@ export function SignInFrame() {
     await loginUser();
 
     if (loginInfo.user) {
-      navigate("/chat"); // Navigate to the chat page or desired route
-
+      navigate("/"); // Navigate to the chat page or desired route
     }
   };
 
@@ -61,10 +57,9 @@ export function SignInFrame() {
             type="text"
             id="email"
             name="email"
-            placeholder="Email/Phone"
+            placeholder="Email"
             value={email}
             onChange={handleInputChange}
-
             className="input-style"
           />
 
@@ -75,7 +70,6 @@ export function SignInFrame() {
             placeholder="Password"
             value={password}
             onChange={handleInputChange}
-
             className="input-style"
           />
 
