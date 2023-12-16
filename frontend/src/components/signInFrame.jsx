@@ -18,7 +18,7 @@ export function SignInFrame() {
 
   // Use the useNavigate hook instead of useHistory
 
-  const navigate = useNavigate();
+
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -33,7 +33,7 @@ export function SignInFrame() {
 
   const { loginUser, loginInfo, updateLoginInfo, loginError, loginLoading } =
     useContext(AuthContext);
-  const navigate = useNavigate();
+
 
   const handleInputChange = (e) => {
     updateLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });

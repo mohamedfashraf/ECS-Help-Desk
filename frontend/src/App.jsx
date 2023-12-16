@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Chat from "./pages/Chat";
+import Login from "./pages/Login2";
 import Register from "./pages/Register";
 import NavBar from "./components/NavBar";
 import { AuthContext } from "./context/AuthContext";
@@ -22,6 +23,6 @@ function App() {
         </Routes>
       </Container>
     </ChatContextProvider>
-  );
+  );    
 }
 export default App;
