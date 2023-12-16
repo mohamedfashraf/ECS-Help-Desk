@@ -41,7 +41,7 @@ export function SignInFrame() {
     await loginUser();
 
     if (loginInfo.user) {
-      navigate("/chat"); // Navigate to the chat page or desired route
+      navigate("/"); // Navigate to the chat page or desired route
     }
   };
 
