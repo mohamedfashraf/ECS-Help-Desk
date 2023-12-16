@@ -57,7 +57,7 @@ export function SignInFrame() {
             type="text"
             id="email"
             name="email"
-            placeholder="Email/Phone"
+            placeholder="Email"
             value={email}
             onChange={handleInputChange}
             className="input-style"
