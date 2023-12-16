@@ -1,5 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
+import Login from "./pages/Login2";
 
 import "./css/style.css";
 
@@ -9,6 +11,7 @@ import "./charts/ChartjsConfig";
 import Dashboard from "./pages/Dashboard";
 
 function App() {
+  const { user } = useContext(AuthContext);
   const location = useLocation();
 
   useEffect(() => {
@@ -20,7 +23,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Dashboard />} />
+        <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
       </Routes>
     </>
   );
