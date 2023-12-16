@@ -26,7 +26,7 @@ export function SignInFrame() {
     window.open(`http://localhost:3000/auth/google/`, "_self");
   };
   const handleSignUpRedirect = () => {
-    navigate("/SignUp"); // Update with your actual signup path
+    useNavigate("/SignUp"); // Update with your actual signup path
   };
 
   const { loginUser, loginInfo, updateLoginInfo, loginError, loginLoading } =
@@ -40,8 +40,11 @@ export function SignInFrame() {
     e.preventDefault();
     await loginUser();
 
-    if (loginInfo.user) {
-      navigate("/"); // Navigate to the chat page or desired route
+    const response = await loginUser();
+
+    if (response && response.user) {
+      // Navigate to the dashboard on successful login
+      useNavigate("/pages/Dashboard"); // Replace with your dashboard path
     }
   };
 
