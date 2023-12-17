@@ -67,8 +67,11 @@ mongoose
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
+  app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
+
+
+app.use("/auth", authRoutes);
 // Public routes
-app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
 
 // Protected routes with authentication middleware
 app.use(
