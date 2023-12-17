@@ -35,14 +35,16 @@ const session = require("express-session");
 app.use(
   session({
     secret: "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", // Replace with your own secret
-    resave: true,
-    saveUninitialized: true, // Change to true if you want to store sessions for unauthenticated users
+    resave: false,
+    saveUninitialized: false, // Change to true if you want to store sessions for unauthenticated users
     cookie: { secure: process.env.NODE_ENV === "production" }, // Secure cookies in production
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use("/auth", authRoutes);
 
 // Set CORS options
 const corsOptions = {
@@ -72,9 +74,17 @@ app.use("/auth", authRoutes);
 // Public routes
 
 // Protected routes with authentication middleware
-app.use("/api/customizationSettings", authenticationMiddleware, customizationSettingsRoute);
+app.use(
+  "/api/customizationSettings",
+  authenticationMiddleware,
+  customizationSettingsRoute
+);
 app.use("/api/emails", authenticationMiddleware, emailSystemRoutes);
-app.use("/api/security-settings", authenticationMiddleware, securitySettingsRoutes);
+app.use(
+  "/api/security-settings",
+  authenticationMiddleware,
+  securitySettingsRoutes
+);
 app.use("/api/knowledgeBase", authenticationMiddleware, knowledgeBaseRoutes);
 app.use("/api/reports", authenticationMiddleware, reportsAndAnalyticsRoutes);
 app.use("/api/support-agents", authenticationMiddleware, supportAgentRoutes);

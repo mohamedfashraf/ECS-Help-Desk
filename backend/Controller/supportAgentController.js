@@ -5,6 +5,7 @@ async function createSupportAgent(req, res) {
     try {
         const { name, email, password, expertise } = req.body;
         const supportAgent = new SupportAgent({ name, email, password, expertise});
+
         await supportAgent.save();
         res.status(201).json(supportAgent);
     } catch (error) {

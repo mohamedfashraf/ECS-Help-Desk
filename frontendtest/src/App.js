@@ -7,7 +7,6 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import ChatComponent from "./components/ChatComponent";
 import Login from "./pages/Login";
 import SecuritySettings from "./pages/securitySettings";
 import SignUp from "./pages/SignUp";

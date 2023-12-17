@@ -16,8 +16,6 @@ const supportAgentSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: 'support_agent',
-    enum: ['support_agent'],
   },
   expertise: {
     High: {
@@ -32,6 +30,7 @@ const supportAgentSchema = new mongoose.Schema({
       type: String,
       required: true
   }
+
   },
   assignedTickets: [{
     type: mongoose.Schema.Types.ObjectId,

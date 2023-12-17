@@ -1,21 +1,9 @@
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@import '~bootstrap/dist/css/bootstrap.min.css';
-
-@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,700&display=swap");
-
-body {
-  color: white;
-  font-family: "Nunito", sans-serif;
-  background-color: rgb(40, 40, 40);
-}
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
 
 body {
   font-family: "Nunito", sans-serif;
-  background: rgb(40, 40, 40);
+  /* background: rgb(40, 40, 40); */
 }
 
 /* All users */
@@ -26,6 +14,7 @@ body {
 
 .single-user {
   background: rgb(0, 213, 255);
+  color: white;
   cursor: pointer;
   padding: 5px 7px;
   border-radius: 10px;
@@ -35,6 +24,7 @@ body {
 
 /* User Card */
 .user-card {
+  color: white;
   position: relative;
   border-bottom: 1px solid rgb(100, 100, 100);
   width: 380px;
@@ -66,18 +56,6 @@ body {
   z-index: 2;
 }
 
-.user-offline {
-  display: inline-block;
-  height: 12px;
-  width: 12px;
-  border-radius: 50%;
-  background: rgb(219, 0, 0);
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  z-index: 2;
-}
-
 /* Chat Box */
 .chat-box {
   max-height: calc(100vh - 10rem);
@@ -96,7 +74,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
-
+  color: white;
   background: rgb(30, 30, 30);
 }
 
@@ -108,6 +86,7 @@ body {
 }
 
 .message {
+  color: white;
   background: #282828;
   padding: 0.75rem;
   border-radius: 5px;
@@ -115,6 +94,7 @@ body {
 }
 
 .message.self {
+  color: white;
   background: #00bd9b;
 }
 
@@ -133,7 +113,7 @@ body {
 .send-btn {
   border: none;
   background: rgba(72, 112, 223, 1);
-
+  color: white;
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -145,6 +125,7 @@ body {
 }
 
 .notifications-icon {
+  color: white;
   cursor: pointer;
   position: relative;
   margin-right: 1rem;
@@ -160,7 +141,7 @@ body {
     rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   background: #181d31;
-
+  color: white;
   z-index: 5;
 }
 
