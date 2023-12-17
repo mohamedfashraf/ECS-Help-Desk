@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
-function WelcomeBanner() {
+function MessageBox() {
   const { user } = useContext(AuthContext);
   return (
     <div className="relative bg-indigo-200 dark:bg-indigo-500 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
@@ -71,14 +71,14 @@ function WelcomeBanner() {
       {/* Content */}
       <div className="relative">
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
-          Good afternoon, {user.name} 👋
+          {user.name} chats :
         </h1>
         <p className="dark:text-indigo-200">
-          Here is what’s happening with your projects today:
+          Here is what’s happening with your chats today:
         </p>
       </div>
     </div>
   );
 }
 
-export default WelcomeBanner;
+export default MessageBox;
