@@ -14,20 +14,6 @@ async function createSupportAgent(req, res) {
 
 
 
-// async function getAssignedTicketsLength(supportAgentId) {
-//     try {
-//         const supportAgent = await SupportAgent.findById(supportAgentId);
-//         if (!supportAgent) {
-//             throw new Error('Support agent not found');
-//         }
-//         return supportAgent.assignedTickets;
-//     } catch (error) {
-//         throw new Error(`Error fetching assigned tickets: ${error.message}`);
-//     }
-// }
-
-
-
 // Get all support agents "works"
 async function getAllSupportAgents(req, res) {
     try {

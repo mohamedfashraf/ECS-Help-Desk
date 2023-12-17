@@ -57,7 +57,6 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/auth", authRoutes);
 
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
@@ -66,8 +65,11 @@ mongoose
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
+  app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
+
+
+app.use("/auth", authRoutes);
 // Public routes
-app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
 
 // Protected routes with authentication middleware
 app.use("/api/customizationSettings", authenticationMiddleware, customizationSettingsRoute);
