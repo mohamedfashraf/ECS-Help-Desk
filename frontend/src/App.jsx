@@ -13,7 +13,7 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
   const { user } = useContext(AuthContext);
-  console.log(user);
+  console.log("user logged in ", user);
   const location = useLocation();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function App() {
         <Routes>
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
-          { <Route exact path="*" element={<Navigate to="/" />} /> }
+          {/* <Route exact path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </ChatContextProvider>
     </>
