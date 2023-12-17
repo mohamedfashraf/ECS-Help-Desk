@@ -7,6 +7,8 @@ import ChatBox from "../components/chat/ChatBox";
 import Header from "../partials/Header";
 import Sidebar from "../partials/Sidebar";
 import MessageBox from "../partials/dashboard/MessageBox";
+import ViewTickets from "../components/Tickets/viewTickets";
+
 
 const Chat = () => {
   const { user } = useContext(AuthContext);
