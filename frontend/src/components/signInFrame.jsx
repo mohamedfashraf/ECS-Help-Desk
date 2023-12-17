@@ -28,10 +28,10 @@ export function SignInFrame() {
 
   // Google Authentication Handler
   const handleGoogleAuth = () => {
-    window.open(`http://localhost:3000/auth/google/`, "_self");
+    window.open("http://localhost:3000/auth/google/, _self");
   };
   const handleSignUpRedirect = () => {
-    navigate("/SignUp"); // Update with your actual signup path
+    useNavigate("/register"); // Update with your actual signup path
   };
 
   const { loginUser, loginInfo, updateLoginInfo, loginError, loginLoading } =
@@ -51,6 +51,11 @@ export function SignInFrame() {
 =======
       navigate("/chat"); // Navigate to the chat page or desired route
 >>>>>>> da894d549128b07e6089b6859e96dc930cc093da
+    const response = await loginUser();
+
+    if (response && response.user) {
+      // Navigate to the dashboard on successful login
+      useNavigate("/"); // Replace with your dashboard path
     }
   };
 
@@ -66,8 +71,8 @@ export function SignInFrame() {
             type="text"
             id="email"
             name="email"
-            placeholder="Email/Phone"
-            value={email}
+            placeholder="Email"
+            value={loginInfo.email}
             onChange={handleInputChange}
             className="input-style"
           />
@@ -77,7 +82,7 @@ export function SignInFrame() {
             id="password"
             name="password"
             placeholder="Password"
-            value={password}
+            value={loginInfo.password}
             onChange={handleInputChange}
             className="input-style"
           />
