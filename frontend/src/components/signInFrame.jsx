@@ -16,6 +16,13 @@ export function SignInFrame() {
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [twoFactorAuthToken, setTwoFactorAuthToken] = useState("");
 
+  // Use the useNavigate hook instead of useHistory
+
+  const navigate = useNavigate();
+
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+
   // Google Authentication Handler
   const handleGoogleAuth = () => {
     window.open("http://localhost:3000/auth/google/, _self");
@@ -35,6 +42,9 @@ export function SignInFrame() {
     e.preventDefault();
     await loginUser();
 
+    if (loginInfo.user) {
+      navigate("/"); // Navigate to the chat page or desired route
+      navigate("/chat"); // Navigate to the chat page or desired route
     const response = await loginUser();
 
     if (response && response.user) {
