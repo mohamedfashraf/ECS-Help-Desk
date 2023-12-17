@@ -3,6 +3,7 @@ import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/ChatContext";
 import Login from "./pages/Login2";
+import Chats from "./pages/Chat";
 
 import "./css/style.css";
 
@@ -26,9 +27,13 @@ function App() {
     <>
       <ChatContextProvider user={user}>
         <Routes>
-          <Route exact path="/login" element={<Login />} />
+          <Route
+            exact
+            path="/login"
+            element={user ? <Dashboard /> : <Login />}
+          />
           <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
-          {/* <Route exact path="*" element={<Navigate to="/" />} /> */}
+          <Route exact path="*" element={<Navigate to="/" />} />
         </Routes>
       </ChatContextProvider>
     </>

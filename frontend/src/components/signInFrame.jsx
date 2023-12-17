@@ -18,6 +18,11 @@ export function SignInFrame() {
 
   // Use the useNavigate hook instead of useHistory
 
+<<<<<<< HEAD
+=======
+  const navigate = useNavigate();
+
+>>>>>>> da894d549128b07e6089b6859e96dc930cc093da
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
@@ -41,48 +46,89 @@ export function SignInFrame() {
     await loginUser();
 
     if (loginInfo.user) {
+<<<<<<< HEAD
       navigate("/"); // Navigate to the chat page or desired route
+=======
+      navigate("/chat"); // Navigate to the chat page or desired route
+>>>>>>> da894d549128b07e6089b6859e96dc930cc093da
     }
   };
 
   return (
-    <>
-      <Form onSubmit={loginUser}>
-        <Row
-          style={{ height: "100vh", justifyContent: "center", padding: "10%" }}
-        >
-          <Col xs={6}>
-            <Stack gap={3}>
-              <h2>Login</h2>
-              <Form.Control
-                type="email"
-                placeholder="Email"
-                onChange={(e) =>
-                  updateLoginInfo({ ...loginInfo, email: e.target.value })
-                }
-              />
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                onChange={(e) =>
-                  updateLoginInfo({ ...loginInfo, password: e.target.value })
-                }
-              />
+    //end of connection
+    <div className="frame-style pt-10">
+      <div className="p-10">
+        <h2 className="form-title text-left animate-fade-down">Login</h2>
+        <p className="form-subtitle text-left">Glad you’re back.! </p>
 
-              <Button variant="primary" type="submit">
-                {loginLoading ? "Getting you in..." : "Login"}
-              </Button>
-              {loginError?.error && (
-                <Alert variant="danger">
-                  <p>{loginError?.message}</p>
-                </Alert>
-              )}
-            </Stack>
-          </Col>
-        </Row>
-      </Form>
-    </>
+        <form className="input-form" onSubmit={loginUser}>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Email/Phone"
+            value={email}
+            onChange={handleInputChange}
+            className="input-style"
+          />
+
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={handleInputChange}
+            className="input-style"
+          />
+
+          <button
+            type="submit"
+            className="gradient-button2 hover:bg-customblack"
+          >
+            Login
+          </button>
+
+          <div className="divider">
+            <div className="line"></div>
+            <span className="or-text">Or</span>
+            <div className="line"></div>
+          </div>
+
+          <div className="social-icons">
+            <img
+              src={googleIcon}
+              alt="Google"
+              onClick={handleGoogleAuth}
+              style={{ cursor: "pointer" }}
+            />
+            <img src={githubIcon} alt="GitHub" />
+            <img src={facebookIcon} alt="Facebook" />
+          </div>
+
+          <div className="additional-text mt-4">
+            <p className="text-style">
+              <span
+                className="text-style underline cursor-pointer"
+                onClick={handleSignUpRedirect}
+              >
+                Sign up
+              </span>
+            </p>
+            <div className="flex justify-between subText-style text-w">
+              <p>Terms & Conditions</p>
+              <p>Support</p>
+              <p>Customer Care</p>
+            </div>
+          </div>
+          {successMsg && (
+            <div className="text-green-500 mt-4">{successMsg}</div>
+          )}
+          {errorMsg && <div className="text-red-500 mt-4">{errorMsg}</div>}
+        </form>
+      </div>
+    </div>
   );
-};
+}
 
-export default Login;
+export default SignInFrame;
