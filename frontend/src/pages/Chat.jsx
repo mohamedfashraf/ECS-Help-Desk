@@ -6,6 +6,7 @@ import PotentialChats from "../components/chat/PotentialChats";
 import ChatBox from "../components/chat/ChatBox";
 import Header from "../partials/Header";
 import Sidebar from "../partials/Sidebar";
+import MessageBox from "../partials/dashboard/MessageBox";
 
 const Chat = () => {
   const { user } = useContext(AuthContext);
@@ -22,11 +23,21 @@ const Chat = () => {
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         <Header />
         <div
+          style={{
+            padding: "20px", // Adjust the padding as needed
+            marginTop: "5px", // Adjust the top margin as needed
+            marginLeft: "20px", // Adjust the left margin as needed
+            marginRight: "20px", // Adjust the right margin as needed
+          }}
+        >
+          <MessageBox />
+        </div>
+        <div
           className="flex flex-col flex-grow p-4 chat-box"
           style={{
             backgroundColor: "rgba(30, 41, 59, 1)",
             padding: "20px", // Adjust the padding as needed
-            marginTop: "20px", // Adjust the top margin as needed
+            // Adjust the top margin as needed
             marginBottom: "20px", // Adjust the bottom margin as needed
             marginLeft: "20px", // Adjust the left margin as needed
             marginRight: "20px", // Adjust the right margin as needed
