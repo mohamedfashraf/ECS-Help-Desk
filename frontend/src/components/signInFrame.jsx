@@ -18,11 +18,8 @@ export function SignInFrame() {
 
   // Use the useNavigate hook instead of useHistory
 
-<<<<<<< HEAD
-=======
   const navigate = useNavigate();
 
->>>>>>> da894d549128b07e6089b6859e96dc930cc093da
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
@@ -46,11 +43,8 @@ export function SignInFrame() {
     await loginUser();
 
     if (loginInfo.user) {
-<<<<<<< HEAD
       navigate("/"); // Navigate to the chat page or desired route
-=======
       navigate("/chat"); // Navigate to the chat page or desired route
->>>>>>> da894d549128b07e6089b6859e96dc930cc093da
     const response = await loginUser();
 
     if (response && response.user) {
