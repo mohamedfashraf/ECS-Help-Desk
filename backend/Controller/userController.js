@@ -141,18 +141,18 @@ async function login(req, res) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 }
-// async function isValid2FA(user, token) {
-//   if (user.twoFactorAuthEnabled) {
-//     const isValid = authenticator.verify({
-//       secret: user.twoFactorAuthSecret,
-//       token,
-//     });
+async function isValid2FA(user, token) {
+  if (user.twoFactorAuthEnabled) {
+    const isValid = authenticator.verify({
+      secret: user.twoFactorAuthSecret,
+      token,
+    });
 
-//     return isValid;
-//   }
+    return isValid;
+  }
 
-//   return true; // 2FA is not enabled, no need to validate
-// }
+  return true; // 2FA is not enabled, no need to validate
+}
 
 async function getAllUsers(req, res) {
   try {
@@ -202,141 +202,141 @@ async function deleteUser(req, res) {
   }
 }
 
-// async function enable2FA(req, res) {
-//   try {
-//     // Extract token from cookies
-//     const authHeader = req.headers.authorization;
-//     if (!authHeader) {
-//       return res
-//         .status(401)
-//         .json({ message: "Access denied. No authorization header provided." });
-//     }
+async function enable2FA(req, res) {
+  try {
+    // Extract token from cookies
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res
+        .status(401)
+        .json({ message: "Access denied. No authorization header provided." });
+    }
 
-//     // Typically, the Authorization header is in the format: "Bearer [token]"
-//     const token = authHeader.split(" ")[1]; // Splitting by space and taking the second part (the token itself)
-//     if (!token) {
-//       return res
-//         .status(401)
-//         .json({ message: "Access denied. No token provided." });
-//     }
+    // Typically, the Authorization header is in the format: "Bearer [token]"
+    const token = authHeader.split(" ")[1]; // Splitting by space and taking the second part (the token itself)
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Access denied. No token provided." });
+    }
 
-//     // Verify token and extract user ID
-//     let userId;
-//     try {
-//       const decoded = jwt.verify(token, secretKey);
-//       userId = decoded.userId;
-//     } catch (error) {
-//       return res.status(403).json({ message: "Invalid token" });
-//     }
+    // Verify token and extract user ID
+    let userId;
+    try {
+      const decoded = jwt.verify(token, secretKey);
+      userId = decoded.userId;
+    } catch (error) {
+      return res.status(403).json({ message: "Invalid token" });
+    }
 
-//     // Find user by ID
-//     const user = await UserModel.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
+    // Find user by ID
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-//     if (user.twoFactorAuthEnabled) {
-//       return res
-//         .status(400)
-//         .json({ message: "2FA is already enabled for this user" });
-//     }
+    if (user.twoFactorAuthEnabled) {
+      return res
+        .status(400)
+        .json({ message: "2FA is already enabled for this user" });
+    }
 
-//     // Generate a new 2FA secret for the user
-//     const secret = authenticator.generateSecret();
-//     const otpauthURL = authenticator.keyuri(user.email, "YourAppName", secret);
+    // Generate a new 2FA secret for the user
+    const secret = authenticator.generateSecret();
+    const otpauthURL = authenticator.keyuri(user.email, "YourAppName", secret);
 
-//     // Generate QR code for the OTP auth URL
-//     const qrCodeURL = await generateQRCode(otpauthURL);
+    // Generate QR code for the OTP auth URL
+    const qrCodeURL = await generateQRCode(otpauthURL);
 
-//     // Update the user with the 2FA secret and mark it as enabled
-//     user.twoFactorAuthSecret = secret;
-//     user.twoFactorAuthEnabled = true;
-//     await user.save();
+    // Update the user with the 2FA secret and mark it as enabled
+    user.twoFactorAuthSecret = secret;
+    user.twoFactorAuthEnabled = true;
+    await user.save();
 
-//     res.status(200).json({ otpauthURL, qrCodeURL });
-//   } catch (error) {
-//     console.error("Error enabling 2FA:", error);
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// }
+    res.status(200).json({ otpauthURL, qrCodeURL });
+  } catch (error) {
+    console.error("Error enabling 2FA:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
 
-// async function generateQRCode(data) {
-//   try {
-//     return await qrcode.toDataURL(data);
-//   } catch (error) {
-//     throw new Error("Error generating QR code");
-//   }
-// }
+async function generateQRCode(data) {
+  try {
+    return await qrcode.toDataURL(data);
+  } catch (error) {
+    throw new Error("Error generating QR code");
+  }
+}
 
-// const verifyTwoFactorAuth = async (req, res) => {
-//   try {
-//     // Check if the Authorization header is present
-//     const authHeader = req.headers.authorization;
-//     if (!authHeader) {
-//       return res.status(401).json({ message: "No authorization header provided" });
-//     }
+const verifyTwoFactorAuth = async (req, res) => {
+  try {
+    // Check if the Authorization header is present
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: "No authorization header provided" });
+    }
 
-//     // Decode the JWT token to get the user ID
-//     const token = authHeader.split(" ")[1]; // Assuming token format is "Bearer [token]"
-//     if (!token) {
-//       return res.status(401).json({ message: "No token provided" });
-//     }
+    // Decode the JWT token to get the user ID
+    const token = authHeader.split(" ")[1]; // Assuming token format is "Bearer [token]"
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
 
-//     const decoded = jwt.verify(token, secretKey);
-//     const userId = decoded.userId;
+    const decoded = jwt.verify(token, secretKey);
+    const userId = decoded.userId;
 
-//     // Extract 2FA token from the request body
-//     const { twoFactorAuthToken } = req.body;
+    // Extract 2FA token from the request body
+    const { twoFactorAuthToken } = req.body;
 
-//     // Find the user by ID
-//     const user = await UserModel.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
+    // Find the user by ID
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-//     // Verify the 2FA token
-//     const isTokenValid = authenticator.verify({
-//       token: twoFactorAuthToken,
-//       secret: user.twoFactorAuthSecret,
-//     });
+    // Verify the 2FA token
+    const isTokenValid = authenticator.verify({
+      token: twoFactorAuthToken,
+      secret: user.twoFactorAuthSecret,
+    });
 
-//     if (!isTokenValid) {
-//       return res.status(400).json({ message: "Invalid 2FA token" });
-//     }
+    if (!isTokenValid) {
+      return res.status(400).json({ message: "Invalid 2FA token" });
+    }
 
-//     // Token is valid, proceed with the intended action
-//     res.status(200).json({ message: "2FA token verified successfully" });
-//   } catch (error) {
-//     console.error("Error verifying 2FA token:", error);
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// };
-
-
-// async function check2FAStatus(req, res) {
-//   try {
-//     // Extract and verify token, similar to the enable2FA function
-//     const authHeader = req.headers.authorization;
-//     const token = authHeader.split(" ")[1];
-//     const decoded = jwt.verify(token, secretKey);
-//     const userId = decoded.userId;
-
-//     // Find user by ID
-//     const user = await UserModel.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     // Return the status of 2FA for the user
-//     res.status(200).json({ is2FAEnabled: user.twoFactorAuthEnabled });
-//   } catch (error) {
-//     console.error("Error checking 2FA status:", error);
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// }
+    // Token is valid, proceed with the intended action
+    res.status(200).json({ message: "2FA token verified successfully" });
+  } catch (error) {
+    console.error("Error verifying 2FA token:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 
-// module.exports = enable2FA;
+async function check2FAStatus(req, res) {
+  try {
+    // Extract and verify token, similar to the enable2FA function
+    const authHeader = req.headers.authorization;
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, secretKey);
+    const userId = decoded.userId;
+
+    // Find user by ID
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return the status of 2FA for the user
+    res.status(200).json({ is2FAEnabled: user.twoFactorAuthEnabled });
+  } catch (error) {
+    console.error("Error checking 2FA status:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+
+module.exports = enable2FA;
 
 module.exports = {
   register,
@@ -346,7 +346,7 @@ module.exports = {
   updateUser,
   deleteUser,
   adminRegister,
-  // enable2FA,
-  // verifyTwoFactorAuth,
-  // check2FAStatus,
+  enable2FA,
+  verifyTwoFactorAuth,
+  check2FAStatus,
 };
