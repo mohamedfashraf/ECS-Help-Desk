@@ -5,7 +5,7 @@ const authorizationMiddleware = require("../Middleware/authorization");
 
 router.get("/", authorizationMiddleware(["admin"]), UserController.getAllUsers);
 
-// Place specific routes before the generic :id routes
+//Place specific routes before the generic :id routes
 router.post("/enable2fa", UserController.enable2FA);
 router.get("/check-2fa-status", UserController.check2FAStatus); // Corrected to use check2FAStatus
 router.post("/verify2fa", UserController.verifyTwoFactorAuth);

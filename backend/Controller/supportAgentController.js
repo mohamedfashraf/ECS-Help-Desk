@@ -1,16 +1,19 @@
 const SupportAgent = require('../Models/supportAgentModelSchema');
-
+const Ticket = require("../Models/ticektsModelSchema");
 // Create a new support agent "works"
 async function createSupportAgent(req, res) {
     try {
-        const { name, email, password, specialization, assignedTickets } = req.body;
-        const supportAgent = new SupportAgent({ name, email, password, specialization, assignedTickets });
+        const { name, email, password, expertise } = req.body;
+        const supportAgent = new SupportAgent({ name, email, password, expertise});
+
         await supportAgent.save();
         res.status(201).json(supportAgent);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 }
+
+
 
 // Get all support agents "works"
 async function getAllSupportAgents(req, res) {
