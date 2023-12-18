@@ -41,11 +41,8 @@ function App() {
             element={user ? <Dashboard /> : <Login />}
           />
           <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
-          {<Route exact path="*" element={<Navigate to="/" />} />}
           <Route exact path="*" element={<Navigate to="/" />} />
           <Route path="/chats" element={user ? <Chats /> : <Login />} />
-          <Route path="/tickets" element={user ? <Tickets /> : <Login />} />
-
           <Route
             path="/register"
             element={user ? <Dashboard /> : <Register />}
