@@ -16,12 +16,10 @@ export function SignInFrame() {
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [twoFactorAuthToken, setTwoFactorAuthToken] = useState("");
 
-
   const navigate = useNavigate(); // Initialize useNavigate
 
   const { loginUser, loginInfo, updateLoginInfo, loginError, loginLoading } =
     useContext(AuthContext);
-
 
   // Google Authentication Handler
   const handleGoogleAuth = () => {
