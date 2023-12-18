@@ -29,15 +29,17 @@ function App() {
     document.querySelector("html").style.scrollBehavior = "auto";
     window.scroll({ top: 0 });
     document.querySelector("html").style.scrollBehavior = "";
-
-    
   }, [location.pathname]); // triggered on route change
 
   return (
     <>
       <ChatContextProvider user={user}>
         <Routes>
-          <Route exact path="/login" element={<Login />} />
+          <Route
+            exact
+            path="/login"
+            element={user ? <Dashboard /> : <Login />}
+          />
           <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
           {<Route exact path="*" element={<Navigate to="/" />} />}
           <Route exact path="*" element={<Navigate to="/" />} />
@@ -55,4 +57,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;
