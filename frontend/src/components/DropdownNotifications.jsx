@@ -1,68 +1,66 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import Transition from "../utils/Transition";
-import { baseUrl } from "../utils/services";
+import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function DropdownNotifications({ align }) {
+const DropdownNotifications = ({ align }) => {
+  const [messages, setMessages] = useState([]);
+  const [showAllMessages, setShowAllMessages] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [notifications, setNotifications] = useState([]);
-  const [showReadMore, setShowReadMore] = useState(false);
+
   const { user } = useContext(AuthContext);
+
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
-  const userEmail = user.email;
-  console.log("userEmail", userEmail);
-
   useEffect(() => {
-    const fetchNotifications = async () => {
+    const fetchMessages = async () => {
       try {
+        const token = localStorage.getItem("Token");
+
         const response = await axios.get(
-          "http://localhost:3000/api/emails/inbox"
+          "http://localhost:3000/api/emails/notifications",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
-        setNotifications(response.data);
+        const sortedMessages = response.data.messages.sort(
+          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+        );
+        setMessages(sortedMessages);
       } catch (error) {
-        console.error("Error fetching notifications:", error);
+        console.error("Error fetching messages:", error);
       }
     };
 
-    fetchNotifications();
-  }, []);
+    fetchMessages();
+  }, [dropdownOpen]);
 
-  // Close on click outside
-  useEffect(() => {
-    const clickHandler = ({ target }) => {
-      if (!dropdown.current) return;
-      if (
-        !dropdownOpen ||
-        dropdown.current.contains(target) ||
-        trigger.current.contains(target)
-      )
-        return;
-      setDropdownOpen(false);
-    };
-
-    document.addEventListener("click", clickHandler);
-    return () => document.removeEventListener("click", clickHandler);
-  });
-
-  // Close if the esc key is pressed
-  useEffect(() => {
-    const keyHandler = ({ keyCode }) => {
-      if (!dropdownOpen || keyCode !== 27) return;
-      setDropdownOpen(false);
-    };
-
-    document.addEventListener("keydown", keyHandler);
-    return () => document.removeEventListener("keydown", keyHandler);
-  });
-
-  const handleClickReadMore = () => {
-    setDropdownOpen(false);
-    // Add logic to navigate to the notifications page or show more notifications
+  const handleClickShowMore = () => {
+    setShowAllMessages(!showAllMessages);
   };
+
+  const handleClickIcon = () => {
+    setDropdownOpen((prev) => !prev); // Toggle the dropdown state
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdown.current && !dropdown.current.contains(event.target)) {
+      setDropdownOpen(false); // Close the dropdown if clicked outside
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="relative inline-flex">
@@ -72,10 +70,10 @@ function DropdownNotifications({ align }) {
           dropdownOpen && "bg-slate-200"
         }`}
         aria-haspopup="true"
-        onClick={() => setDropdownOpen(!dropdownOpen)}
+        onClick={handleClickIcon}
         aria-expanded={dropdownOpen}
       >
-        {/* ... (your existing icon) */}
+        <FontAwesomeIcon icon={faBell} />
       </button>
 
       <Transition
@@ -83,37 +81,43 @@ function DropdownNotifications({ align }) {
           align === "right" ? "right-0" : "left-0"
         }`}
         show={dropdownOpen}
-        // ... (your existing transition code)
       >
-        <div
-          ref={dropdown}
-          onFocus={() => setDropdownOpen(true)}
-          onBlur={() => setDropdownOpen(false)}
-        >
+        <div ref={dropdown}>
           <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase pt-1.5 pb-2 px-4">
             Notifications
           </div>
           <ul>
-            {notifications
-              .slice(0, showReadMore ? notifications.length : 3)
-              .map((notification, index) => (
+            {messages
+              .slice(0, showAllMessages ? messages.length : 5)
+              .map((message, index) => (
                 <li
                   key={index}
                   className={`border-b border-slate-200 dark:border-slate-700 ${
-                    index === notifications.length - 1 ? "last:border-0" : ""
+                    index === messages.length - 1 ? "last:border-0" : ""
                   }`}
                 >
-                  {/* ... (your existing notification item code) */}
+                  <Link
+                    className="block py-2 px-4 hover:bg-slate-50 dark:hover:bg-slate-700/20"
+                    to="#0"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    <span className="block text-sm mb-2">
+                      {message.message}
+                    </span>
+                    <span className="block text-xs font-medium text-slate-400 dark:text-slate-500">
+                      {new Date(message.timestamp).toLocaleString()}
+                    </span>
+                  </Link>
                 </li>
               ))}
           </ul>
-          {notifications.length > 3 && (
+          {messages.length > 5 && (
             <div className="px-4 pb-2 text-center">
               <button
                 className="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-600"
-                onClick={handleClickReadMore}
+                onClick={handleClickShowMore}
               >
-                {showReadMore ? "Show Less" : "Read More"}
+                {showAllMessages ? "Show Less" : "Show More"}
               </button>
             </div>
           )}
@@ -121,6 +125,6 @@ function DropdownNotifications({ align }) {
       </Transition>
     </div>
   );
-}
+};
 
 export default DropdownNotifications;
