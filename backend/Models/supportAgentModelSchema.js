@@ -21,15 +21,16 @@ const supportAgentSchema = new mongoose.Schema({
     High: {
       type: String,
       required: true
-    },
+  },
     Medium: {
       type: String,
       required: true
-    },
-    Low: {
+  },
+    Low:{
       type: String,
       required: true
-    }
+  }
+
   },
   assignedTickets: [{
     type: mongoose.Schema.Types.ObjectId,
