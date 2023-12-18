@@ -13,24 +13,32 @@ export function SignInFrame() {
   const [errorMsg, setErrorMsg] = useState("");
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [twoFactorAuthToken, setTwoFactorAuthToken] = useState("");
-  
+
   // Use the useNavigate hook instead of useHistory
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
+  // Google Authentication Handler
+  const handleGoogleAuth = () => {
+    window.open(`http://localhost:3000/auth/google/`, "_self");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMsg("");
     setErrorMsg("");
-  
+
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/login", { email, password });
-      
+      const response = await axios.post("http://localhost:3000/api/v1/login", {
+        email,
+        password,
+      });
+
       localStorage.setItem("token", response.data.token);
       setIs2FAEnabled(response.data.is2FAEnabled); // Assuming the server sends this information
-  
+
       if (!response.data.is2FAEnabled) {
         setSuccessMsg("Login successful!");
         navigate("/security-settings");
@@ -90,7 +98,12 @@ export function SignInFrame() {
           </div>
 
           <div className="social-icons">
-            <img src={googleIcon} alt="Google" />
+            <img
+              src={googleIcon}
+              alt="Google"
+              onClick={handleGoogleAuth}
+              style={{ cursor: "pointer" }}
+            />
             <img src={githubIcon} alt="GitHub" />
             <img src={facebookIcon} alt="Facebook" />
           </div>

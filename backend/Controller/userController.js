@@ -14,7 +14,8 @@ require("dotenv").config();
 
 async function adminRegister(req, res) {
   try {
-    const { name, email, role, password, specialization, assignedTickets } =
+
+    const { name, email, role, password, expertise } =
       req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const userRole = req.user.role;
@@ -27,8 +28,7 @@ async function adminRegister(req, res) {
         email,
         role,
         password: hashedPassword,
-        specialization,
-        assignedTickets,
+        expertise
       });
       await agent.save();
       const user = new UserModel({
