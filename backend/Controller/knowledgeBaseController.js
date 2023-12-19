@@ -12,6 +12,7 @@ async function createIssue(req, res) {
     }
 }
 
+
 // Get all issues grouped by category "works"
 async function getAllIssuesByCategory(req, res) {
     try {
@@ -50,13 +51,13 @@ async function getAllOrSearchIssues(req, res) {
 }
 
 // Get an issue by ID "works"
-async function getIssueById(req, res) {
+async function getIssues(req, res) {
     try {
-        const issue = await Issue.findById(req.params.id);
-        if (!issue) {
-            return res.status(404).json({ error: 'Issue not found' });
+        const issues = await Issue.find();
+        if (!issues) {
+            return res.status(404).json({ error: 'No issues found' });
         }
-        res.status(200).json(issue);
+        res.status(200).json(issues);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -96,7 +97,7 @@ module.exports = {
     createIssue,
     getAllIssuesByCategory,
     getAllOrSearchIssues,
-    getIssueById,
+    getIssues,
     updateIssue,
     deleteIssue,
 };

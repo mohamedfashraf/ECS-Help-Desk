@@ -514,37 +514,21 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             </NavLink>
                           </li>
                           <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/profile"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-indigo-500"
-                                  : "text-slate-400 hover:text-slate-200")
-                              }
-                            >
+                          <NavLink
+                  end
+                  to="/issues"
+                  className={`block text-slate-200 truncate transition duration-150 ${
+                    pathname.includes("messages")
+                      ? "hover:text-slate-200"
+                      : "hover:text-white"
+                  }`}
+                >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Profile
+                                Issues
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/feed"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-indigo-500"
-                                  : "text-slate-400 hover:text-slate-200")
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Feed
-                              </span>
-                            </NavLink>
-                          </li>
+                          
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
