@@ -91,7 +91,7 @@ const DropdownNotifications = ({ align }) => {
           <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase pt-1.5 pb-2 px-4">
             Notifications
           </div>
-          <ul>
+          <ul className="max-h-60 overflow-y-auto">
             {messages.map((message, index) => (
               <li
                 key={index}
@@ -104,7 +104,7 @@ const DropdownNotifications = ({ align }) => {
                   className="block py-2 px-4 hover:bg-slate-50 dark:hover:bg-slate-700/20"
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                 >
-                  <span className="block text-sm mb-2">{message.title}</span>
+                  <span className="block text-sm mb-2">{message.message}</span>
                   <span className="block text-xs font-medium text-slate-400 dark:text-slate-500">
                     {new Date(message.timestamp).toLocaleString()}
                   </span>
