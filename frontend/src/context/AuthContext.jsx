@@ -20,6 +20,34 @@ export const AuthContextProvider = ({ children }) => {
     password: "",
   });
 
+  const loginUserWithGoogle = useCallback(async (googleToken) => {
+    try {
+      // Send token to your backend for verification
+      const response = await fetch(`${baseUrl}/v1/google-auth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: googleToken }),
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        // Update user state and store in localStorage
+        localStorage.setItem("User", JSON.stringify(responseData.user));
+        localStorage.setItem("Token", responseData.token);
+        setUser(responseData.user);
+      } else {
+        console.error("Error during Google login");
+        // Handle error
+      }
+    } catch (error) {
+      console.error("Error during Google login:", error);
+      // Handle error
+    }
+  }, []);
+
   useEffect(() => {
     // Restore user and token from localStorage
     const storedUserData = localStorage.getItem("User");
@@ -122,6 +150,7 @@ export const AuthContextProvider = ({ children }) => {
         loginError,
         loginLoading,
         loginUser,
+        loginUserWithGoogle,
       }}
     >
       {children}

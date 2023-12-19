@@ -1,68 +1,110 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import LineChart from '../../charts/LineChart01';
-import Icon from '../../images/icon-02.svg';
-import EditMenu from '../../components/DropdownEditMenu';
-
-// Import utilities
-import { tailwindConfig, hexToRGB } from '../../utils/Utils';
+import React, { useState, useEffect, useContext } from "react";
+import Icon from "../../images/icon-02.svg";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 function DashboardCard02() {
+  const { user } = useContext(AuthContext);
+  const userId = user._id;
 
-  const chartData = {
-    labels: [
-      '12-01-2020', '01-01-2021', '02-01-2021',
-      '03-01-2021', '04-01-2021', '05-01-2021',
-      '06-01-2021', '07-01-2021', '08-01-2021',
-      '09-01-2021', '10-01-2021', '11-01-2021',
-      '12-01-2021', '01-01-2022', '02-01-2022',
-      '03-01-2022', '04-01-2022', '05-01-2022',
-      '06-01-2022', '07-01-2022', '08-01-2022',
-      '09-01-2022', '10-01-2022', '11-01-2022',
-      '12-01-2022', '01-01-2023',
-    ],
-    datasets: [
-      // Indigo line
-      {
-        data: [
-          622, 622, 426, 471, 365, 365, 238,
-          324, 288, 206, 324, 324, 500, 409,
-          409, 273, 232, 273, 500, 570, 767,
-          808, 685, 767, 685, 685,
-        ],
-        fill: true,
-        backgroundColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.blue[500])}, 0.08)`,
-        borderColor: tailwindConfig().theme.colors.indigo[500],
-        borderWidth: 2,
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-          pointBackgroundColor: tailwindConfig().theme.colors.indigo[500],
-          pointHoverBackgroundColor: tailwindConfig().theme.colors.indigo[500],
-          pointBorderWidth: 0,
-          pointHoverBorderWidth: 0,          
-          clip: 20,
-      },
-      // Gray line
-      {
-        data: [
-          732, 610, 610, 504, 504, 504, 349,
-          349, 504, 342, 504, 610, 391, 192,
-          154, 273, 191, 191, 126, 263, 349,
-          252, 423, 622, 470, 532,
-        ],
-        borderColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.slate[500])}, 0.25)`,
-        borderWidth: 2,
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-        pointBackgroundColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.slate[500])}, 0.25)`,
-        pointHoverBackgroundColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.slate[500])}, 0.25)`,
-        pointBorderWidth: 0,
-        pointHoverBorderWidth: 0,
-        clip: 20,
-      },
-    ],
+  const [userTickets, setUserTickets] = useState([]);
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [newInfo, setNewInfo] = useState({
+    description: "",
+    category: "Software",
+    subCategory: "",
+    priority: "Low",
+    // Removed resolutionDetails
+  });
+
+  // State for success or failure messages
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+
+  // Helper function to fetch user tickets
+  const fetchUserTickets = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/tickets/users`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("Token")}`,
+          },
+        }
+      );
+
+      setUserTickets(response.data);
+    } catch (error) {
+      console.error("Error fetching user tickets:", error);
+    }
+  };
+
+  // Fetch user tickets when the component mounts
+  useEffect(() => {
+    fetchUserTickets();
+  }, []); // Empty dependency array to run the effect only once when the component mounts
+
+  // Helper function to show confirmation message
+  const showConfirmationMessage = (message) => {
+    setConfirmationMessage(message);
+
+    // Hide confirmation message after 3 seconds
+    setTimeout(() => {
+      setConfirmationMessage("");
+    }, 3000);
+  };
+
+  const handleTicketSelect = (ticket) => {
+    setSelectedTicket(ticket);
+    // Reset newInfo when a ticket is selected
+    setNewInfo({
+      description: "",
+      category: "",
+      subCategory: "",
+      priority: "",
+      // Removed resolutionDetails
+    });
+  };
+
+  const handleUpdate = async () => {
+    try {
+      // Check if the selected ticket status is "Pending"
+      if (selectedTicket.status === "Pending") {
+        // Check if newInfo has non-empty values for category and priority
+        if (newInfo.category.trim() !== "" && newInfo.priority.trim() !== "") {
+          // Make the update request with the selected ticket and new information
+          const response = await axios.put(
+            `http://localhost:3000/api/tickets/${selectedTicket._id}`,
+            newInfo,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("Token")}`,
+              },
+            }
+          );
+
+          console.log("Ticket updated successfully:", response.data);
+
+          // Set success message
+          showConfirmationMessage("Ticket updated successfully!");
+
+          // Refetch user tickets to update the list
+          fetchUserTickets();
+        } else {
+          // Set error message
+          showConfirmationMessage("Category and priority are required fields.");
+        }
+      } else {
+        // Set error message
+        showConfirmationMessage(
+          "Cannot update ticket. Status is not 'Pending'."
+        );
+      }
+    } catch (error) {
+      console.error("Error updating ticket:", error.response.data);
+
+      // Set error message
+      showConfirmationMessage("Failed to update ticket. Please try again.");
+    }
   };
 
   return (
@@ -72,35 +114,113 @@ function DashboardCard02() {
           {/* Icon */}
           <img src={Icon} width="32" height="32" alt="Icon 02" />
           {/* Menu button */}
-          <EditMenu align="right" className="relative inline-flex">
-            <li>
-              <Link className="font-medium text-sm text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-200 flex py-1 px-3" to="#0">
-                Option 1
-              </Link>
-            </li>
-            <li>
-              <Link className="font-medium text-sm text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-200 flex py-1 px-3" to="#0">
-                Option 2
-              </Link>
-            </li>
-            <li>
-              <Link className="font-medium text-sm text-rose-500 hover:text-rose-600 flex py-1 px-3" to="#0">
-                Remove
-              </Link>
-            </li>
-          </EditMenu>
+          <button
+            type="button"
+            onClick={handleUpdate}
+            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer"
+          >
+            Update Ticket
+          </button>
         </header>
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">Acme Advanced</h2>
-        <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Sales</div>
-        <div className="flex items-start">
-          <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2">$17,489</div>
-          <div className="text-sm font-semibold text-white px-1.5 bg-amber-500 rounded-full">-14%</div>
-        </div>
-      </div>
-      {/* Chart built with Chart.js 3 */}
-      <div className="grow max-sm:max-h-[128px] max-h-[128px]">
-        {/* Change the height attribute to adjust the chart height */}
-        <LineChart data={chartData} width={389} height={128} />
+        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">
+          Update ticket
+        </h2>
+        {/* Display user tickets in a dropdown */}
+        <select
+          className="mt-2 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+          onChange={(e) => handleTicketSelect(JSON.parse(e.target.value))}
+        >
+          <option value="" disabled selected>
+            Select a ticket to update
+          </option>
+          {userTickets.map((ticket) => (
+            <option key={ticket._id} value={JSON.stringify(ticket)}>
+              {ticket.description}
+            </option>
+          ))}
+        </select>
+
+        {/* Display form for updating ticket */}
+        {selectedTicket && (
+          <div className="mt-4">
+            <form>
+              {/* Add input fields for new information */}
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  New Description
+                </label>
+                <input
+                  type="text"
+                  value={newInfo.description}
+                  onChange={(e) =>
+                    setNewInfo({ ...newInfo, description: e.target.value })
+                  }
+                  className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+                />
+              </div>
+              {/* Add dropdowns for category and priority */}
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  New Category
+                </label>
+                <select
+                  value={newInfo.category}
+                  onChange={(e) =>
+                    setNewInfo({ ...newInfo, category: e.target.value })
+                  }
+                  className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+                >
+                  <option value="Software">Software</option>
+                  <option value="Hardware">Hardware</option>
+                  <option value="Network">Network</option>
+                </select>
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  New Subcategory
+                </label>
+                <input
+                  type="text"
+                  value={newInfo.subCategory}
+                  onChange={(e) =>
+                    setNewInfo({ ...newInfo, subCategory: e.target.value })
+                  }
+                  className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  New Priority
+                </label>
+                <select
+                  value={newInfo.priority}
+                  onChange={(e) =>
+                    setNewInfo({ ...newInfo, priority: e.target.value })
+                  }
+                  className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+                >
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+              {/* Button to update ticket */}
+            </form>
+          </div>
+        )}
+
+        {/* Display success or failure message */}
+        {confirmationMessage && (
+          <div
+            className={`mt-4 text-sm ${
+              confirmationMessage.includes("successfully")
+                ? "text-green-600"
+                : "text-red-600"
+            }`}
+          >
+            {confirmationMessage}
+          </div>
+        )}
       </div>
     </div>
   );

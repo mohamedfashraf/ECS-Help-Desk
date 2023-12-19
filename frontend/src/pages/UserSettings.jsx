@@ -8,7 +8,7 @@ import Header from "../partials/Header";
 import Sidebar from "../partials/Sidebar";
 import MessageBox from "../partials/dashboard/MessageBox";
 import ViewUserTickets from "../components/Tickets/viewUserTickets";
-
+import UserProfile from "../components/Settings/MyAccounts";
 
 const Tickets = () => {
   const { user } = useContext(AuthContext);
@@ -42,8 +42,7 @@ const Tickets = () => {
             marginRight: "20px", // Adjust the right margin as needed
           }}
         >
-          <ViewUserTickets />
-          
+          <UserProfile/>
         </div>
       </div>
     </div>

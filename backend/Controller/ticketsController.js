@@ -1,5 +1,5 @@
 const Ticket = require('../Models/ticektsModelSchema');
-const SupportAgent = require('../Models/supportAgentModelSchema'); 
+const SupportAgent = require('../Models/supportAgentModelSchema');
 
 const highPriorityQueue = [];
 const mediumPriorityQueue = [];
@@ -7,7 +7,7 @@ const lowPriorityQueue = [];
 
 async function createTicket(req, res) {
     try {
-        const { description, category, subCategory, priority, resolutionDetails } = req.body;
+        const { description, category, subCategory, priority } = req.body;
         const user_id = req.user.userId;
 
         const assignedAgent = await findAvailableSupportAgent(category, priority);
@@ -27,7 +27,6 @@ async function createTicket(req, res) {
                 priority,
                 status: "Open",
                 createdBy: user_id,
-                resolutionDetails,
             });
 
             addToPriorityQueue(ticket);
@@ -53,7 +52,6 @@ async function createTicket(req, res) {
         res.status(400).json({ message: error.message });
     }
 }
-
 
 function addToPriorityQueue(ticket) {
     switch (ticket.priority) {
@@ -116,10 +114,7 @@ async function processTicketQueue(queue) {
     }
 }
 
-
-
-
-async function  assignTicketToAgent(agent, user_id, description, category, subCategory, priority, status, resolutionDetails) {
+async function assignTicketToAgent(agent, user_id, description, category, subCategory, priority, status, resolutionDetails) {
     const ticket = new Ticket({
         user_id,
         description,
@@ -136,14 +131,12 @@ async function  assignTicketToAgent(agent, user_id, description, category, subCa
     await agent.save();
     await ticket.save();
 
-     // Remove the ticket from the appropriate priority queue
-     removeFromPriorityQueue(ticket);
+    // Remove the ticket from the appropriate priority queue
+    removeFromPriorityQueue(ticket);
 
     // Check the ticket queue and assign tickets to available agents
     await processTicketQueues();
 }
-
-
 
 // The rest of your findAvailableSupportAgent function remains unchanged
 async function findAvailableSupportAgent(category, priority) {
@@ -171,26 +164,16 @@ async function findAvailableSupportAgent(category, priority) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 async function getAllTickets(req, res) {
     try {
-      const tickets = await Ticket.find({});
-      res.status(200).send(tickets);
+        const tickets = await Ticket.find({});
+        res.status(200).send(tickets);
     } catch (error) {
-      res.status(500).send(error.message);
+        res.status(500).send(error.message);
     }
-  }
+}
 
-async function getTicketById(req, res) { 
+async function getTicketById(req, res) {
     try {
         const ticket = await Ticket.findById(req.params.id);
         if (!ticket) {
@@ -198,77 +181,10 @@ async function getTicketById(req, res) {
         }
         res.status(200).json(ticket);
     } catch (error) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
         res.status(500).json({ message: error.message });
     }
 }
 
-
-// DI EL UPDATE EL ADEEMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-// async function updateTicket(req, res) {
-//     try {
-//         const updates = Object.keys(req.body);
-//         const ticket = await Ticket.findById(req.params.id);
-//         if (!ticket) {
-//             return res.status(404).json({ message: "Ticket not found" });
-//         }
-//         updates.forEach((update) => ticket[update] = req.body[update]);
-//         await ticket.save();
-//         res.status(200).json(ticket);
-//     } catch (error) {
-//         res.status(400).json({ message: error.message });
-//     }
-// }
 
 async function updateTicket(req, res) {
     try {
@@ -323,13 +239,37 @@ async function deleteTicket(req, res) {
     }
 }
 
+///////////homa el 2 dol ya ashraffffffffff
+async function getUserTickets(req, res) {
+    try {
+        const userId = req.user.userId; // Convert to ObjectId
+        const tickets = await Ticket.find({ user_id: userId });
+        res.status(200).send(tickets);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+async function getAgentTickets(req, res) {
+    try {
+        const agentId = req.user.userId;
+        const agentTickets = await Ticket.find({ assignedTo: agentId });
+        res.status(200).json(agentTickets);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
     createTicket,
     getAllTickets,
+    getUserTickets,
+    getAgentTickets,
     getTicketById,
     updateTicket,
     deleteTicket,
     processTicketQueue, // Exporting the function for external use
-    findAvailableSupportAgent // Exporting the function for testing or other use
+    findAvailableSupportAgent, // Exporting the function for testing or other use
+
 };
 
