@@ -34,10 +34,8 @@ const Tickets = () => {
         >
         </div>
         <div
-          className="flex flex-col flex-grow p-4 chat-box"
+          className="flex flex-col flex-grow"
           style={{
-            backgroundColor: "rgba(30, 41, 59, 1)",
-            padding: "20px", // Adjust the padding as needed
             // Adjust the top margin as needed
             marginBottom: "20px", // Adjust the bottom margin as needed
             marginLeft: "20px", // Adjust the left margin as needed

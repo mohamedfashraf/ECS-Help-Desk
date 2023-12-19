@@ -10,12 +10,7 @@ import Tickets from "./pages/Tickets";
 import "./css/style.css";
 
 import "./charts/ChartjsConfig";
-import "./css/style.css";
 
-import "./charts/ChartjsConfig";
-import "./css/style.css";
-
-import "./charts/ChartjsConfig";
 
 // Import pages
 import Dashboard from "./pages/Dashboard";
@@ -43,6 +38,7 @@ function App() {
           <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
           <Route exact path="*" element={<Navigate to="/" />} />
           <Route path="/chats" element={user ? <Chats /> : <Login />} />
+
           <Route
             path="/register"
             element={user ? <Dashboard /> : <Register />}
