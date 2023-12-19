@@ -119,4 +119,3 @@ const DropdownNotifications = ({ align }) => {
 };
 
 export default DropdownNotifications;
-update
