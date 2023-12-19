@@ -53,7 +53,6 @@ async function createTicket(req, res) {
     }
 }
 
-
 function addToPriorityQueue(ticket) {
     switch (ticket.priority) {
         case 'High':
@@ -115,9 +114,6 @@ async function processTicketQueue(queue) {
     }
 }
 
-
-
-
 async function assignTicketToAgent(agent, user_id, description, category, subCategory, priority, status, resolutionDetails) {
     const ticket = new Ticket({
         user_id,
@@ -141,8 +137,6 @@ async function assignTicketToAgent(agent, user_id, description, category, subCat
     // Check the ticket queue and assign tickets to available agents
     await processTicketQueues();
 }
-
-
 
 // The rest of your findAvailableSupportAgent function remains unchanged
 async function findAvailableSupportAgent(category, priority) {
@@ -169,16 +163,6 @@ async function findAvailableSupportAgent(category, priority) {
         return null;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 async function getAllTickets(req, res) {
     try {
@@ -255,7 +239,6 @@ async function deleteTicket(req, res) {
     }
 }
 
-
 ///////////homa el 2 dol ya ashraffffffffff
 async function getUserTickets(req, res) {
     try {
@@ -266,8 +249,6 @@ async function getUserTickets(req, res) {
         res.status(500).send(error.message);
     }
 }
-
-
 
 async function getAgentTickets(req, res) {
     try {
