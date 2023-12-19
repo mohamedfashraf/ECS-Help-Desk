@@ -12,7 +12,6 @@ function DashboardCard01() {
     category: "Software",
     subCategory: "",
     priority: "Low",
-    resolutionDetails: "",
   });
 
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -132,18 +131,6 @@ function DashboardCard01() {
             <option value="Medium">Medium</option>
             <option value="High">High</option>
           </select>
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Resolution Details
-          </label>
-          <input
-            type="text"
-            name="resolutionDetails"
-            value={ticketData.resolutionDetails}
-            onChange={handleChange}
-            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
-          />
         </div>
       </div>
     </div>
