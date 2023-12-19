@@ -198,77 +198,10 @@ async function getTicketById(req, res) {
         }
         res.status(200).json(ticket);
     } catch (error) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
         res.status(500).json({ message: error.message });
     }
 }
 
-
-// DI EL UPDATE EL ADEEMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-// async function updateTicket(req, res) {
-//     try {
-//         const updates = Object.keys(req.body);
-//         const ticket = await Ticket.findById(req.params.id);
-//         if (!ticket) {
-//             return res.status(404).json({ message: "Ticket not found" });
-//         }
-//         updates.forEach((update) => ticket[update] = req.body[update]);
-//         await ticket.save();
-//         res.status(200).json(ticket);
-//     } catch (error) {
-//         res.status(400).json({ message: error.message });
-//     }
-// }
 
 async function updateTicket(req, res) {
     try {
@@ -323,13 +256,40 @@ async function deleteTicket(req, res) {
     }
 }
 
+
+///////////homa el 2 dol ya ashraffffffffff
+async function getUserTickets(req, res) {
+    try {
+        const userId = req.user.userId; // Convert to ObjectId
+      const tickets = await Ticket.find({user_id: userId});
+      res.status(200).send(tickets);
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+}
+
+
+
+async function getAgentTickets(req, res) {
+    try {
+        const agentId = req.user.userId; 
+        const agentTickets = await Ticket.find({ assignedTo: agentId });
+        res.status(200).json(agentTickets);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
     createTicket,
     getAllTickets,
+    getUserTickets,
+    getAgentTickets,
     getTicketById,
     updateTicket,
     deleteTicket,
     processTicketQueue, // Exporting the function for external use
-    findAvailableSupportAgent // Exporting the function for testing or other use
+    findAvailableSupportAgent, // Exporting the function for testing or other use
+    
 };
 

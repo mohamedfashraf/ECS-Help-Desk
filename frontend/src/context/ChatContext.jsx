@@ -78,7 +78,7 @@ export const ChatContextProvider = ({ children, user }) => {
         }
 
         const response = await getRequest(`${baseUrl}/support-agents`);
-        console.log("Users response:", response);
+        // console.log("Users response:", response);
 
         if (response.error) {
           console.error("Error getting users:", response.error);
@@ -102,7 +102,7 @@ export const ChatContextProvider = ({ children, user }) => {
           return !isChatCreated;
         });
 
-        console.log("Potential Chats:", pChats);
+        // console.log("Potential Chats:", pChats);
         setPotentialChats(pChats);
       } catch (error) {
         console.error("Error getting users:", error);
@@ -120,7 +120,7 @@ export const ChatContextProvider = ({ children, user }) => {
 
         try {
           const response = await getRequest(`${baseUrl}/chat/${user._id}`);
-          console.log("User Chats response:", response);
+          // console.log("User Chats response:", response);
 
           if (response.error) {
             setUserChatError(response.error);

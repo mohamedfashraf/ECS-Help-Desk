@@ -9,6 +9,9 @@ router.post('/', authorizationMiddleware(["user", "agent", "admin"])
 router.get('/inbox', authorizationMiddleware(["user", "agent", "admin"])
     , chatMessageController.getUserEmails);
 
+router.get('/notifications', authorizationMiddleware(["user", "agent", "admin"])
+    , chatMessageController.getUserEmailsMessages);
+
 router.get('/:id', authorizationMiddleware(["user", "agent", "admin"])
     , chatMessageController.getEmailById);
 

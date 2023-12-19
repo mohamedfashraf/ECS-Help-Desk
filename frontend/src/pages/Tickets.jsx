@@ -7,7 +7,7 @@ import ChatBox from "../components/chat/ChatBox";
 import Header from "../partials/Header";
 import Sidebar from "../partials/Sidebar";
 import MessageBox from "../partials/dashboard/MessageBox";
-import ViewTickets from "../components/Tickets/viewTickets";
+import ViewUserTickets from "../components/Tickets/viewUserTickets";
 
 
 const Tickets = () => {
@@ -32,7 +32,6 @@ const Tickets = () => {
             marginRight: "20px", // Adjust the right margin as needed
           }}
         >
-          {/* <MessageBox /> */}
         </div>
         <div
           className="flex flex-col flex-grow"
@@ -43,7 +42,7 @@ const Tickets = () => {
             marginRight: "20px", // Adjust the right margin as needed
           }}
         >
-          <ViewTickets />
+          <ViewUserTickets />
           
         </div>
       </div>
