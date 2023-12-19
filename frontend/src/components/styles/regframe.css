@@ -1,12 +1,6 @@
 /* customStyles.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-body,
 html {
-  height: 64rem;
-  background-color: #0f0f0f; /* Replace with your desired background color */
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
 }
