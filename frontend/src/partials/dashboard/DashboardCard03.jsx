@@ -67,7 +67,7 @@ function DashboardCard03() {
         </h2>
 
         {/* Ticket List */}
-        <div className="max-h-60 overflow-y-auto">
+        <div className="max-h-80w overflow-y-auto">
           {userTickets.length > 0 ? (
             userTickets.map((ticket, index) => (
               <div
