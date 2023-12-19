@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 
 
-const viewAgentTickets = () => {
+const viewTickets = () => {
   // Access the user context
   const { user } = useContext(AuthContext);
 
@@ -26,7 +26,15 @@ const viewAgentTickets = () => {
     const fetchTickets = async () => {
       try {
         const token = localStorage.getItem("Token");
-        const response = await axios.get("http://localhost:3000/api/tickets/agents/", {
+        let apiUrl;
+
+        // Check if the user's roles array includes "agent"
+        if (user && user.role && user.role.includes("agent")) {
+            apiUrl = "http://localhost:3000/api/tickets/agents/";
+        } else {
+            apiUrl = "http://localhost:3000/api/tickets/users/";
+        }
+        const response = await axios.get(apiUrl, {
           headers: {
             Authorization: `Bearer ${token}`,  // Include the token in the headers
           },
@@ -464,4 +472,4 @@ return (
     );
 };
 
-export default viewAgentTickets;
+export default viewTickets;
