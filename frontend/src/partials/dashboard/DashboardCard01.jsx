@@ -63,6 +63,9 @@ function DashboardCard01() {
             Create Ticket
           </button>
         </header>
+        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">
+          Apply for a new ticket
+        </h2>
         {/* Input fields */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
