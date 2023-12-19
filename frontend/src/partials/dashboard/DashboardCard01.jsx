@@ -1,113 +1,139 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import LineChart from '../../charts/LineChart01';
-import Icon from '../../images/icon-01.svg';
-import EditMenu from '../../components/DropdownEditMenu';
-
-// Import utilities
-import { tailwindConfig, hexToRGB } from '../../utils/Utils';
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import Icon from "../../images/icon-01.svg";
+import { AuthContext } from "../../context/AuthContext";
 
 function DashboardCard01() {
+  const { user } = useContext(AuthContext);
+  const userId = user._id;
 
-  const chartData = {
-    labels: [
-      '12-01-2020',
-      '01-01-2021',
-      '02-01-2021',
-      '03-01-2021',
-      '04-01-2021',
-      '05-01-2021',
-      '06-01-2021',
-      '07-01-2021',
-      '08-01-2021',
-      '09-01-2021',
-      '10-01-2021',
-      '11-01-2021',
-      '12-01-2021',
-      '01-01-2022',
-      '02-01-2022',
-      '03-01-2022',
-      '04-01-2022',
-      '05-01-2022',
-      '06-01-2022',
-      '07-01-2022',
-      '08-01-2022',
-      '09-01-2022',
-      '10-01-2022',
-      '11-01-2022',
-      '12-01-2022',
-      '01-01-2023',
-    ],
-    datasets: [
-      // Indigo line
-      {
-        data: [732, 610, 610, 504, 504, 504, 349, 349, 504, 342, 504, 610, 391, 192, 154, 273, 191, 191, 126, 263, 349, 252, 423, 622, 470, 532],
-        fill: true,
-        backgroundColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.blue[500])}, 0.08)`,
-        borderColor: tailwindConfig().theme.colors.indigo[500],
-        borderWidth: 2,
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-        pointBackgroundColor: tailwindConfig().theme.colors.indigo[500],
-        pointHoverBackgroundColor: tailwindConfig().theme.colors.indigo[500],
-        pointBorderWidth: 0,
-        pointHoverBorderWidth: 0,
-        clip: 20,
-      },
-      // Gray line
-      {
-        data: [532, 532, 532, 404, 404, 314, 314, 314, 314, 314, 234, 314, 234, 234, 314, 314, 314, 388, 314, 202, 202, 202, 202, 314, 720, 642],
-        borderColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.slate[500])}, 0.25)`,
-        borderWidth: 2,
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-        pointBackgroundColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.slate[500])}, 0.25)`,
-        pointHoverBackgroundColor: `rgba(${hexToRGB(tailwindConfig().theme.colors.slate[500])}, 0.25)`,
-        pointBorderWidth: 0,
-        pointHoverBorderWidth: 0,
-        clip: 20,
-      },
-    ],
+  const [ticketData, setTicketData] = useState({
+    description: "",
+    category: "Software",
+    subCategory: "",
+    priority: "Low",
+    resolutionDetails: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setTicketData((prevData) => ({ ...prevData, [name]: value }));
   };
+
+  const createTicket = async () => {
+    try {
+      const token = localStorage.getItem("Token");
+
+      const response = await axios.post(
+        "http://localhost:3000/api/tickets/",
+        {
+          ...ticketData,
+          userId: userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Handle the response as needed
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error creating ticket:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Optional: You can create the ticket on component mount if needed
+    // createTicket();
+  }, []);
 
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
       <div className="px-5 pt-5">
         <header className="flex justify-between items-start mb-2">
           {/* Icon */}
-          <img src={Icon} width="32" height="32" alt="Icon 01" />
-          {/* Menu button */}
-          <EditMenu align="right" className="relative inline-flex">
-            <li>
-              <Link className="font-medium text-sm text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-200 flex py-1 px-3" to="#0">
-                Option 1
-              </Link>
-            </li>
-            <li>
-              <Link className="font-medium text-sm text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-200 flex py-1 px-3" to="#0">
-                Option 2
-              </Link>
-            </li>
-            <li>
-              <Link className="font-medium text-sm text-rose-500 hover:text-rose-600 flex py-1 px-3" to="#0">
-                Remove
-              </Link>
-            </li>
-          </EditMenu>
+          <img src={Icon} width="32" height="32" alt="Create Ticket" />
+          {/* Button to create ticket */}
+          <button
+            onClick={createTicket}
+            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer"
+          >
+            Create Ticket
+          </button>
         </header>
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">Acme Plus</h2>
-        <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1">Sales</div>
-        <div className="flex items-start">
-          <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2">$24,780</div>
-          <div className="text-sm font-semibold text-white px-1.5 bg-emerald-500 rounded-full">+49%</div>
+        {/* Input fields */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Description
+          </label>
+          <input
+            type="text"
+            name="description"
+            value={ticketData.description}
+            onChange={handleChange}
+            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+          />
         </div>
-      </div>
-      {/* Chart built with Chart.js 3 */}
-      <div className="grow max-sm:max-h-[128px] xl:max-h-[128px]">
-        {/* Change the height attribute to adjust the chart height */}
-        <LineChart data={chartData} width={389} height={128} />
+        {/* Dropdown for category */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Category
+          </label>
+          <select
+            name="category"
+            value={ticketData.category}
+            onChange={handleChange}
+            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+          >
+            <option value="Software">Software</option>
+            <option value="Hardware">Hardware</option>
+            <option value="Network">Network</option>
+          </select>
+        </div>
+        {/* Input field for subCategory */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Subcategory
+          </label>
+          <input
+            type="text"
+            name="subCategory"
+            value={ticketData.subCategory}
+            onChange={handleChange}
+            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+          />
+        </div>
+        {/* Dropdown for priority */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Priority
+          </label>
+          <select
+            name="priority"
+            value={ticketData.priority}
+            onChange={handleChange}
+            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+          >
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+        {/* Input field for resolutionDetails */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Resolution Details
+          </label>
+          <input
+            type="text"
+            name="resolutionDetails"
+            value={ticketData.resolutionDetails}
+            onChange={handleChange}
+            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+          />
+        </div>
       </div>
     </div>
   );
