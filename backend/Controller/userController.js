@@ -190,6 +190,34 @@ async function updateUser(req, res) {
   }
 }
 
+// Update user by ID
+async function updateById(req, res) {
+  try {
+    const userId = req.params.id;
+    const updates = req.body;
+
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update user fields
+    Object.keys(updates).forEach((key) => {
+      user[key] = updates[key];
+    });
+
+    // Save the updated user
+    const updatedUser = await user.save();
+
+    // Respond with the updated user
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
 async function deleteUser(req, res) {
   try {
     const user = await UserModel.findByIdAndDelete(req.params.id);
@@ -349,4 +377,5 @@ module.exports = {
   enable2FA,
   verifyTwoFactorAuth,
   check2FAStatus,
+  updateById,
 };

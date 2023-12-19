@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
@@ -22,6 +23,9 @@ import DashboardCard13 from "../partials/dashboard/DashboardCard13";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user } = useContext(AuthContext);
+  const userRole = user.role;
+  console.log("user role", userRole);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -63,20 +67,20 @@ function Dashboard() {
 
             {/* Cards */}
             <div className="grid grid-cols-12 gap-6">
-              {/* Line chart (Acme Plus) */}
-              <DashboardCard01 />
-              {/* Line chart (Acme Advanced) */}
-              <DashboardCard02 />
-              {/* Line chart (Acme Professional) */}
-              <DashboardCard03 />
+              {/* Line chart (create ticket) */}
+              {userRole.includes("user") && <DashboardCard01 />}
+              {/* Line chart (update ticket) */}
+              {userRole.includes("user") && <DashboardCard02 />}
+              {/* Line chart (ticket status) */}
+              {userRole.includes("user") && <DashboardCard03 />}
               {/* Bar chart (Direct vs Indirect) */}
               {/* <DashboardCard04 /> */}
               {/* Line chart (Real Time Value) */}
               {/* <DashboardCard05 /> */}
               {/* Doughnut chart (Top Countries) */}
-              {/* <DashboardCard06 /> */}
-              {/* Table (Top Channels) */}
-              {/* <DashboardCard07 /> */}
+              {userRole.includes("admin") && <DashboardCard06 />}
+              {/* Table (users table) */}
+              {userRole.includes("admin") && <DashboardCard07 />}
               {/* Line chart (Sales Over Time) */}
               {/* <DashboardCard08 /> */}
               {/* Stacked bar chart (Sales VS Refunds) */}
