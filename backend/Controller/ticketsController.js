@@ -203,22 +203,6 @@ async function getTicketById(req, res) {
 }
 
 
-// DI EL UPDATE EL ADEEMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-// async function updateTicket(req, res) {
-//     try {
-//         const updates = Object.keys(req.body);
-//         const ticket = await Ticket.findById(req.params.id);
-//         if (!ticket) {
-//             return res.status(404).json({ message: "Ticket not found" });
-//         }
-//         updates.forEach((update) => ticket[update] = req.body[update]);
-//         await ticket.save();
-//         res.status(200).json(ticket);
-//     } catch (error) {
-//         res.status(400).json({ message: error.message });
-//     }
-// }
-
 async function updateTicket(req, res) {
     try {
         const updates = req.body;
@@ -272,6 +256,8 @@ async function deleteTicket(req, res) {
     }
 }
 
+
+///////////homa el 2 dol ya ashraffffffffff
 async function getUserTickets(req, res) {
     try {
         const userId = req.user.userId; // Convert to ObjectId
