@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import Icon from "../../images/icon-01.svg";
 import { AuthContext } from "../../context/AuthContext";
@@ -14,6 +14,8 @@ function DashboardCard01() {
     priority: "Low",
     resolutionDetails: "",
   });
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,18 +41,28 @@ function DashboardCard01() {
 
       // Handle the response as needed
       console.log(response.data);
+
+      // Show confirmation pop-up
+      setShowConfirmation(true);
+
+      // Hide confirmation pop-up after 3 seconds
+      setTimeout(() => {
+        setShowConfirmation(false);
+      }, 3000);
     } catch (error) {
       console.error("Error creating ticket:", error);
     }
   };
 
-  useEffect(() => {
-    // Optional: You can create the ticket on component mount if needed
-    // createTicket();
-  }, []);
-
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+    <div className="relative flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+      {/* Confirmation pop-up */}
+      {showConfirmation && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded">
+          Ticket created successfully!
+        </div>
+      )}
+
       <div className="px-5 pt-5">
         <header className="flex justify-between items-start mb-2">
           {/* Icon */}
@@ -79,7 +91,6 @@ function DashboardCard01() {
             className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
           />
         </div>
-        {/* Dropdown for category */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Category
@@ -95,7 +106,6 @@ function DashboardCard01() {
             <option value="Network">Network</option>
           </select>
         </div>
-        {/* Input field for subCategory */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Subcategory
@@ -108,7 +118,6 @@ function DashboardCard01() {
             className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
           />
         </div>
-        {/* Dropdown for priority */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Priority
@@ -124,7 +133,6 @@ function DashboardCard01() {
             <option value="High">High</option>
           </select>
         </div>
-        {/* Input field for resolutionDetails */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Resolution Details
