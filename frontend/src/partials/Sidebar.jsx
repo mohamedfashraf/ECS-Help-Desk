@@ -127,7 +127,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               />
             </svg>
           </NavLink>
-          <h1 class="text-6568f5 text-left">ECS Help Desk</h1>
+          <h1 className="text-6568f5 text-left">ECS Help Desk</h1>
         </div>
         {/* Links */}
         <div className="space-y-8">
