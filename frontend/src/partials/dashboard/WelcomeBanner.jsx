@@ -74,7 +74,7 @@ function WelcomeBanner() {
           Good afternoon, {user.name} 👋
         </h1>
         <p className="dark:text-indigo-200">
-          Here is what’s happening with your projects today:
+          Here is what’s happening with your tickets today:
         </p>
       </div>
     </div>
