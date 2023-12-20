@@ -347,7 +347,7 @@ const UserProfile = () => {
                   for="first-name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  First Name
+                  User Name
                 </label>
                 <input
                   type="text"
@@ -358,22 +358,7 @@ const UserProfile = () => {
                   required
                 />
               </div>
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  for="last-name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  name="last-name"
-                  id="last-name"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Green"
-                  required
-                />
-              </div>
+             
               <div className="col-span-6 sm:col-span-3">
                 <label
                   for="country"
@@ -470,22 +455,7 @@ const UserProfile = () => {
                   required
                 />
               </div>
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  for="organization"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Organization
-                </label>
-                <input
-                  type="text"
-                  name="organization"
-                  id="organization"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Company Name"
-                  required
-                />
-              </div>
+            
               <div className="col-span-6 sm:col-span-3">
                 <label
                   for="role"
@@ -502,38 +472,8 @@ const UserProfile = () => {
                   required
                 />
               </div>
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  for="department"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Department
-                </label>
-                <input
-                  type="text"
-                  name="department"
-                  id="department"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Development"
-                  required
-                />
-              </div>
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  for="zip-code"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Zip/postal code
-                </label>
-                <input
-                  type="number"
-                  name="zip-code"
-                  id="zip-code"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="123456"
-                  required
-                />
-              </div>
+              
+              
               <div className="col-span-6 sm:col-full">
                 <button
                   className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -683,7 +623,7 @@ const UserProfile = () => {
         </div>
         <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0">
         <div className="flow-root">
-            <h3 className="text-xl font-semibold dark:text-white">Email Notifications</h3>
+            <h3 className="text-xl font-semibold dark:text-white">Settings</h3>
             <p className="text-sm font-normal text-gray-500 dark:text-gray-400">You can set up Themesberg to get email notifications </p>
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 <div className="flex items-center justify-between py-4">
