@@ -77,7 +77,7 @@ function Dashboard() {
               {/* <DashboardCard04 /> */}
               {/* Line chart (Real Time Value) */}
               {/* <DashboardCard05 /> */}
-              {/* Doughnut chart (Top Countries) */}
+              {/* Doughnut chart (create agent) */}
               {userRole.includes("admin") && <DashboardCard06 />}
               {/* Table (users table) */}
               {userRole.includes("admin") && <DashboardCard07 />}
