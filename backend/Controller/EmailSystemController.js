@@ -74,6 +74,26 @@ async function createEmail(req, res) {
     }
 }
 
+// Get all user emails messages by email "works"
+async function getUserEmailsMessages(req, res) {
+    try {
+        const userEmail = req.user.email;
+        const conversation = await Emails.findOne({ userEmail: userEmail });
+
+        if (!conversation) {
+            return res.status(404).json({ message: 'No conversation found for the user' });
+        }
+
+        const messages = conversation.messages.map(({ message, timestamp }) => ({ message, timestamp }));
+
+        console.log('Retrieved Messages:', messages);
+        res.status(200).json({ messages });
+    } catch (error) {
+        console.error('Error retrieving messages:', error);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 // Get all user emails "works"
 async function getUserEmails(req, res) {
     try {
@@ -178,5 +198,6 @@ module.exports = {
     getUserEmails,
     getEmailById,
     replyMessages,
-    deleteConversation
+    deleteConversation,
+    getUserEmailsMessages
 };

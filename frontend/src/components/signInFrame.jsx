@@ -1,12 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Change the import to useNavigate
+import { useNavigate } from "react-router-dom";
 import "../components/styles/regframe.css";
 
 import facebookIcon from "../svgs/facebook.svg";
 import googleIcon from "../svgs/google.svg";
 import githubIcon from "../svgs/github.svg";
-import { AuthContext } from "../context/AuthContext"; // Import AuthContext
+import { AuthContext } from "../context/AuthContext";
 
 export function SignInFrame() {
   const [email, setEmail] = useState("");
@@ -16,16 +16,20 @@ export function SignInFrame() {
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [twoFactorAuthToken, setTwoFactorAuthToken] = useState("");
 
-  // Google Authentication Handler
-  const handleGoogleAuth = () => {
-    window.open("http://localhost:3000/auth/google/, _self");
-  };
-  const handleSignUpRedirect = () => {
-    useNavigate("/register"); // Update with your actual signup path
-  };
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const { loginUser, loginInfo, updateLoginInfo, loginError, loginLoading } =
     useContext(AuthContext);
+
+  // Google Authentication Handler
+  const handleGoogleAuth = () => {
+    // Assuming you have a backend route handling Google Auth
+    window.location.href = "http://localhost:3000/auth/google";
+  };
+
+  const handleSignUpRedirect = () => {
+    navigate("/register"); // Navigate to signup page
+  };
 
   const handleInputChange = (e) => {
     updateLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
@@ -33,13 +37,10 @@ export function SignInFrame() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await loginUser();
-
     const response = await loginUser();
 
     if (response && response.user) {
-      // Navigate to the dashboard on successful login
-      useNavigate("/"); // Replace with your dashboard path
+      navigate("/"); // Navigate to dashboard on successful login
     }
   };
 
