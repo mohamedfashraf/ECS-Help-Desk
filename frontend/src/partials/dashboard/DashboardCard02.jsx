@@ -108,7 +108,7 @@ function DashboardCard02() {
   };
 
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+    <div className="relative flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:border-gray-700 sm:p-6 dark:bg-gray-800 shadow-lg rounded-lg border border-slate-200">
       <div className="px-5 pt-5">
         <header className="flex justify-between items-start mb-2">
           {/* Icon */}
@@ -122,12 +122,12 @@ function DashboardCard02() {
             Update Ticket
           </button>
         </header>
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">
+        <h3 className="mb-4 text-xl font-semibold dark:text-white">
           Update ticket
-        </h2>
+        </h3>
         {/* Display user tickets in a dropdown */}
         <select
-          className="mt-2 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+            className="mt-11 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           onChange={(e) => handleTicketSelect(JSON.parse(e.target.value))}
         >
           <option value="" disabled selected>
@@ -145,8 +145,8 @@ function DashboardCard02() {
           <div className="mt-4">
             <form>
               {/* Add input fields for new information */}
-              <div className="mb-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <div className="mb-4">
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   New Description
                 </label>
                 <input
@@ -155,12 +155,12 @@ function DashboardCard02() {
                   onChange={(e) =>
                     setNewInfo({ ...newInfo, description: e.target.value })
                   }
-                  className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+                  className=" shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
               </div>
               {/* Add dropdowns for category and priority */}
-              <div className="mb-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <div className="mb-4">
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   New Category
                 </label>
                 <select
@@ -168,15 +168,15 @@ function DashboardCard02() {
                   onChange={(e) =>
                     setNewInfo({ ...newInfo, category: e.target.value })
                   }
-                  className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+                  className=" shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option value="Software">Software</option>
                   <option value="Hardware">Hardware</option>
                   <option value="Network">Network</option>
                 </select>
               </div>
-              <div className="mb-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <div className="mb-4">
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   New Subcategory
                 </label>
                 <input
@@ -185,11 +185,11 @@ function DashboardCard02() {
                   onChange={(e) =>
                     setNewInfo({ ...newInfo, subCategory: e.target.value })
                   }
-                  className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+                  className=" shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
               </div>
               <div className="mb-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   New Priority
                 </label>
                 <select
@@ -197,7 +197,7 @@ function DashboardCard02() {
                   onChange={(e) =>
                     setNewInfo({ ...newInfo, priority: e.target.value })
                   }
-                  className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+                  className=" shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>
