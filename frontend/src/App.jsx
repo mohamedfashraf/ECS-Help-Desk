@@ -16,7 +16,7 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
   const { user } = useContext(AuthContext);
-  console.log("user logged in ", user);
+  console.log("user logged in ", user); 
   const location = useLocation();
 
   useEffect(() => {
