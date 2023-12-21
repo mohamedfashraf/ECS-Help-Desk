@@ -16,7 +16,7 @@ router.get("/agents/", authorizationMiddleware(["user", "admin", "agent"])
 router.get("/:id", authorizationMiddleware(["user", "admin", "agent"])
   , ticketsController.getTicketById);
 
-  router.get("/", authorizationMiddleware(["user", "admin", "agent"])
+router.get("/", authorizationMiddleware(["user", "admin", "agent", "manager"])
   , ticketsController.getAllTickets);
 
 router.put("/:id", authorizationMiddleware(["user", "admin", "agent"])

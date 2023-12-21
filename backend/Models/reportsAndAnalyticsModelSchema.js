@@ -9,7 +9,7 @@ const ReportSchema = new Schema({
     },
     keyWords: {
         type: [String],
-        default: [],
+        required: true,
     },
     ticketId: {
         type: Schema.Types.ObjectId,

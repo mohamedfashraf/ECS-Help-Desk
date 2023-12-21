@@ -14,10 +14,11 @@ import "./charts/ChartjsConfig";
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
+import SendEmail from "./pages/sendEmail";
 
 function App() {
   const { user } = useContext(AuthContext);
-  console.log("user logged in ", user); 
+  console.log("user logged in ", user);
   const location = useLocation();
 
   useEffect(() => {
@@ -43,12 +44,12 @@ function App() {
             path="/settings"
             element={user ? <UserSettings /> : <Login />}
           />
-
           <Route
             path="/register"
             element={user ? <Dashboard /> : <Register />}
           />
           <Route path="/tickets" element={user ? <Tickets /> : <Login />} />
+          <Route path="/sendEmail" element={user ? <SendEmail /> : <Login />} />
         </Routes>
       </ChatContextProvider>
     </>
