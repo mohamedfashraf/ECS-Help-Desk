@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
-function DashboardCard07() {
+function FAQsTable() {
   const [issues, setIssues] = useState([]);
   const [expandedIssueId, setExpandedIssueId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -168,4 +168,4 @@ function DashboardCard07() {
   );
 }
 
-export default DashboardCard07;
+export default FAQsTable;
