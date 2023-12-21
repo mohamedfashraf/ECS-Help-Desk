@@ -5,7 +5,7 @@ import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import Emails from "../partials/emils";
 
-function FAQs() {
+function sendEmails() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const userRole = user.role;
@@ -58,4 +58,4 @@ function FAQs() {
   );
 }
 
-export default FAQs;
+export default sendEmails;

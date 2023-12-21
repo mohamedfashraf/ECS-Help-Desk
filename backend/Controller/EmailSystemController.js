@@ -6,8 +6,9 @@ async function createEmail(req, res) {
     try {
         const loggedInUser = req.user.role;
         const senderName = req.user.name;
+        console.log("loggedInUser", loggedInUser);
 
-        if (loggedInUser == "agent" || loggedInUser == "admin") {
+        if (loggedInUser.includes("agent") || loggedInUser.includes("admin")) {
             const { userEmail, messages } = req.body;
             const agentName = req.user.name;
             const agentEmail = req.user.email;
@@ -41,7 +42,7 @@ async function createEmail(req, res) {
             }
 
             res.status(201).json(conversation);
-        } else if (loggedInUser == "user") {
+        } else if (loggedInUser.includes("user")) {
             const { messages } = req.body;
             const userName = req.user.name;
             const userEmail = req.user.email;
@@ -52,17 +53,10 @@ async function createEmail(req, res) {
                 messages: messages.map(({ message }) => ({ sender: senderName, message })),
             });
 
-            // await conversation.save();
-            // for (const { message } of messages) {
-            //     const mailOptions = {
-            //         from: userEmail,
-            //         to: agentEmail,
-            //         subject: 'New Message from ' + agentName,
-            //         text: message
-            //     };
+            await conversation.save();
 
-            //     await transporter.sendMail(mailOptions);
-            // }
+            // TODO: Add email sending logic for users if needed
+            // Example: sendEmailToUser(userEmail, 'New Message', 'You have a new message.');
 
             res.status(201).json(conversation);
         } else {
@@ -70,9 +64,10 @@ async function createEmail(req, res) {
         }
     } catch (error) {
         console.error('Error in createEmail:', error);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 
 // Get all user emails messages by email "works"
 async function getUserEmailsMessages(req, res) {
