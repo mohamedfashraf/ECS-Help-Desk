@@ -46,7 +46,6 @@ async function getIssues(req, res) {
 async function getAllOrSearchIssues(req, res) {
     try {
         const { keyword } = req.query;
-        console.log("Received search keyword:", keyword); // Log the received keyword
         let query = {};
         if (keyword) {
             query = {
