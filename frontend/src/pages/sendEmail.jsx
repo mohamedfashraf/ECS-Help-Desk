@@ -3,7 +3,8 @@ import { AuthContext } from "../context/AuthContext";
 
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
-import Emails from "../partials/emils";
+import Emails from "../partials/emails";
+import ReplyEmail from "../partials/replyEmail";
 
 function sendEmails() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -50,6 +51,7 @@ function sendEmails() {
             {/* Cards */}
             <div className="grid grid-cols-12 gap-6">
               <Emails />
+              <ReplyEmail />
             </div>
           </div>
         </main>
