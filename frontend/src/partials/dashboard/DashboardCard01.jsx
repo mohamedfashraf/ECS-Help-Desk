@@ -54,7 +54,7 @@ function DashboardCard01() {
   };
 
   return (
-    <div className="relative flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+    <div className="relative flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:border-gray-700 sm:p-6 dark:bg-gray-800 shadow-lg rounded-lg border border-slate-200">
       {/* Confirmation pop-up */}
       {showConfirmation && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded">
@@ -74,12 +74,12 @@ function DashboardCard01() {
             Create Ticket
           </button>
         </header>
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">
+        <h3 className="mb-4 text-xl font-semibold dark:text-white">
           Apply for a new ticket
-        </h2>
+        </h3>
         {/* Input fields */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Description
           </label>
           <input
@@ -87,18 +87,18 @@ function DashboardCard01() {
             name="description"
             value={ticketData.description}
             onChange={handleChange}
-            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Category
           </label>
           <select
             name="category"
             value={ticketData.category}
             onChange={handleChange}
-            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           >
             <option value="Software">Software</option>
             <option value="Hardware">Hardware</option>
@@ -106,7 +106,7 @@ function DashboardCard01() {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Subcategory
           </label>
           <input
@@ -114,18 +114,18 @@ function DashboardCard01() {
             name="subCategory"
             value={ticketData.subCategory}
             onChange={handleChange}
-            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Priority
           </label>
           <select
             name="priority"
             value={ticketData.priority}
             onChange={handleChange}
-            className="mt-1 p-2 border rounded-md w-full dark:bg-slate-900 dark:text-white"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           >
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
