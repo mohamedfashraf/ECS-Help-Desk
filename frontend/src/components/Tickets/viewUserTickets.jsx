@@ -99,12 +99,11 @@ const viewUserTickets = () => {
 
   return (
     <>
-      <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased  rounded-lg overflow-hidden">
-        <div class="mx-auto max-w-screen-xl ">
-          <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+      <section class="bg-gray-50 dark:bg-gray-900  antialiased  rounded-lg ">
+          <div class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg overflow-hidden ">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
               <div class="w-full md:w-1/2"></div>
-              <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+              <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0 p-4">
                 <button
                   type="button"
                   id="createProductModalButton"
@@ -656,7 +655,6 @@ const viewUserTickets = () => {
               </ul>
             </nav>
           </div>
-        </div>
       </section>
 
       <div

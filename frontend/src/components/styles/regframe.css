@@ -1,6 +1,7 @@
 /* customStyles.css */
 
 html {
+  background-color: #0f0f0f; /* Replace with your desired background color */
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
 }
@@ -160,6 +161,20 @@ html {
   font-weight: 400;
   line-height: normal;
 }
+
+.loader-container {
+  position: fixed; /* Or 'absolute' if your container is positioned */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black; /* Black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Make sure it's above everything else */
+}
+
 /* Media query for screens smaller than 600px */
 @media screen and (max-width: 500px) {
   .signup-position {
