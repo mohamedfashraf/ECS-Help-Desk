@@ -5,7 +5,7 @@ const Ticket = require('../Models/ticektsModelSchema');
 // Create a new report "works"
 async function createReport(req, res) {
     try {
-        const { type, generatedBy, ticketId } = req.body;
+        const { type, generatedBy, ticketId, keyWords } = req.body;
 
         // Check if the provided ticketId is a valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(ticketId)) {
@@ -18,8 +18,14 @@ async function createReport(req, res) {
             return res.status(404).json({ error: 'Ticket not found' });
         }
 
+        // Check if a report for the provided ticketId already exists
+        const existingReport = await Report.findOne({ ticketId });
+        if (existingReport) {
+            return res.status(409).json({ error: 'A report for this ticket already exists' });
+        }
+
         // Create a new report with the specified ticketId
-        const report = new Report({ type, generatedBy, ticketId });
+        const report = new Report({ type, generatedBy, ticketId, keyWords });
         await report.save();
 
         res.status(201).json(report);
@@ -27,6 +33,7 @@ async function createReport(req, res) {
         res.status(500).json({ error: error.message });
     }
 }
+
 
 // Get all reports "works"
 async function getAllReports(req, res) {

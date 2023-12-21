@@ -71,7 +71,7 @@ function Dashboard() {
               {/* Line chart (update ticket) */}
               {userRole.includes("user") && <DashboardCard02 />}
               {/* Line chart (ticket status) */}
-              {userRole.includes("user") && <DashboardCard03 />}  
+              {userRole.includes("user") && <DashboardCard03 />}
               {/* Bar chart (Direct vs Indirect) */}
               {/* <DashboardCard04 /> */}
               {/* Line chart (Real Time Value) */}
@@ -84,10 +84,10 @@ function Dashboard() {
               {/* <DashboardCard08 /> */}
               {/* Stacked bar chart (Sales VS Refunds) */}
               {/* <DashboardCard09 /> */}
-              {/* Card (Customers) */}
-              {/* <DashboardCard10 /> */}
+              {/* Card (report) */}
+              {userRole.includes("manager") && <DashboardCard10 />}
               {/* Card (Reasons for Refunds) */}
-              {/* <DashboardCard11 /> */}
+              {userRole.includes("manager") && <DashboardCard11 />}
               {/* Card (Recent Activity) */}
               {/* <DashboardCard12 /> */}
               {/* Card (Income/Expenses) */}
