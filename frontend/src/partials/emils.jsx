@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
-function DashboardCard11() {
+function sendEmail() {
   const { user } = useContext(AuthContext);
   const [message, setMessage] = useState("");
   const [recipientEmail, setRecipientEmail] = useState("");
@@ -105,4 +105,4 @@ function DashboardCard11() {
   );
 }
 
-export default DashboardCard11;
+export default sendEmail;
