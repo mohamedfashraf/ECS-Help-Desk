@@ -15,7 +15,7 @@ async function createTicket(req, res) {
         let status;
         if (assignedAgent) {
             // Support agent available, assign the ticket
-            await assignTicketToAgent(assignedAgent, user_id, description, category, subCategory, priority, "Pending", resolutionDetails);
+            await assignTicketToAgent(assignedAgent, user_id, description, category, subCategory, priority, "Pending");
             status = "Pending";
         } else {
             // No available agent, add the ticket to the appropriate priority queue

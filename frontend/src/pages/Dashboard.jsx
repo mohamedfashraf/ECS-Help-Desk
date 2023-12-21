@@ -25,7 +25,6 @@ function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const userRole = user.role;
-  console.log("user role", userRole);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -72,7 +71,7 @@ function Dashboard() {
               {/* Line chart (update ticket) */}
               {userRole.includes("user") && <DashboardCard02 />}
               {/* Line chart (ticket status) */}
-              {userRole.includes("user") && <DashboardCard03 />}
+              {userRole.includes("user") && <DashboardCard03 />}  
               {/* Bar chart (Direct vs Indirect) */}
               {/* <DashboardCard04 /> */}
               {/* Line chart (Real Time Value) */}

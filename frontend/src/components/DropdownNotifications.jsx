@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
 import Transition from "../utils/Transition";
 
 const DropdownNotifications = ({ align }) => {

@@ -29,6 +29,19 @@ async function getAllIssuesByCategory(req, res) {
     }
 }
 
+// get all issues "works"
+async function getIssues(req, res) {
+    try {
+        const issues = await Issue.find();
+        if (!issues) {
+            return res.status(404).json({ error: 'No issues found' });
+        }
+        res.status(200).json(issues);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 // Get all issues or search based on keyword "works"
 async function getAllOrSearchIssues(req, res) {
     try {
@@ -99,4 +112,5 @@ module.exports = {
     getIssueById,
     updateIssue,
     deleteIssue,
+    getIssues,
 };
