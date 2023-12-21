@@ -23,7 +23,7 @@ function DashboardCard11() {
 
       const data = {
         userEmail: showUserEmailInput ? userEmail : "",
-        recipientEmail: showRecipientEmailInput ? recipientEmail : "", // Show recipientEmail only for "agent" role
+        recipientEmail: showRecipientEmailInput ? recipientEmail : "",
         messages: [{ message }],
       };
 
@@ -40,6 +40,11 @@ function DashboardCard11() {
       setUserEmail(user.email);
       setMessage("");
       setRecipientEmail("");
+
+      // Set a timeout to clear the success message after 3 seconds
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
     } catch (error) {
       console.error("Error sending email:", error.response.data);
       // Handle error (e.g., show an error message)
@@ -73,7 +78,7 @@ function DashboardCard11() {
           />
         )}
 
-        {user.role.includes("agent") && (
+        {showRecipientEmailInput && (
           <input
             type="text"
             className="w-full border p-2 mb-3 bg-gray-800 text-white"
