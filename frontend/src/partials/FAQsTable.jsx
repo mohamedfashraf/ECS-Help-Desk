@@ -7,43 +7,76 @@ function FAQsTable() {
   const [expandedIssueId, setExpandedIssueId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [categories, setCategories] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("Token");
-        const response = await axios.get(
-          "http://localhost:3000/api/knowledgeBase/all",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+  const fetchDataAll = async () => {
+    try {
+      const token = localStorage.getItem("Token");
+      const response = await axios.get(
+        "http://localhost:3000/api/knowledgeBase/all",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-        // Log the response data for debugging
-        console.log(response.data);
+      // Extract unique categories from the data
+      const uniqueCategories = [
+        ...new Set(response.data.map((issue) => issue.category)),
+      ];
 
-        // Extract unique categories from the data
-        const uniqueCategories = [
-          ...new Set(response.data.map((issue) => issue.category)),
-        ];
+      // Set the fetched issues and unique categories to the state
+      setIssues(response.data);
+      setCategories(uniqueCategories);
+    } catch (error) {
+      console.error("Error fetching issues:", error.message);
+    }
+  };
 
-        // Set the fetched issues and unique categories to the state
-        setIssues(response.data);
-        setCategories(uniqueCategories);
-      } catch (error) {
-        console.error("Error fetching issues:", error.message);
-      }
-    };
+  const fetchDataWithSearch = async () => {
+    try {
+      const token = localStorage.getItem("Token");
+      const response = await axios.get(
+        "http://localhost:3000/api/knowledgeBase/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: { keyword: searchKeyword }, // Send the search keyword
+        }
+      );
 
-    fetchData();
-  }, []);
+      // Extract unique categories from the data
+      const uniqueCategories = [
+        ...new Set(response.data.map((issue) => issue.category)),
+      ];
+
+      // Set the fetched issues and unique categories to the state
+      setIssues(response.data);
+      setCategories(uniqueCategories);
+    } catch (error) {
+      console.error("Error fetching issues:", error.message);
+    }
+  };
 
   const toggleIssueContent = (issueId, category) => {
     setExpandedIssueId((prevId) => (prevId === issueId ? null : issueId));
     setSelectedCategory(category);
   };
+
+  const handleSearch = (e) => {
+    const keyword = e.target.value;
+    setSearchKeyword(keyword);
+  };
+
+  useEffect(() => {
+    fetchDataAll();
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    fetchDataWithSearch();
+  }, [selectedCategory, searchKeyword]);
 
   const filteredIssues =
     selectedCategory === "all"
@@ -52,14 +85,19 @@ function FAQsTable() {
 
   return (
     <div className="col-span-full xl:col-span-12 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
-      {/* Add the dropdown filter above the table */}
-
       <header className="px-5 py-4 border-b border-slate-100 dark:border-slate-700">
-        <div className="flex items-center justify-between px-5 py-4 ">
+        <div className="flex items-center justify-between px-5 py-4">
           <h2 className="font-semibold text-slate-800 dark:text-slate-100">
             FAQs
           </h2>
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchKeyword}
+              onChange={handleSearch}
+              className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded p-2"
+            />
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}

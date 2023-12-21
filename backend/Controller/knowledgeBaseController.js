@@ -46,6 +46,7 @@ async function getIssues(req, res) {
 async function getAllOrSearchIssues(req, res) {
     try {
         const { keyword } = req.query;
+        console.log("Received search keyword:", keyword); // Log the received keyword
         let query = {};
         if (keyword) {
             query = {
@@ -61,6 +62,7 @@ async function getAllOrSearchIssues(req, res) {
         res.status(500).json({ error: error.message });
     }
 }
+
 
 // Get an issue by ID "works"
 async function getIssueById(req, res) {
