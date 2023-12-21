@@ -7,7 +7,6 @@ import ChatBox from "../components/chat/ChatBox";
 import Header from "../partials/Header";
 import Sidebar from "../partials/Sidebar";
 import MessageBox from "../partials/dashboard/MessageBox";
-import ViewUserTickets from "../components/Tickets/viewUserTickets";
 import UserProfile from "../components/Settings/MyAccounts";
 
 const Tickets = () => {
