@@ -127,8 +127,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               />
             </svg>
           </NavLink>
-          <h1 className="text-6568f5 text-left">ECS Help Desk</h1>
         </div>
+
         {/* Links */}
         <div className="space-y-8">
           {/* Pages group */}
@@ -916,7 +916,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/settings/notifications"
+                              to="/userSettings"
                               className={({ isActive }) =>
                                 "block transition duration-150 truncate " +
                                 (isActive
@@ -925,7 +925,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                My Notifications
+                                My Account
                               </span>
                             </NavLink>
                           </li>

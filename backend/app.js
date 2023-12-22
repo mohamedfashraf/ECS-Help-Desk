@@ -69,7 +69,6 @@ mongoose
 
 app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
 
-
 app.use("/auth", authRoutes);
 // Public routes
 
@@ -90,7 +89,11 @@ app.use("/api/reports", authenticationMiddleware, reportsAndAnalyticsRoutes);
 app.use("/api/support-agents", authenticationMiddleware, supportAgentRoutes);
 app.use("/api/tickets", authenticationMiddleware, ticketsRoute);
 app.use("/api/users", authenticationMiddleware, userRoutes);
-app.use("/api/automatedWorkflows", authenticationMiddleware, automatedWorkflowsRoutes);
+app.use(
+  "/api/automatedWorkflows",
+  authenticationMiddleware,
+  automatedWorkflowsRoutes
+);
 
 // Chat and message routes (assuming these need authentication)
 app.use("/api/chat", authenticationMiddleware, chatRoute);

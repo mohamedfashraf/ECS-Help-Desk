@@ -8,7 +8,7 @@ import Register from "./pages/SignUp";
 import Tickets from "./pages/Tickets";
 import UserSettings from "./pages/UserSettings";
 import "./css/style.css";
-
+import CurrentSettings from "./pages/CurrentSettings";
 import "./charts/ChartjsConfig";
 
 // Import pages
@@ -16,7 +16,7 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
   const { user } = useContext(AuthContext);
-  console.log("user logged in ", user); 
+  console.log("user logged in ", user);
   const location = useLocation();
 
   useEffect(() => {
@@ -41,7 +41,10 @@ function App() {
             path="/settings"
             element={user ? <UserSettings /> : <Login />}
           />
-
+          <Route
+            path="/userSettings"
+            element={user ? <CurrentSettings /> : <Login />}
+          />
           <Route
             path="/register"
             element={user ? <Dashboard /> : <Register />}
