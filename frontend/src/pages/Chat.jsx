@@ -9,7 +9,6 @@ import Sidebar from "../partials/Sidebar";
 import MessageBox from "../partials/dashboard/MessageBox";
 import ViewTickets from "../components/Tickets/viewUserTickets";
 
-
 const Chat = () => {
   const { user } = useContext(AuthContext);
   const { userChats, isUserChatsLoading, currentChat, updateCurrentChat } =
