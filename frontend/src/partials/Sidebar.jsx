@@ -627,7 +627,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 >
                   <NavLink
                     end
-                    to="sendEmail"
+                    to="/sendEmail"
                     className={`block text-slate-200 truncate transition duration-150 ${
                       pathname.includes("inbox")
                         ? "hover:text-slate-200"
