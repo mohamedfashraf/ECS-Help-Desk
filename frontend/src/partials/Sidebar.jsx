@@ -13,6 +13,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
   const allowedMessagesRoles = ["agent", "user"];
 
+  const allowedFAQsRoles = ["agent", "admin"];
+
+  const shouldAddFAQs = allowedFAQsRoles.some((role) =>
+    userRole.includes(role)
+  );
+
   // Check if the user's role includes any of the allowed roles
   const shouldRenderElement = allowedRoles.some((role) =>
     userRole.includes(role)
@@ -513,23 +519,25 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               </span>
                             </NavLink>
                           </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/profile"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-indigo-500"
-                                  : "text-slate-400 hover:text-slate-200")
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Profile
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
+                          {shouldAddFAQs && (
+                            <li className="mb-1 last:mb-0">
+                              <NavLink
+                                end
+                                to="/addFAQs"
+                                className={({ isActive }) =>
+                                  "block transition duration-150 truncate " +
+                                  (isActive
+                                    ? "text-indigo-500"
+                                    : "text-slate-400 hover:text-slate-200")
+                                }
+                              >
+                                <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  Manually add FAQs
+                                </span>
+                              </NavLink>
+                            </li>
+                          )}
+                          {/* <li className="mb-1 last:mb-0">
                             <NavLink
                               end
                               to="/community/feed"
@@ -544,8 +552,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 Feed
                               </span>
                             </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
+                          </li> */}
+                          {/* <li className="mb-1 last:mb-0">
                             <NavLink
                               end
                               to="/community/forum"
@@ -560,7 +568,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 Forum
                               </span>
                             </NavLink>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                     </React.Fragment>

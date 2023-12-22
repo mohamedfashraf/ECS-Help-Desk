@@ -15,6 +15,7 @@ import "./charts/ChartjsConfig";
 import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
 import SendEmail from "./pages/sendEmail";
+import AddFAQs from "./pages/addFAQs";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -50,6 +51,7 @@ function App() {
           />
           <Route path="/tickets" element={user ? <Tickets /> : <Login />} />
           <Route path="/sendEmail" element={user ? <SendEmail /> : <Login />} />
+          <Route path="/addFAQs" element={user ? <AddFAQs /> : <Login />} />
         </Routes>
       </ChatContextProvider>
     </>

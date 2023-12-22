@@ -6,21 +6,21 @@ const authorizationMiddleware = require("../Middleware/authorization");
 // Create a new issue
 router.post(
   "/",
-  authorizationMiddleware(["admin"]),
+  authorizationMiddleware(["admin", "agent"]),
   knowledgeBaseController.createIssue
 );
 
 //get all issues
 router.get(
   "/all",
-  authorizationMiddleware(["user", "admin"]),
+  authorizationMiddleware(["user", "admin", "agent"]),
   knowledgeBaseController.getIssues
 );
 
 // Get all issues or search based on keyword
 router.get(
   "/",
-  authorizationMiddleware(["user", "admin"]),
+  authorizationMiddleware(["user", "admin", "agent"]),
   knowledgeBaseController.getAllOrSearchIssues
 );
 
@@ -41,14 +41,14 @@ router.get(
 // Update an issue by ID
 router.put(
   "/:id",
-  authorizationMiddleware(["admin"]),
+  authorizationMiddleware(["agent", "admin"]),
   knowledgeBaseController.updateIssue
 );
 
 // Delete an issue by ID
 router.delete(
   "/:id",
-  authorizationMiddleware(["admin"]),
+  authorizationMiddleware(["agent", "admin"]),
   knowledgeBaseController.deleteIssue
 );
 
