@@ -2,30 +2,26 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
-function sendEmail() {
+function SendEmail() {
   const { user } = useContext(AuthContext);
+  const [toEmail, setToEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [recipientEmail, setRecipientEmail] = useState("");
-  const [userEmail, setUserEmail] = useState(user.email);
-  const [showUserEmailInput, setShowUserEmailInput] = useState(
-    user.role.includes("agent") ||
-      user.role.includes("admin") ||
-      user.role.includes("user")
-  );
-  const [showRecipientEmailInput, setShowRecipientEmailInput] = useState(
-    user.role.includes("agent") || user.role.includes("admin")
-  );
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSendMessage = async () => {
     try {
       const token = localStorage.getItem("Token");
 
       const data = {
-        userEmail: showUserEmailInput ? userEmail : "",
-        recipientEmail: showRecipientEmailInput ? recipientEmail : "",
+        userEmail: user.email,
         messages: [{ message }],
       };
+
+      // If the user is an agent or admin, set the "to" field from the state
+      if (user.role.includes("agent") || user.role.includes("admin")) {
+        data.userEmail = toEmail;
+      }
 
       await axios.post("http://localhost:3000/api/emails", data, {
         headers: {
@@ -36,10 +32,9 @@ function sendEmail() {
       // Set success message
       setSuccessMessage("Email sent successfully");
 
-      // Reset input values
-      setUserEmail(user.email);
+      // Clear input fields
+      setToEmail("");
       setMessage("");
-      setRecipientEmail("");
 
       // Set a timeout to clear the success message after 3 seconds
       setTimeout(() => {
@@ -48,7 +43,7 @@ function sendEmail() {
     } catch (error) {
       console.error("Error sending email:", error.response.data);
       // Handle error (e.g., show an error message)
-      console.error("Error sending email");
+      setErrorMessage("Error sending email");
     }
   };
 
@@ -59,50 +54,59 @@ function sendEmail() {
           New Email
         </h2>
       </header>
-
       <div className="p-5">
-        {successMessage && (
-          <div className="bg-green-500 text-white px-4 py-2 mb-4 rounded">
-            {successMessage}
+        <form>
+          {user.role.includes("admin") || user.role.includes("agent") ? (
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-slate-600 dark:text-slate-300">
+                To:
+              </label>
+              <input
+                type="email"
+                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300 dark:bg-slate-900 dark:border-slate-600 dark:text-white"
+                value={toEmail}
+                onChange={(e) => setToEmail(e.target.value)}
+              />
+            </div>
+          ) : null}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-slate-600 dark:text-slate-300">
+              From:
+            </label>
+            <input
+              type="email"
+              className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300 dark:bg-slate-900 dark:border-slate-600 dark:text-white"
+              value={user.email}
+              readOnly
+            />
           </div>
-        )}
-
-        {showUserEmailInput && (
-          <input
-            type="text"
-            className="w-full border p-2 mb-3 bg-gray-800 text-white"
-            placeholder="User Email"
-            value={userEmail}
-            readOnly
-            onChange={(e) => setUserEmail(e.target.value)}
-          />
-        )}
-
-        {showRecipientEmailInput && (
-          <input
-            type="text"
-            className="w-full border p-2 mb-3 bg-gray-800 text-white"
-            placeholder="Recipient Email"
-            value={recipientEmail}
-            onChange={(e) => setRecipientEmail(e.target.value)}
-          />
-        )}
-
-        <textarea
-          className="w-full h-40 border p-2 bg-gray-800 text-white"
-          placeholder="Type your message..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <button
-          className="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={handleSendMessage}
-        >
-          Send Email
-        </button>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-slate-600 dark:text-slate-300">
+              Message:
+            </label>
+            <textarea
+              className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300 dark:bg-slate-900 dark:border-slate-600 dark:text-white"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            ></textarea>
+          </div>
+          {errorMessage && (
+            <div className="text-red-500 mb-4">{errorMessage}</div>
+          )}
+          {successMessage && (
+            <div className="text-green-500 mb-4">{successMessage}</div>
+          )}
+          <button
+            type="button"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            onClick={handleSendMessage}
+          >
+            Send Email
+          </button>
+        </form>
       </div>
     </div>
   );
 }
 
-export default sendEmail;
+export default SendEmail;
