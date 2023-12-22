@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../components/styles/regframe.css";
+import MfaModal from "../components/MFAmodal"; // Import the MfaModal component
 
 import facebookIcon from "../svgs/facebook.svg";
 import googleIcon from "../svgs/google.svg";
@@ -15,6 +16,7 @@ export function SignInFrame() {
   const [errorMsg, setErrorMsg] = useState("");
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
   const [twoFactorAuthToken, setTwoFactorAuthToken] = useState("");
+  const [showMfaModal, setShowMfaModal] = useState(false);
 
   const navigate = useNavigate(); // Initialize useNavigate
 
@@ -37,13 +39,27 @@ export function SignInFrame() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await loginUser();
-
-    if (response && response.user) {
-      navigate("/"); // Navigate to dashboard on successful login
+    const loginResult = await loginUser(e); // Call loginUser function from AuthContext
+  
+    if (loginResult && loginResult.isSuccess) {
+      if (loginResult.twoFactorAuthEnabled) {
+        // MFA is enabled, so show the MFA modal
+        setShowMfaModal(true);
+      } else {
+        // MFA is not enabled, navigate to the dashboard
+        navigate("/dashboard");
+      }
+    } else {
+      // Handle login failure
+      setErrorMsg(loginResult.message || "Login failed");
     }
   };
+  
 
+  const handleMfaVerifySuccess = () => {
+    setShowMfaModal(false);
+    navigate("/dashboard"); // Navigate to the dashboard upon successful MFA verification
+  };
   return (
     //end of connection
     <div className="frame-style pt-10">
@@ -51,7 +67,7 @@ export function SignInFrame() {
         <h2 className="form-title text-left animate-fade-down">Login</h2>
         <p className="form-subtitle text-left">Glad you’re back.! </p>
 
-        <form className="input-form" onSubmit={loginUser}>
+        <form className="input-form" onSubmit={handleSubmit}>
           <input
             type="text"
             id="email"
@@ -73,7 +89,7 @@ export function SignInFrame() {
           />
 
           <button
-            type="submit"
+            type="onSubmit"
             className="gradient-button2 hover:bg-customblack"
           >
             Login
@@ -117,6 +133,12 @@ export function SignInFrame() {
           {errorMsg && <div className="text-red-500 mt-4">{errorMsg}</div>}
         </form>
       </div>
+      {showMfaModal && (
+        <MfaModal
+          onClose={() => setShowMfaModal(false)}
+          onVerifySuccess={handleMfaVerifySuccess}
+        />
+      )}
     </div>
   );
 }

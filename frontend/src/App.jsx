@@ -8,7 +8,7 @@ import Register from "./pages/SignUp";
 import Tickets from "./pages/Tickets";
 import UserSettings from "./pages/UserSettings";
 import "./css/style.css";
-
+import CurrentSettings from "./pages/CurrentSettings";
 import "./charts/ChartjsConfig";
 
 // Import pages
@@ -44,6 +44,11 @@ function App() {
             path="/settings"
             element={user ? <UserSettings /> : <Login />}
           />
+          <Route
+            path="/userSettings"
+            element={user ? <CurrentSettings /> : <Login />}
+          />
+
           <Route
             path="/register"
             element={user ? <Dashboard /> : <Register />}
