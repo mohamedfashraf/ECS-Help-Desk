@@ -1,72 +1,150 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 
 function SendEmail() {
-  // Component names should start with a capital letter
   const { user } = useContext(AuthContext);
-  const [successMessage, setSuccessMessage] = useState(""); // Add state for successMessage
-  const [message, setMessage] = useState(""); // Add state for message
+  const [userEmails, setUserEmails] = useState([]);
+  const [expandedEmailId, setExpandedEmailId] = useState(null);
+  const [replyMessage, setReplyMessage] = useState("");
+  const [replyStatus, setReplyStatus] = useState(null);
 
-  const handleSendMessage = async () => {
+  useEffect(() => {
+    const fetchUserEmails = async () => {
+      try {
+        const token = localStorage.getItem("Token");
+        const response = await axios.get(
+          "http://localhost:3000/api/emails/inbox",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setUserEmails(response.data);
+      } catch (error) {
+        console.error("Error fetching user emails:", error.response.data);
+      }
+    };
+
+    fetchUserEmails();
+  }, [user]);
+
+  const toggleEmailDetails = (emailId) => {
+    setExpandedEmailId(expandedEmailId === emailId ? null : emailId);
+  };
+
+  const handleReply = async (toMail) => {
     try {
-      const token = localStorage.getItem("Token");
-
-      await axios.post(
-        "http://localhost:3000/api/emails",
+      const response = await axios.post(
+        "http://localhost:3000/api/emails/reply",
         {
-          // Your post data here
+          toMail,
+          message: replyMessage,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("Token")}`,
           },
         }
       );
 
-      setSuccessMessage("Email sent successfully");
+      // Handle success
+      setReplyStatus({ type: "success", message: "Reply successful" });
+      setTimeout(() => setReplyStatus(null), 3000);
 
-      // Set a timeout to clear the success message after 3 seconds
-      setTimeout(() => {
-        setSuccessMessage("");
-      }, 3000);
+      // Reset the replyMessage input
+      setReplyMessage("");
+
+      // Optionally, you can update the state or perform other actions
+      console.log("Reply successful", response.data);
     } catch (error) {
-      console.error("Error sending email:", error.response.data);
-      // Handle error (e.g., show an error message)
-      console.error("Error sending email");
+      // Handle error
+      setReplyStatus({ type: "error", message: "Error replying to email" });
+      setTimeout(() => setReplyStatus(null), 3000);
+
+      console.error("Error replying to email:", error.response.data);
     }
   };
 
+  const renderEmailItem = (email) => (
+    <li
+      key={email._id}
+      className="border-b border-gray-300 dark:border-gray-700 p-4 transition duration-300 ease-in-out transform hover:shadow-md hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
+    >
+      <div onClick={() => toggleEmailDetails(email._id)}>
+        <div className="mb-2">
+          <span className="text-gray-700 dark:text-gray-300">Email:</span>{" "}
+          {email.userEmail}
+        </div>
+        <div className="mb-2">
+          <span className="text-gray-700 dark:text-gray-300">Agent:</span>{" "}
+          {email.agentName || "N/A"}
+        </div>
+        <div>
+          <span className="text-gray-700 dark:text-gray-300">Agent Email:</span>{" "}
+          {email.agentEmail}
+        </div>
+      </div>
+      {expandedEmailId === email._id && (
+        <div className="mt-4 pl-4 border-l border-gray-300 dark:border-gray-700">
+          <h4 className="font-semibold text-gray-800 dark:text-gray-200">
+            Messages:
+          </h4>
+          {email.messages.map((msg, idx) => (
+            <div key={idx} className="mt-2">
+              <strong className="text-gray-700 dark:text-gray-300">
+                {msg.sender}:
+              </strong>{" "}
+              {msg.message}{" "}
+              <em className="text-gray-500 dark:text-gray-400">
+                ({new Date(msg.timestamp).toLocaleString()})
+              </em>
+            </div>
+          ))}
+          <div className="mt-4">
+            <textarea
+              className="w-full p-2 border rounded dark:bg-gray-700 text-white"
+              placeholder="Type your reply here..."
+              value={replyMessage}
+              onChange={(e) => setReplyMessage(e.target.value)}
+            ></textarea>
+            <button
+              className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+              onClick={() => handleReply(email.userEmail)}
+            >
+              Reply
+            </button>
+          </div>
+        </div>
+      )}
+    </li>
+  );
+
   return (
-    <div className="col-span-full xl:col-span-15 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
-      <header className="px-5 py-4 border-b border-slate-100 dark:border-slate-700">
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">
+    <div className="col-span-full xl:col-span-15 bg-white dark:bg-gray-800 shadow-lg rounded-sm border border-gray-300 dark:border-gray-700">
+      <header className="px-6 py-4 border-b border-gray-300 dark:border-gray-700">
+        <h2 className="font-semibold text-gray-800 dark:text-gray-200">
           Reply on my Emails
         </h2>
       </header>
-
-      <div className="p-5">
-        {successMessage && (
-          <div className="bg-green-500 text-white px-4 py-2 mb-4 rounded">
-            {successMessage}
+      <div className="px-6 py-4">
+        {replyStatus && (
+          <div
+            className={`mb-4 ${
+              replyStatus.type === "success" ? "bg-green-500" : "bg-red-500"
+            } text-white py-2 px-4 rounded`}
+          >
+            {replyStatus.message}
           </div>
         )}
-
-        <textarea
-          className="w-full h-40 border p-2 bg-gray-800 text-white"
-          placeholder="Type your message..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <button
-          className="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={handleSendMessage}
-        >
-          Send Email
-        </button>
+        <ul className="max-h-60 overflow-y-auto">
+          {userEmails.map(renderEmailItem)}
+        </ul>
       </div>
     </div>
   );
 }
 
-export default SendEmail; // Make sure the component name starts with a capital letter
+export default SendEmail;

@@ -90,17 +90,29 @@ async function getUserEmailsMessages(req, res) {
 }
 
 
-// Get all user emails "works"
+// Get all user emails "updated"
 async function getUserEmails(req, res) {
     try {
-        const userEmail = req.user.email;
-        const conversations = await Emails.find({ userEmail: userEmail });
-        console.log('Retrieved Conversations:', conversations);
-        res.status(200).json(conversations);
+        const loggedInUser = req.user.role;
+
+        if (loggedInUser.includes("agent") || loggedInUser.includes("admin")) {
+            // Fetch emails for agents
+            const conversations = await Emails.find({ agentEmail: req.user.email });
+            res.status(200).json(conversations);
+        } else if (loggedInUser.includes("user")) {
+            // Fetch emails for users
+            const userEmail = req.user.email;
+            const conversations = await Emails.find({ userEmail: userEmail });
+            res.status(200).json(conversations);
+        } else {
+            res.status(400).json({ error: 'Invalid user type' });
+        }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
+
 
 // Get a specific email by ID "works"
 async function getEmailById(req, res) {
@@ -170,10 +182,6 @@ async function replyMessages(req, res) {
         res.status(400).json({ error: error.message });
     }
 }
-
-
-
-
 
 // Delete a conversation by ID "works"
 async function deleteConversation(req, res) {
