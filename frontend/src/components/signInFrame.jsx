@@ -40,7 +40,7 @@ export function SignInFrame() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const loginResult = await loginUser(e); // Call loginUser function from AuthContext
-  
+
     if (loginResult && loginResult.isSuccess) {
       if (loginResult.twoFactorAuthEnabled) {
         // MFA is enabled, so show the MFA modal
@@ -54,7 +54,6 @@ export function SignInFrame() {
       setErrorMsg(loginResult.message || "Login failed");
     }
   };
-  
 
   const handleMfaVerifySuccess = () => {
     setShowMfaModal(false);
