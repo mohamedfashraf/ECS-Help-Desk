@@ -25,7 +25,6 @@ function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user } = useContext(AuthContext);
   const userRole = user.role;
-  console.log("user role", userRole);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -85,10 +84,10 @@ function Dashboard() {
               {/* <DashboardCard08 /> */}
               {/* Stacked bar chart (Sales VS Refunds) */}
               {/* <DashboardCard09 /> */}
-              {/* Card (Customers) */}
-              {/* <DashboardCard10 /> */}
+              {/* Card (report) */}
+              {userRole.includes("manager") && <DashboardCard10 />}
               {/* Card (Reasons for Refunds) */}
-              {/* <DashboardCard11 /> */}
+              {userRole.includes("manager") && <DashboardCard11 />}
               {/* Card (Recent Activity) */}
               {/* <DashboardCard12 /> */}
               {/* Card (Income/Expenses) */}

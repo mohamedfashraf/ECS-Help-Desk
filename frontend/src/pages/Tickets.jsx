@@ -9,6 +9,8 @@ import Sidebar from "../partials/Sidebar";
 import MessageBox from "../partials/dashboard/MessageBox";
 import ViewUserTickets from "../components/Tickets/viewUserTickets";
 
+import ViewTickets from "../components/Tickets/viewTickets";
+
 const Tickets = () => {
   const { user } = useContext(AuthContext);
   const { userChats, isUserChatsLoading, currentChat, updateCurrentChat } =
@@ -41,6 +43,8 @@ const Tickets = () => {
           }}
         >
           <ViewUserTickets />
+          <ViewTickets />
+          
         </div>
       </div>
     </div>

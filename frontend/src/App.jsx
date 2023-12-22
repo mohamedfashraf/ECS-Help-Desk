@@ -13,6 +13,8 @@ import "./charts/ChartjsConfig";
 
 // Import pages
 import Dashboard from "./pages/Dashboard";
+import FAQs from "./pages/FAQs";
+import SendEmail from "./pages/sendEmail";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -37,6 +39,7 @@ function App() {
           <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
           <Route exact path="*" element={<Navigate to="/" />} />
           <Route path="/chats" element={user ? <Chats /> : <Login />} />
+          <Route path="/FAQs" element={user ? <FAQs /> : <Login />} />
           <Route
             path="/settings"
             element={user ? <UserSettings /> : <Login />}
@@ -45,11 +48,13 @@ function App() {
             path="/userSettings"
             element={user ? <CurrentSettings /> : <Login />}
           />
+
           <Route
             path="/register"
             element={user ? <Dashboard /> : <Register />}
           />
           <Route path="/tickets" element={user ? <Tickets /> : <Login />} />
+          <Route path="/sendEmail" element={user ? <SendEmail /> : <Login />} />
         </Routes>
       </ChatContextProvider>
     </>

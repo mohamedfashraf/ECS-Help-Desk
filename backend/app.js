@@ -23,6 +23,8 @@ const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
 const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
 const emailSystemRoutes = require("./Routes/emailSystemRoute");
+const queuesRoutes = require("./Routes/queuesRoute");
+
 
 // Initialize Express app and HTTP server
 //google auth2
@@ -89,11 +91,10 @@ app.use("/api/reports", authenticationMiddleware, reportsAndAnalyticsRoutes);
 app.use("/api/support-agents", authenticationMiddleware, supportAgentRoutes);
 app.use("/api/tickets", authenticationMiddleware, ticketsRoute);
 app.use("/api/users", authenticationMiddleware, userRoutes);
-app.use(
-  "/api/automatedWorkflows",
-  authenticationMiddleware,
-  automatedWorkflowsRoutes
-);
+
+app.use("/api/automatedWorkflows", authenticationMiddleware, automatedWorkflowsRoutes);
+app.use("/api/queues", authenticationMiddleware, queuesRoutes);
+
 
 // Chat and message routes (assuming these need authentication)
 app.use("/api/chat", authenticationMiddleware, chatRoute);

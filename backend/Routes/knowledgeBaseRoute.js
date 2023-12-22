@@ -10,6 +10,13 @@ router.post(
   knowledgeBaseController.createIssue
 );
 
+//get all issues
+router.get(
+  "/all",
+  authorizationMiddleware(["user", "admin"]),
+  knowledgeBaseController.getIssues
+);
+
 // Get all issues or search based on keyword
 router.get(
   "/",
