@@ -84,9 +84,9 @@ function Dashboard() {
               {/* <DashboardCard08 /> */}
               {/* Stacked bar chart (Sales VS Refunds) */}
               {/* <DashboardCard09 /> */}
-              {/* Card (report) */}
+              {/* Card (Generate Reports) */}
               {userRole.includes("manager") && <DashboardCard10 />}
-              {/* Card (Reasons for Refunds) */}
+              {/* Card (view reports) */}
               {userRole.includes("manager") && <DashboardCard11 />}
               {/* Card (Recent Activity) */}
               {/* <DashboardCard12 /> */}
