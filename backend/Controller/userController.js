@@ -14,9 +14,7 @@ require("dotenv").config();
 
 async function adminRegister(req, res) {
   try {
-
-    const { name, email, role, password, expertise } =
-      req.body;
+    const { name, email, role, password, expertise } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const userRole = req.user.role;
     const newId = new mongoose.Types.ObjectId();
@@ -28,7 +26,7 @@ async function adminRegister(req, res) {
         email,
         role,
         password: hashedPassword,
-        expertise
+        expertise,
       });
       await agent.save();
       const user = new UserModel({
@@ -115,7 +113,7 @@ async function login(req, res) {
       { userId: user._id, role: user.role, name: user.name, email: user.email },
 
       secretKey,
-      { expiresIn: "30m" } // Token expires in 30 minutes
+      { expiresIn: "2.5h" } // Token expires in 30 minutes
     );
 
     // Calculate expiration time for the cookie
@@ -263,22 +261,15 @@ async function enable2FA(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (user.twoFactorAuthEnabled) {
-      return res
-        .status(400)
-        .json({ message: "2FA is already enabled for this user" });
-    }
-
     // Generate a new 2FA secret for the user
     const secret = authenticator.generateSecret();
-    const otpauthURL = authenticator.keyuri(user.email, "YourAppName", secret);
+    const otpauthURL = authenticator.keyuri(user.email, "ECS-MFA", secret);
 
     // Generate QR code for the OTP auth URL
     const qrCodeURL = await generateQRCode(otpauthURL);
 
     // Update the user with the 2FA secret and mark it as enabled
     user.twoFactorAuthSecret = secret;
-    user.twoFactorAuthEnabled = true;
     await user.save();
 
     res.status(200).json({ otpauthURL, qrCodeURL });
@@ -301,7 +292,9 @@ const verifyTwoFactorAuth = async (req, res) => {
     // Check if the Authorization header is present
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-      return res.status(401).json({ message: "No authorization header provided" });
+      return res
+        .status(401)
+        .json({ message: "No authorization header provided" });
     }
 
     // Decode the JWT token to get the user ID
@@ -332,6 +325,10 @@ const verifyTwoFactorAuth = async (req, res) => {
       return res.status(400).json({ message: "Invalid 2FA token" });
     }
 
+    // If token is valid, enable 2FA for the user
+    user.twoFactorAuthEnabled = true;
+    await user.save();
+
     // Token is valid, proceed with the intended action
     res.status(200).json({ message: "2FA token verified successfully" });
   } catch (error) {
@@ -339,7 +336,6 @@ const verifyTwoFactorAuth = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 async function check2FAStatus(req, res) {
   try {
@@ -363,7 +359,57 @@ async function check2FAStatus(req, res) {
   }
 }
 
+async function disableMFA(req, res) {
+  try {
+    // Verify the JWT token and extract user ID
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, secretKey); // Use your JWT secret key
+    const userId = decoded.userId;
 
+    // Find the user in the database
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Check if MFA is already disabled
+    if (!user.twoFactorAuthEnabled) {
+      return res.status(400).json({ message: "MFA is already disabled." });
+    }
+
+    // Update the user's record to disable MFA
+    user.twoFactorAuthEnabled = false;
+    user.twoFactorAuthSecret = ""; // Clear any 2FA secret if stored
+    await user.save();
+
+    res.status(200).json({ message: "MFA disabled successfully." });
+  } catch (error) {
+    console.error("Error disabling MFA:", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+}
+
+// async function updateMFAStatus(req, res) {
+//   try {
+//     const userId = await UserModel.findById(req.params._id);
+//     const { mfaEnabled } = req.body;
+
+//     const user = await UserModel.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     user.mfaEnabled = mfaEnabled;
+//     await user.save();
+
+//     res.status(200).json({ message: "MFA status updated successfully" });
+//   } catch (error) {
+//     console.error("Error updating MFA status:", error);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// }
 module.exports = enable2FA;
 
 module.exports = {
@@ -378,4 +424,6 @@ module.exports = {
   verifyTwoFactorAuth,
   check2FAStatus,
   updateById,
+  disableMFA,
+  //updateMFAStatus
 };
