@@ -26,6 +26,11 @@ router.post(
   authorizationMiddleware(["user", "agent", "admin"]),
   UserController.disableMFA
 );
+// router.post(
+//   "/verifyMFA",
+//   authorizationMiddleware(["user", "agent", "admin"]),
+//   UserController.verifyMFA
+// );
 //router.post("/update-mfa-status", UserController.updateMFAStatus);
 
 router.post(

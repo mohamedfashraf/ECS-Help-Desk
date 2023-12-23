@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../components/styles/regframe.css";
-import MfaModal from "../components/MFAmodal"; // Import the MfaModal component
 
 import facebookIcon from "../svgs/facebook.svg";
 import googleIcon from "../svgs/google.svg";
@@ -86,6 +85,15 @@ export function SignInFrame() {
             onChange={handleInputChange}
             className="input-style"
           />
+          <input
+            type="userEnteredToken"
+            id="userEnteredToken"
+            name="userEnteredToken"
+            placeholder="userEnteredToken"
+            value={loginInfo.userEnteredToken}
+            onChange={handleInputChange}
+            className="input-style"
+          />
 
           <button
             type="onSubmit"
@@ -132,12 +140,6 @@ export function SignInFrame() {
           {errorMsg && <div className="text-red-500 mt-4">{errorMsg}</div>}
         </form>
       </div>
-      {showMfaModal && (
-        <MfaModal
-          onClose={() => setShowMfaModal(false)}
-          onVerifySuccess={handleMfaVerifySuccess}
-        />
-      )}
     </div>
   );
 }
