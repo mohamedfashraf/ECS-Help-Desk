@@ -97,8 +97,8 @@ async function register(req, res) {
 async function login(req, res) {
   try {
     const { email, password, userEnteredToken } = req.body;
-
     const user = await UserModel.findOne({ email });
+
     if (!user) {
       return res.status(404).json({ message: "Email not found" });
     }
@@ -106,6 +106,23 @@ async function login(req, res) {
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ message: "Incorrect password" });
+    }
+
+    // Check if MFA is enabled for the user
+    if (user.twoFactorAuthEnabled) {
+      // If MFA token is not provided
+      if (!userEnteredToken) {
+        return res.status(400).json({ message: "MFA token is required" });
+      }
+
+      const isValidToken = authenticator.verify({
+        secret: user.twoFactorAuthSecret,
+        token: userEnteredToken,
+      });
+
+      if (!isValidToken) {
+        return res.status(401).json({ message: "Invalid MFA token" });
+      }
     }
 
     // Create a token

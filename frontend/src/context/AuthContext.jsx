@@ -12,12 +12,15 @@ export const AuthContextProvider = ({ children }) => {
     name: "",
     email: "",
     password: "",
+    userEnteredToken: "",
   });
   const [loginError, setLoginError] = useState(null);
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     email: "",
     password: "",
+    userEnteredToken: "",
+
   });
 
   const loginUserWithGoogle = useCallback(async (googleToken) => {
@@ -49,13 +52,17 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // Restore user and token from localStorage
     const storedUserData = localStorage.getItem("User");
     const storedToken = localStorage.getItem("Token");
-    // console.log("storedToken", storedToken);
+
     if (storedUserData && storedToken) {
-      const parsedUserData = JSON.parse(storedUserData);
-      setUser(parsedUserData); // Ensure this matches the structure of your user data
+      try {
+        const parsedUserData = JSON.parse(storedUserData);
+        setUser(parsedUserData);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        // Handle parsing error (e.g., clear localStorage, redirect to login)
+      }
     }
   }, []);
 
@@ -95,7 +102,7 @@ export const AuthContextProvider = ({ children }) => {
       e.preventDefault();
       setLoginLoading(true);
       setLoginError(null);
-  
+
       try {
         const response = await fetch(`${baseUrl}/v1/login`, {
           method: "POST",
@@ -104,15 +111,15 @@ export const AuthContextProvider = ({ children }) => {
           },
           body: JSON.stringify(loginInfo),
         });
-  
+
         const responseData = await response.json();
         setLoginLoading(false);
-  
+
         if (response.ok) {
           localStorage.setItem("User", JSON.stringify(responseData.user));
           localStorage.setItem("Token", responseData.token);
           setUser(responseData.user);
-  
+
           return {
             isSuccess: true,
             twoFactorAuthEnabled: responseData.twoFactorAuthEnabled,
@@ -135,8 +142,7 @@ export const AuthContextProvider = ({ children }) => {
     },
     [loginInfo]
   );
-  
-  
+
   const logoutUser = useCallback(() => {
     console.log("Logging out, clearing user and token from localStorage");
     localStorage.removeItem("User");

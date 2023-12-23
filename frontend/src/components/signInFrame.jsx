@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../components/styles/regframe.css";
-import MfaModal from "../components/MFAmodal"; // Import the MfaModal component
 
 import facebookIcon from "../svgs/facebook.svg";
 import googleIcon from "../svgs/google.svg";
@@ -40,7 +39,7 @@ export function SignInFrame() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const loginResult = await loginUser(e); // Call loginUser function from AuthContext
-  
+
     if (loginResult && loginResult.isSuccess) {
       if (loginResult.twoFactorAuthEnabled) {
         // MFA is enabled, so show the MFA modal
@@ -54,7 +53,6 @@ export function SignInFrame() {
       setErrorMsg(loginResult.message || "Login failed");
     }
   };
-  
 
   const handleMfaVerifySuccess = () => {
     setShowMfaModal(false);
@@ -84,6 +82,15 @@ export function SignInFrame() {
             name="password"
             placeholder="Password"
             value={loginInfo.password}
+            onChange={handleInputChange}
+            className="input-style"
+          />
+          <input
+            type="userEnteredToken"
+            id="userEnteredToken"
+            name="userEnteredToken"
+            placeholder="userEnteredToken"
+            value={loginInfo.userEnteredToken}
             onChange={handleInputChange}
             className="input-style"
           />
@@ -133,12 +140,6 @@ export function SignInFrame() {
           {errorMsg && <div className="text-red-500 mt-4">{errorMsg}</div>}
         </form>
       </div>
-      {showMfaModal && (
-        <MfaModal
-          onClose={() => setShowMfaModal(false)}
-          onVerifySuccess={handleMfaVerifySuccess}
-        />
-      )}
     </div>
   );
 }
