@@ -20,7 +20,6 @@ export const AuthContextProvider = ({ children }) => {
     email: "",
     password: "",
     userEnteredToken: "",
-
   });
 
   const loginUserWithGoogle = useCallback(async (googleToken) => {
@@ -97,51 +96,52 @@ export const AuthContextProvider = ({ children }) => {
     [registerInfo]
   );
 
-  const loginUser = useCallback(
-    async (e) => {
-      e.preventDefault();
-      setLoginLoading(true);
-      setLoginError(null);
+const loginUser = useCallback(
+  async (e) => {
+e.preventDefault();
+    setLoginLoading(true);
+    setLoginError(null);
 
-      try {
-        const response = await fetch(`${baseUrl}/v1/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(loginInfo),
-        });
+    try {
+      const response = await fetch(`${baseUrl}/v1/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfo),
+      });
 
-        const responseData = await response.json();
-        setLoginLoading(false);
+      const responseData = await response.json();
+      setLoginLoading(false);
 
-        if (response.ok) {
-          localStorage.setItem("User", JSON.stringify(responseData.user));
-          localStorage.setItem("Token", responseData.token);
-          setUser(responseData.user);
-
+      if (response.ok) {
+                localStorage.setItem("User", JSON.stringify(responseData.user));
+        localStorage.setItem("Token", responseData.token);
+        setUser(responseData.user);
+        
           return {
             isSuccess: true,
             twoFactorAuthEnabled: responseData.twoFactorAuthEnabled,
           };
-        } else {
-          setLoginError("Login failed");
-          return {
+      } else {
+        setLoginError("Login failed");
+return {
             isSuccess: false,
             twoFactorAuthEnabled: false,
           };
-        }
-      } catch (error) {
-        console.error("Error during login:", error);
-        setLoginError(error.message || "An error occurred during login");
-        return {
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setLoginError(error.message || "An error occurred during login");
+      return {
           isSuccess: false,
           twoFactorAuthEnabled: false,
         };
-      }
-    },
-    [loginInfo]
-  );
+    }
+  },
+  [loginInfo]
+);
+
 
   const logoutUser = useCallback(() => {
     console.log("Logging out, clearing user and token from localStorage");

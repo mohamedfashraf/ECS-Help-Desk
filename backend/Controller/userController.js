@@ -110,11 +110,10 @@ async function login(req, res) {
 
     // Check if MFA is enabled for the user
     if (user.twoFactorAuthEnabled) {
-      // If MFA token is not provided
       if (!userEnteredToken) {
         return res.status(400).json({ message: "MFA token is required" });
       }
-
+      
       const isValidToken = authenticator.verify({
         secret: user.twoFactorAuthSecret,
         token: userEnteredToken,
@@ -128,9 +127,8 @@ async function login(req, res) {
     // Create a token
     const token = jwt.sign(
       { userId: user._id, role: user.role, name: user.name, email: user.email },
-
       secretKey,
-      { expiresIn: "2.5h" } // Token expires in 30 minutes
+      { expiresIn: "2.5h" } // Token expires in 2.5 hours
     );
 
     // Calculate expiration time for the cookie
@@ -156,6 +154,7 @@ async function login(req, res) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 }
+
 async function isValid2FA(user, token) {
   if (user.twoFactorAuthEnabled) {
     const isValid = authenticator.verify({
