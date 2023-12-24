@@ -1,6 +1,60 @@
 import React from "react";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { useState, useEffect, useContext } from "react";
 
-const UserProfile = () => {
+const UserProfile = (userData) => {
+  const { user } = useContext(AuthContext);
+  const [name, setName] = useState(user?.name || "");
+  const [role, setRole] = useState(user?.role || "user");
+  const [email, setEmail] = useState(user?.email || "");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const token = localStorage.getItem("Token");
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+  
+      if (!user || !user._id) {
+        console.error("User ID not available");
+        return;
+      }
+  
+      const apiUrl = `http://localhost:3000/api/users/update/${user._id}`;
+  
+      const payload = {
+        name,
+        email,
+        role,
+        // ... other fields as necessary
+      };
+  
+      const response = await axios.put(apiUrl, payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.status === 200) {
+        console.log("Profile Updated Successfully");
+  
+        // Assuming updateUser is the method to update user in AuthContext
+
+      } else {
+        console.log("Failed to Update Profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
       <div className="mb-4 col-span-full xl:mb-2">
@@ -339,22 +393,22 @@ const UserProfile = () => {
           <h3 className="mb-4 text-xl font-semibold dark:text-white">
             General information
           </h3>
-          <form action="#">
+          <form action="#" onSubmit={handleSubmit}>
             <div className="grid grid-cols-6 gap-6">
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  for="first-name"
+                  htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  User Name
+                  Name
                 </label>
                 <input
                   type="text"
-                  name="first-name"
-                  id="first-name"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Bonnie"
-                  required
+                  name="name"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 />
               </div>
 
@@ -371,7 +425,6 @@ const UserProfile = () => {
                   id="country"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="United States"
-                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">
@@ -387,7 +440,6 @@ const UserProfile = () => {
                   id="city"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="e.g. San Francisco"
-                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">
@@ -403,7 +455,6 @@ const UserProfile = () => {
                   id="address"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="e.g. California"
-                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">
@@ -419,7 +470,6 @@ const UserProfile = () => {
                   id="email"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="example@company.com"
-                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">
@@ -435,7 +485,6 @@ const UserProfile = () => {
                   id="phone-number"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="e.g. +(12)3456 789"
-                  required
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">
@@ -451,7 +500,6 @@ const UserProfile = () => {
                   id="birthday"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="15/08/1990"
-                  required
                 />
               </div>
 
@@ -468,14 +516,13 @@ const UserProfile = () => {
                   id="role"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="React Developer"
-                  required
                 />
               </div>
 
               <div className="col-span-6 sm:col-full">
                 <button
                   className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  type="submit"
+                  type="onSubmit"
                 >
                   Save all
                 </button>
@@ -487,7 +534,7 @@ const UserProfile = () => {
           <h3 className="mb-4 text-xl font-semibold dark:text-white">
             Password information
           </h3>
-          <form action="#">
+          <form action="#" onSubmit={handleSubmit}>
             <div className="grid grid-cols-6 gap-6">
               <div className="col-span-6 sm:col-span-3">
                 <label
@@ -500,6 +547,8 @@ const UserProfile = () => {
                   type="text"
                   name="current-password"
                   id="current-password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="••••••••"
                   required
@@ -517,6 +566,8 @@ const UserProfile = () => {
                   data-popover-placement="bottom"
                   type="password"
                   id="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="••••••••"
                   required
@@ -603,6 +654,8 @@ const UserProfile = () => {
                   type="text"
                   name="confirm-password"
                   id="confirm-password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="••••••••"
                   required
