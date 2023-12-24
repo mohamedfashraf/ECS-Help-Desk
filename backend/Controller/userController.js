@@ -9,6 +9,8 @@ const otplib = require("otplib");
 const { authenticator } = otplib;
 const bcrypt = require("bcrypt");
 const qrcode = require("qrcode");
+const logger = require('../Controller/loggerController'); // Adjust the path accordingly
+
 
 require("dotenv").config();
 

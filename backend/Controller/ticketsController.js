@@ -1,3 +1,4 @@
+const logger = require('../Controller/loggerController'); // Adjust the path accordingly
 const Ticket = require('../Models/ticektsModelSchema');
 const SupportAgent = require('../Models/supportAgentModelSchema');
 const Queues = require('../Models/queuesSchema');
@@ -11,11 +12,9 @@ async function createTicket(req, res) {
 
         let status;
         if (assignedAgent) {
-            // Support agent available, assign the ticket
             await assignTicketToAgentCreate(assignedAgent, user_id, description, category, subCategory, priority, "Pending");
             status = "Pending";
         } else {
-            // No available agent, add the ticket to the appropriate priority queue
             const ticket = new Ticket({
                 user_id,
                 description,
@@ -45,32 +44,10 @@ async function createTicket(req, res) {
             },
         });
     } catch (error) {
+        logger.error(`Error creating ticket: ${error.message}`);
         res.status(400).json({ message: error.message });
     }
 }
-
-async function addToPriorityQueue(ticket) {
-    try {
-        const queues = await Queues.findOne({}); // Assuming there's only one document for the queues
-
-        switch (ticket.priority) {
-            case 'High':
-                queues.highQueue.push(ticket._id);
-                break;
-            case 'Medium':
-                queues.mediumQueue.push(ticket._id);
-                break;
-            case 'Low':
-                queues.lowQueue.push(ticket._id);
-                break;
-        }
-
-        await queues.save();
-    } catch (error) {
-        console.error(`Error adding ticket to priority queue: ${error.message}`);
-    }
-}
-
 async function removeFromPriorityQueue(ticket) {
     try {
         const queues = await Queues.findOne({});
