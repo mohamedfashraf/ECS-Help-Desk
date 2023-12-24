@@ -9,6 +9,7 @@ import Sidebar from "../partials/Sidebar";
 import MessageBox from "../partials/dashboard/MessageBox";
 import ViewUserTickets from "../components/Tickets/viewUserTickets";
 
+import ViewTickets from "../components/Tickets/viewTickets";
 
 const Tickets = () => {
   const { user } = useContext(AuthContext);
@@ -31,8 +32,7 @@ const Tickets = () => {
             marginLeft: "20px", // Adjust the left margin as needed
             marginRight: "20px", // Adjust the right margin as needed
           }}
-        >
-        </div>
+        ></div>
         <div
           className="flex flex-col flex-grow"
           style={{
@@ -43,6 +43,7 @@ const Tickets = () => {
           }}
         >
           <ViewUserTickets />
+          <ViewTickets />
           
         </div>
       </div>

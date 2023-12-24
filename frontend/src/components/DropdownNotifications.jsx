@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
 import Transition from "../utils/Transition";
 
 const DropdownNotifications = ({ align }) => {
@@ -106,6 +104,11 @@ const DropdownNotifications = ({ align }) => {
                 >
                   <span className="block text-sm mb-2">{message.message}</span>
                   <span className="block text-xs font-medium text-slate-400 dark:text-slate-500">
+                    {/* Display sender and timestamp */}
+                    <span className="text-slate-500 dark:text-slate-400 font-semibold">
+                      {message.sender}
+                    </span>
+                    {" • "}
                     {new Date(message.timestamp).toLocaleString()}
                   </span>
                 </Link>

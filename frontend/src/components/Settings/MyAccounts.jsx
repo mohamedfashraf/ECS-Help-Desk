@@ -333,7 +333,6 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-       
       </div>
       <div className="col-span-2">
         <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
@@ -347,7 +346,7 @@ const UserProfile = () => {
                   for="first-name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  First Name
+                  User Name
                 </label>
                 <input
                   type="text"
@@ -358,22 +357,7 @@ const UserProfile = () => {
                   required
                 />
               </div>
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  for="last-name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  name="last-name"
-                  id="last-name"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Green"
-                  required
-                />
-              </div>
+
               <div className="col-span-6 sm:col-span-3">
                 <label
                   for="country"
@@ -470,22 +454,7 @@ const UserProfile = () => {
                   required
                 />
               </div>
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  for="organization"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Organization
-                </label>
-                <input
-                  type="text"
-                  name="organization"
-                  id="organization"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Company Name"
-                  required
-                />
-              </div>
+
               <div className="col-span-6 sm:col-span-3">
                 <label
                   for="role"
@@ -502,38 +471,7 @@ const UserProfile = () => {
                   required
                 />
               </div>
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  for="department"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Department
-                </label>
-                <input
-                  type="text"
-                  name="department"
-                  id="department"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Development"
-                  required
-                />
-              </div>
-              <div className="col-span-6 sm:col-span-3">
-                <label
-                  for="zip-code"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Zip/postal code
-                </label>
-                <input
-                  type="number"
-                  name="zip-code"
-                  id="zip-code"
-                  className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="123456"
-                  required
-                />
-              </div>
+
               <div className="col-span-6 sm:col-full">
                 <button
                   className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -681,59 +619,7 @@ const UserProfile = () => {
             </div>
           </form>
         </div>
-        <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 xl:mb-0">
-        <div className="flow-root">
-            <h3 className="text-xl font-semibold dark:text-white">Email Notifications</h3>
-            <p className="text-sm font-normal text-gray-500 dark:text-gray-400">You can set up Themesberg to get email notifications </p>
-            <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                <div className="flex items-center justify-between py-4">
-                    <div className="flex flex-col flex-grow">
-                        <div className="text-lg font-semibold text-gray-900 dark:text-white">Rating reminders</div>
-                        <div className="text-base font-normal text-gray-500 dark:text-gray-400">Send an email reminding me to rate an item a week after purchase</div>
-                    </div>
-                    <label for="rating-reminders" className="relative flex items-center cursor-pointer">
-                        <input type="checkbox" id="rating-reminders" className="sr-only"/>
-                        <span className="h-6 bg-gray-200 border border-gray-200 rounded-full w-11 toggle-bg dark:bg-gray-700 dark:border-gray-600"></span>
-                    </label>
-                </div>
-                <div className="flex items-center justify-between py-4">
-                    <div className="flex flex-col flex-grow">
-                        <div className="text-lg font-semibold text-gray-900 dark:text-white">Item update notifications</div>
-                        <div className="text-base font-normal text-gray-500 dark:text-gray-400">Send user and product notifications for you</div>
-                    </div>
-                    <label for="item-update" className="relative flex items-center cursor-pointer">
-                        <input type="checkbox" id="item-update" className="sr-only" checked/>
-                        <span className="h-6 bg-gray-200 border border-gray-200 rounded-full w-11 toggle-bg dark:bg-gray-700 dark:border-gray-600"></span>
-                    </label>
-                </div>
-                <div className="flex items-center justify-between py-4">
-                    <div className="flex flex-col flex-grow">
-                        <div className="text-lg font-semibold text-gray-900 dark:text-white">Item comment notifications</div>
-                        <div className="text-base font-normal text-gray-500 dark:text-gray-400">Send me an email when someone comments on one of my items</div>
-                    </div>
-                    <label for="item-comment" className="relative flex items-center cursor-pointer">
-                        <input type="checkbox" id="item-comment" className="sr-only" checked/>
-                        <span className="h-6 bg-gray-200 border border-gray-200 rounded-full w-11 toggle-bg dark:bg-gray-700 dark:border-gray-600"></span>
-                    </label>
-                </div>
-                <div className="flex items-center justify-between pt-4">
-                    <div className="flex flex-col flex-grow">
-                        <div className="text-lg font-semibold text-gray-900 dark:text-white">Buyer review notifications</div>
-                        <div className="text-base font-normal text-gray-500 dark:text-gray-400">Send me an email when someone leaves a review with their rating</div>
-                    </div>
-                    <label for="buyer-rev" className="relative flex items-center cursor-pointer">
-                        <input type="checkbox" id="buyer-rev" className="sr-only"/>
-                        <span className="h-6 bg-gray-200 border border-gray-200 rounded-full w-11 toggle-bg dark:bg-gray-700 dark:border-gray-600"></span>
-                    </label>
-                </div>
-            </div>
-            <div className="mt-6">
-                <button className="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Save all</button>
-            </div>
-        </div>
-    </div>
       </div>
- 
     </div>
   );
 };

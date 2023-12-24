@@ -2,9 +2,9 @@ import SignInFrame from "../components/signInFrame";
 import eclipse3 from "../svgs/Ellipse3.svg";
 import eclipse4 from "../svgs/Ellipse4.svg";
 
-const SignupComponent = () => {
+const LoginComponent = () => {
   return (
-    <div className="backgroundColor #0f0f0f flex flex-col min-h-fit relative mt-5 ">
+    <div className=" flex flex-col min-h-fit relative mt-5 ">
       <p
         className="hidden sm:block absolute text-white ml-[173px] mt-[430px] font-sans "
         style={{
@@ -93,4 +93,6 @@ const SignupComponent = () => {
   );
 };
 
-export default SignupComponent;
+//
+
+export default LoginComponent;
