@@ -89,7 +89,7 @@ function Dashboard() {
               {/* Card (view reports) */}
               {userRole.includes("manager") && <DashboardCard11 />}
               {/* Card (Recent Activity) */}
-              {/* <DashboardCard12 /> */}
+              {userRole.includes("manager") && <DashboardCard12 />}
               {/* Card (Income/Expenses) */}
               {/* <DashboardCard13 /> */}
             </div>
