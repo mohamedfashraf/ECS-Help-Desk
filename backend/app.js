@@ -23,9 +23,10 @@ const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
 const emailSystemRoutes = require("./Routes/emailSystemRoute");
 const queuesRoutes = require("./Routes/queuesRoute");
+const logger = require('./Controller/loggerController'); // Adjust the path accordingly
+
 const { performBackup } = require("./Controller/userController");
 
-const logger = require('./Controller/loggerController'); // Adjust the path accordingly
 
 // Initialize Express app and HTTP server
 const app = express();
@@ -41,8 +42,8 @@ app.use(
   session({
     secret: "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", // Replace with your own secret
     resave: false,
-    saveUninitialized: false, // Change to true if you want to store sessions for unauthenticated users
-    cookie: { secure: process.env.NODE_ENV === "production" }, // Secure cookies in production
+    saveUninitialized: false,
+    cookie: { secure: process.env.NODE_ENV === "production" },
   })
 );
 // app.js or server.js

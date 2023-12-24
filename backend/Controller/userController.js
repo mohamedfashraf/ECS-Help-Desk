@@ -41,6 +41,8 @@ async function uploadToDropbox(folderPath) {
           const response = await dbx.filesUpload({ path: dropboxPath, contents: fileContent });
           console.log('File uploaded to Dropbox:', response);
         } catch (uploadError) {
+          logger.error(`Error uploading filer to Dropbox: ${error.message}`);
+
           console.error(`Error uploading file to Dropbox:`, uploadError);
         }
       }
@@ -48,6 +50,8 @@ async function uploadToDropbox(folderPath) {
 
     console.log('Folder uploaded to Dropbox.');
   } catch (error) {
+    logger.error(`Error uploading folder to Dropbox: ${error.message}`);
+
     console.error('Error uploading folder to Dropbox:', error);
   }
 }
@@ -71,12 +75,18 @@ const performBackup = async (user) => {
         // Upload the backup to Dropbox
         await uploadToDropbox(backupPath);
       } catch (error) {
+        logger.error(`Error during backup: ${error.message}`);
+
         console.error(`Error during backup: ${error.message}`);
       }
     } else {
+      logger.error(`Backup not initiated. User backup is not enabled.: ${error.message}`);
+
       console.log("Backup not initiated. User backup is not enabled.");
     }
   } else {
+    logger.error(`Backup not initiated. User not logged in.: ${error.message}`);
+
     console.log("Backup not initiated. User not logged in.");
   }
 };
@@ -143,6 +153,8 @@ async function adminRegister(req, res) {
       res.status(201).send(userResponse);
     }
   } catch (error) {
+    logger.error(`Error.: ${error.message}`);
+
     res.status(400).send(error.message);
   }
 }
@@ -175,6 +187,8 @@ async function register(req, res) {
 
     res.status(201).send(userResponse);
   } catch (error) {
+    logger.error(`Error.: ${error.message}`);
+
     res.status(400).send(error.message);
   }
 }
@@ -190,6 +204,9 @@ async function login(req, res) {
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
+      logger.error(`Error in someFunction: ${error.message}`);
+
+      
       return res.status(401).json({ message: "Incorrect password" });
     }
 
@@ -228,6 +245,8 @@ async function login(req, res) {
       token, // Send the token here
     });
   } catch (error) {
+    logger.error(`Error in someFunction: ${error.message}`);
+
     console.error("Error logging in:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -277,6 +296,8 @@ async function verifyMFA(req, res) {
       token, // Send the token here
     });
   } catch (error) {
+    logger.error(`Error logging in: ${error.message}`);
+
     console.error("Error logging in:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -300,6 +321,8 @@ async function getAllUsers(req, res) {
     const users = await UserModel.find({});
     res.status(200).send(users);
   } catch (error) {
+    logger.error(`Error: ${error.message}`);
+
     res.status(500).send(error.message);
   }
 }
@@ -312,6 +335,8 @@ async function getUserById(req, res) {
     }
     res.status(200).send(user);
   } catch (error) {
+    logger.error(`Error: ${error.message}`);
+
     res.status(500).send(error.message);
   }
 }
@@ -327,6 +352,8 @@ async function updateUser(req, res) {
     await user.save();
     res.status(200).send(user);
   } catch (error) {
+    logger.error(`Error: ${error.message}`);
+
     res.status(400).send(error.message);
   }
 }
@@ -355,6 +382,8 @@ async function updateById(req, res) {
     // Respond with the updated user
     res.status(200).json(updatedUser);
   } catch (error) {
+    logger.error(` ServerError: ${error.message}`);
+
     res.status(500).json({ message: "Server error", error: error.message });
   }
 }
@@ -367,6 +396,8 @@ async function deleteUser(req, res) {
     }
     res.status(200).send(user);
   } catch (error) {
+    logger.error(`Error: ${error.message}`);
+
     res.status(500).send(error.message);
   }
 }
@@ -395,12 +426,16 @@ async function enable2FA(req, res) {
       const decoded = jwt.verify(token, secretKey);
       userId = decoded.userId;
     } catch (error) {
+      logger.error(`Error: Invalid Token: ${error.message}`);
+
       return res.status(403).json({ message: "Invalid token" });
     }
 
     // Find user by ID
     const user = await UserModel.findById(userId);
     if (!user) {
+      logger.error(`Error:User not found ${error.message}`);
+
       return res.status(404).json({ message: "User not found" });
     }
 
@@ -417,6 +452,9 @@ async function enable2FA(req, res) {
 
     res.status(200).json({ otpauthURL, qrCodeURL });
   } catch (error) {
+    
+    logger.error(`Error Enabling 2FA: ${error.message}`);
+
     console.error("Error enabling 2FA:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -426,6 +464,8 @@ async function generateQRCode(data) {
   try {
     return await qrcode.toDataURL(data);
   } catch (error) {
+    logger.error(`Error genretaying QR code: ${error.message}`);
+
     throw new Error("Error generating QR code");
   }
 }
@@ -443,6 +483,8 @@ const verifyTwoFactorAuth = async (req, res) => {
     // Decode the JWT token to get the user ID
     const token = authHeader.split(" ")[1]; // Assuming token format is "Bearer [token]"
     if (!token) {
+      logger.error(`No token provided: ${error.message}`);
+
       return res.status(401).json({ message: "No token provided" });
     }
 
@@ -455,6 +497,8 @@ const verifyTwoFactorAuth = async (req, res) => {
     // Find the user by ID
     const user = await UserModel.findById(userId);
     if (!user) {
+      logger.error(`Error:User not found. ${error.message}`);
+
       return res.status(404).json({ message: "User not found" });
     }
 
@@ -465,7 +509,10 @@ const verifyTwoFactorAuth = async (req, res) => {
     });
 
     if (!isTokenValid) {
+      logger.error(`Invalid 2FA token: ${error.message}`);
+
       return res.status(400).json({ message: "Invalid 2FA token" });
+
     }
 
     // If token is valid, enable 2FA for the user
@@ -475,6 +522,8 @@ const verifyTwoFactorAuth = async (req, res) => {
     // Token is valid, proceed with the intended action
     res.status(200).json({ message: "2FA token verified successfully" });
   } catch (error) {
+    logger.error(`Error Verifying 2FA token: ${error.message}`);
+
     console.error("Error verifying 2FA token:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -491,12 +540,16 @@ async function check2FAStatus(req, res) {
     // Find user by ID
     const user = await UserModel.findById(userId);
     if (!user) {
+      logger.error(`User not found: ${error.message}`);
+
       return res.status(404).json({ message: "User not found" });
     }
 
     // Return the status of 2FA for the user
     res.status(200).json({ is2FAEnabled: user.twoFactorAuthEnabled });
   } catch (error) {
+    logger.error(`Error checking 2FA status: ${error.message}`);
+
     console.error("Error checking 2FA status:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -512,11 +565,15 @@ async function disableMFA(req, res) {
     // Find the user in the database
     const user = await UserModel.findById(userId);
     if (!user) {
+      logger.error(`User not found: ${error.message}`);
+
       return res.status(404).json({ message: "User not found." });
     }
 
     // Check if MFA is already disabled
     if (!user.twoFactorAuthEnabled) {
+      logger.error(`MFA is already disabled: ${error.message}`);
+
       return res.status(400).json({ message: "MFA is already disabled." });
     }
 
@@ -527,6 +584,8 @@ async function disableMFA(req, res) {
 
     res.status(200).json({ message: "MFA disabled successfully." });
   } catch (error) {
+    logger.error(`Erro disabling MFA: ${error.message}`);
+
     console.error("Error disabling MFA:", error);
     res
       .status(500)
@@ -591,6 +650,8 @@ const setBackupStatus = async (req, res) => {
 
     res.status(200).json({ message: "Backup status updated successfully" });
   } catch (error) {
+    logger.error(`Error updating status: ${error.message}`);
+
     console.error("Error updating backup status:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
