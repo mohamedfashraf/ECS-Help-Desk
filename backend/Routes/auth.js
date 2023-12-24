@@ -8,9 +8,13 @@ router.post("/login", userController.login);
 
 // register
 router.post("/register", userController.register);
+router.post("/verifyMFA", userController.verifyMFA);
 
 // Google OAuth routes
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 router.get(
   "/google/callback",

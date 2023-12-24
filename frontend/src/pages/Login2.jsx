@@ -2,7 +2,7 @@ import SignInFrame from "../components/signInFrame";
 import eclipse3 from "../svgs/Ellipse3.svg";
 import eclipse4 from "../svgs/Ellipse4.svg";
 
-const SignupComponent = () => {
+const LoginComponent = () => {
   return (
     <div className=" flex flex-col min-h-fit relative mt-5 ">
       <p
@@ -95,4 +95,4 @@ const SignupComponent = () => {
 
 //
 
-export default SignupComponent;
+export default LoginComponent;
