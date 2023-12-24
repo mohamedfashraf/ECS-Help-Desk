@@ -1,6 +1,7 @@
 const Ticket = require('../Models/ticektsModelSchema');
 const SupportAgent = require('../Models/supportAgentModelSchema');
 const Queues = require('../Models/queuesSchema');
+const Issue = require('../Models/knowledgeBaseModelSchema');
 
 async function createTicket(req, res) {
     try {
@@ -252,6 +253,19 @@ async function updateTicket(req, res) {
         // Update the ticket
         Object.keys(updates).forEach((update) => (ticket[update] = updates[update]));
         await ticket.save();
+
+        // If the resolution details are updated
+        if ('resolutionDetails' in updates && updates.resolutionDetails !== ticket.resolutionDetails) {
+            // Create a new issue in the knowledge base
+            const newIssue = new Issue({
+                content: updates.resolutionDetails,
+                category: ticket.category,
+                keyWords: [ticket.subCategory],
+            });
+
+            await newIssue.save();
+        }
+
 
         // If the status is being updated to "Closed" and the previous status was not "Closed"
         if (ticket.status === "Closed" && currentStatus !== "Closed") {
