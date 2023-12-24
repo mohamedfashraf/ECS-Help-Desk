@@ -438,10 +438,7 @@ async function disableMFA(req, res) {
 // }
 const setBackupStatus = async (req, res) => {
   try {
-    console.log("Authenticated User:", req.user);
-
     const userId = req.user.userId;
-    console.log("userId", userId);
     const { isBackupEnabled } = req.body;
 
     // Find the user by ID and update the isBackupEnabled field
@@ -471,6 +468,7 @@ const setBackupStatus = async (req, res) => {
       // If backup is disabled, clear the scheduled interval (if it exists)
       if (user.backupInterval) {
         clearInterval(user.backupInterval);
+        user.backupInterval = null; // Set it to null after clearing
       }
     }
 
@@ -480,6 +478,7 @@ const setBackupStatus = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 
 module.exports = enable2FA;
