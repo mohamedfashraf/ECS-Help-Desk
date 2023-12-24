@@ -23,6 +23,7 @@ const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
 const emailSystemRoutes = require("./Routes/emailSystemRoute");
 const queuesRoutes = require("./Routes/queuesRoute");
+const { performBackup } = require("./Controller/userController");
 
 // Initialize Express app and HTTP server
 const app = express();
@@ -70,36 +71,23 @@ mongoose
 // Auth routes (login, register, etc.)
 app.use("/api/v1", authRoutes);
 
+
+
 // Backup MongoDB Route
+// Ensure authentication middleware is used before the "/api/backup" route
+app.use("/api/backup", authenticationMiddleware);
 app.get("/api/backup", (req, res) => {
-  const backupFolder = "C:\\Users\\moham\\OneDrive\\Desktop\\backups"; // Set the backup folder path
-  const timestamp = new Date().toISOString().replace(/[-:]/g, "");
-
-  const mongodumpCommand = `"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump" --uri=${mongoURI} --out=${backupFolder}/${timestamp} --db=SE-Project`;
-
-  exec(mongodumpCommand, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error during backup: ${error.message}`);
-      return res.status(500).json({ error: "Backup failed" });
-    }
-
-    console.log(`Backup successful: ${stdout}`);
-    return res.status(200).json({ message: "Backup successful" });
-  });
+  performBackup(req.user); // Assuming req.user is set by authentication middleware
+  return res.status(200).json({ message: "Backup initiated" });
 });
 
 
-// Schedule backup using cron job (every day at midnight)
-cron.schedule("0 0 * * *", () => {
-  // Trigger the backup route
-  exec("curl http://localhost:3000/api/backup", (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error triggering backup: ${error.message}`);
-    } else {
-      console.log(`Backup triggered: ${stdout}`);
-    }
-  });
+// Schedule backup using cron job (every 1 minute)
+cron.schedule("*/1 * * * *", () => {
+  // Trigger the backup function
+  performBackup();
 });
+
 
 // Protected routes with authentication middleware
 app.use(
