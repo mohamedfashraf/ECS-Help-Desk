@@ -10,6 +10,8 @@ const CurrentSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [userEnteredToken, setUserEnteredToken] = useState("");
+  const [isBackupEnabled, setIsBackupEnabled] = useState(false); // New state for backup status
+
   useEffect(() => {
     // Function to check the current 2FA status
     const checkMFAStatus = async () => {
@@ -31,6 +33,7 @@ const CurrentSettings = () => {
 
     checkMFAStatus();
   }, []);
+
   const handleEnableMFAChange = async () => {
     setIsLoading(true);
     setFeedbackMessage("");
@@ -75,7 +78,6 @@ const CurrentSettings = () => {
     }
   };
 
-  
 
   const verify2FAToken = async () => {
     setIsLoading(true);
@@ -102,6 +104,32 @@ const CurrentSettings = () => {
       );
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Function to toggle backup status
+  // Function to toggle backup status
+  const toggleBackupStatus = async () => {
+    try {
+      const token = localStorage.getItem("Token");
+      const response = await axios.put(
+        "http://localhost:3000/api/users/setBackupStatus",
+        { isBackupEnabled: !isBackupEnabled }, // Toggle the current status
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.status === 200) {
+        setIsBackupEnabled(!isBackupEnabled); // Update the state based on the new status
+        setFeedbackMessage(
+          isBackupEnabled ? "Backup status disabled." : "Backup status enabled."
+        );
+      } else {
+        throw new Error("Failed to update backup status.");
+      }
+    } catch (error) {
+      setFeedbackMessage(
+        error.response ? error.response.data.message : error.message
+      );
     }
   };
 
@@ -148,6 +176,28 @@ const CurrentSettings = () => {
                 type="checkbox"
                 className="sr-only peer"
                 checked={itemUpdateNotifications}
+              />
+              <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
+            </label>
+          </div>
+
+          {/* Toggle for Backup Status */}
+          <div className="flex items-center justify-between py-4">
+            <div className="flex flex-col flex-grow">
+              <div className="text-lg font-semibold text-gray-900 dark:text-white">
+                Backup Status
+              </div>
+              <div className="text-base font-normal text-gray-500 dark:text-gray-400">
+                Enable backup status for your account
+              </div>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={isBackupEnabled}
+                onChange={toggleBackupStatus}
               />
               <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
               <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>

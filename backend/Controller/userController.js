@@ -12,6 +12,32 @@ const qrcode = require("qrcode");
 
 require("dotenv").config();
 
+const { exec } = require("child_process");
+
+const performBackup = (user) => {
+  if (user) {
+    if (user.isBackupEnabled) {
+      const backupFolder = "C:\\Users\\moham\\OneDrive\\Desktop\\backups";
+      const timestamp = new Date().toISOString().replace(/[-:]/g, "");
+      const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
+
+      const mongodumpCommand = `"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump" --uri=${mongoURI} --out=${backupFolder}/${timestamp} --db=SE-Project`;
+
+      exec(mongodumpCommand, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error during backup: ${error.message}`);
+        } else {
+          console.log(`Backup successful: ${stdout}`);
+        }
+      });
+    } else {
+      console.log("Backup not initiated. User backup is not enabled.");
+    }
+  } else {
+    console.log("Backup not initiated. User not logged in.");
+  }
+};
+
 async function adminRegister(req, res) {
   try {
     const { name, email, role, password, expertise } = req.body;
@@ -468,6 +494,51 @@ async function disableMFA(req, res) {
 //     res.status(500).json({ message: "Server error", error: error.message });
 //   }
 // }
+const setBackupStatus = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { isBackupEnabled } = req.body;
+
+    // Find the user by ID and update the isBackupEnabled field
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      { $set: { isBackupEnabled } },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // If backup is enabled, schedule a backup every minute
+    if (isBackupEnabled) {
+      // Initial backup
+      performBackup(user);
+
+      // Schedule subsequent backups every 1 minute
+      const backupInterval = setInterval(() => {
+        performBackup(user);
+      }, 60 * 1000); // 60 seconds * 1000 milliseconds
+
+      // Store the interval ID in the user object (to clear it later if needed)
+      user.backupInterval = backupInterval;
+    } else {
+      // If backup is disabled, clear the scheduled interval (if it exists)
+      if (user.backupInterval) {
+        clearInterval(user.backupInterval);
+        user.backupInterval = null; // Set it to null after clearing
+      }
+    }
+
+    res.status(200).json({ message: "Backup status updated successfully" });
+  } catch (error) {
+    console.error("Error updating backup status:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+
+
 module.exports = enable2FA;
 
 module.exports = {
@@ -485,4 +556,5 @@ module.exports = {
   disableMFA,
   verifyMFA,
   //updateMFAStatus
+  setBackupStatus,
 };
