@@ -23,6 +23,8 @@ const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
 const emailSystemRoutes = require("./Routes/emailSystemRoute");
 const queuesRoutes = require("./Routes/queuesRoute");
+const logger = require('./Controller/loggerController'); // Adjust the path accordingly
+
 const { performBackup } = require("./Controller/userController");
 
 
@@ -44,6 +46,25 @@ app.use(
     cookie: { secure: process.env.NODE_ENV === "production" },
   })
 );
+// app.js or server.js
+
+
+
+// Set up your Express app and middleware...
+
+// Handle uncaught exceptions and rejections
+process.on('uncaughtException', (err) => {
+  logger.error(`Uncaught Exception: ${err.message}`);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  logger.error(`Unhandled Rejection: ${reason}`);
+  process.exit(1);
+});
+
+// ... (rest of your application setup)
+
 
 app.use(passport.initialize());
 app.use(passport.session());
