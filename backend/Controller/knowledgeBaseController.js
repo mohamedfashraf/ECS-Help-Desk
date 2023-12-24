@@ -62,7 +62,6 @@ async function getIssues(req, res) {
         res.status(500).json({ error: error.message });
     }
 }
-
 // Update an issue by ID "works"
 async function updateIssue(req, res) {
     try {
