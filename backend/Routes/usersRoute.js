@@ -34,7 +34,6 @@ router.post(
   UserController.disableMFA
 );
 
-
 router.post(
   "/admin-register",
   authorizationMiddleware(["admin"]),
@@ -48,8 +47,8 @@ router.get(
 );
 
 router.put(
-  "/:id",
-  authorizationMiddleware(["admin"]),
+  "/update/:id",
+  authorizationMiddleware(["admin", "user"]),
   UserController.updateUser
 );
 
@@ -61,9 +60,8 @@ router.delete(
 
 router.put(
   "/updateById/:id",
-  authorizationMiddleware(["admin"]),
+  authorizationMiddleware(["admin", "user"]),
   UserController.updateById
 );
 
 module.exports = router;
-
