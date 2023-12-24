@@ -1,13 +1,12 @@
 // Import required packages and modules
 require("dotenv").config();
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
-
-//google auth2
+const { exec } = require("child_process");
+const cron = require("node-cron");
 
 // Import routes and middleware
 const authRoutes = require("./Routes/auth");
@@ -24,9 +23,13 @@ const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
 const emailSystemRoutes = require("./Routes/emailSystemRoute");
 const queuesRoutes = require("./Routes/queuesRoute");
+const { performBackup } = require("./Controller/userController");
+
 const logger = require('./Controller/loggerController'); // Adjust the path accordingly
 
 // Initialize Express app and HTTP server
+const app = express();
+
 //google auth2
 const passport = require("passport");
 const cookieSession = require("cookie-session");
@@ -75,8 +78,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(cors());
-
-// Middleware setup
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -84,14 +85,30 @@ app.use(express.urlencoded({ extended: false }));
 // MongoDB Connection
 const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
 mongoose
-  .connect(mongoURI)
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
-app.use("/api/v1", authRoutes); // Auth routes (login, register, etc.)
+// Auth routes (login, register, etc.)
+app.use("/api/v1", authRoutes);
 
-app.use("/auth", authRoutes);
-// Public routes
+
+
+// Backup MongoDB Route
+// Ensure authentication middleware is used before the "/api/backup" route
+app.use("/api/backup", authenticationMiddleware);
+app.get("/api/backup", (req, res) => {
+  performBackup(req.user); // Assuming req.user is set by authentication middleware
+  return res.status(200).json({ message: "Backup initiated" });
+});
+
+
+// Schedule backup using cron job (every 1 minute)
+cron.schedule("*/1 * * * *", () => {
+  // Trigger the backup function
+  performBackup();
+});
+
 
 // Protected routes with authentication middleware
 app.use(
@@ -130,5 +147,5 @@ const port = process.env.PORT || 3000;
 
 // Start the server
 server.listen(port, () => {
-  console.log(`Server running on port ${port} `);
+  console.log(`Server running on port ${port}`);
 });
