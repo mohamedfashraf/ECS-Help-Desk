@@ -6,7 +6,6 @@ import facebookIcon from "../svgs/facebook.svg";
 import googleIcon from "../svgs/google.svg";
 import githubIcon from "../svgs/github.svg";
 import { AuthContext } from "../context/AuthContext";
-
 export function SignInFrame() {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -22,9 +21,18 @@ export function SignInFrame() {
     // Assuming you have a backend route handling Google Auth
     window.location.href = "http://localhost:3000/auth/google";
   };
-  const handleLoginClick = () => {
-    setShowMfaInput(true); // Set the state to show the MFA input field
+  const handleLoginClick = async () => {
+    const loginResult = await loginUser();
+
+    if (loginResult.twoFactorAuthRequired) {
+      navigate("/Mfa", { state: { userId: loginResult.userId } });
+    } else if (!loginResult.isSuccess) {
+      setErrorMsg(loginError || "Login failed");
+    } else {
+      navigate("/dashboard");
+    }
   };
+
   const handleSignUpRedirect = () => {
     navigate("/register"); // Navigate to signup page
   };
@@ -39,12 +47,11 @@ export function SignInFrame() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const loginResult = await loginUser(e); // Call loginUser function from AuthContext
+    const loginResult = await loginUser();
 
     if (loginResult && loginResult.isSuccess) {
       navigate("/dashboard");
     } else {
-      // Handle login failure
       setErrorMsg(loginResult.message || "Login failed");
     }
   };
@@ -74,13 +81,13 @@ export function SignInFrame() {
             onChange={handleInputChange}
             className="input-style"
           />
-
-          {!showMfaInput && (
-            <button onClick={handleLoginClick} type="button">
-              Login
-            </button>
-          )}
-
+          <button
+            onClick={handleLoginClick}
+            type="button"
+            disabled={loginLoading}
+          >
+            Login
+          </button>
           {showMfaInput && (
             <>
               <input

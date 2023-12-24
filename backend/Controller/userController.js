@@ -110,21 +110,63 @@ async function login(req, res) {
 
     // Check if MFA is enabled for the user
     if (user.twoFactorAuthEnabled) {
-      if (!userEnteredToken) {
-        return res.status(400).json({ message: "MFA token is required" });
-      }
-      
-      const isValidToken = authenticator.verify({
-        secret: user.twoFactorAuthSecret,
-        token: userEnteredToken,
+      // If MFA is enabled, just notify the client
+      return res.status(200).json({
+        message: "MFA required",
+        userId: user._id, // send user ID for the next step
       });
-
-      if (!isValidToken) {
-        return res.status(401).json({ message: "Invalid MFA token" });
-      }
     }
 
     // Create a token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role, name: user.name, email: user.email },
+      secretKey,
+      { expiresIn: "2.5h" } // Token expires in 2.5 hours
+    );
+
+    // Calculate expiration time for the cookie
+    const currentDateTime = new Date();
+    const expiresAt = new Date(currentDateTime.getTime() + 9e6); // 9e6 milliseconds = 2.5 hours
+
+    // Set token in a cookie
+    res.cookie("token", token, {
+      expires: expiresAt,
+      httpOnly: false, // Consider setting to true for security
+      sameSite: "None", // Adjust based on your requirements
+      secure: false, // Set to true if using HTTPS
+    });
+
+    // Include the token in the JSON response
+    return res.status(200).json({
+      message: "Login successfully",
+      user,
+      token, // Send the token here
+    });
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+async function verifyMFA(req, res) {
+  try {
+    const { userId, mfaToken } = req.body;
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isValidToken = authenticator.verify({
+      secret: user.twoFactorAuthSecret,
+      token: mfaToken,
+    });
+
+    if (!isValidToken) {
+      return res.status(401).json({ message: "Invalid MFA token" });
+    }
+
+    // Create a full-access token
     const token = jwt.sign(
       { userId: user._id, role: user.role, name: user.name, email: user.email },
       secretKey,
@@ -441,5 +483,6 @@ module.exports = {
   check2FAStatus,
   updateById,
   disableMFA,
+  verifyMFA,
   //updateMFAStatus
 };
