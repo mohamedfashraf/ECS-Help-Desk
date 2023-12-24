@@ -78,6 +78,7 @@ const CurrentSettings = () => {
     }
   };
 
+
   const verify2FAToken = async () => {
     setIsLoading(true);
     setFeedbackMessage("");

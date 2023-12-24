@@ -34,6 +34,7 @@ router.post(
   UserController.disableMFA
 );
 
+
 router.post(
   "/admin-register",
   authorizationMiddleware(["admin"]),
@@ -65,3 +66,4 @@ router.put(
 );
 
 module.exports = router;
+

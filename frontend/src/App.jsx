@@ -10,7 +10,7 @@ import UserSettings from "./pages/UserSettings";
 import "./css/style.css";
 import CurrentSettings from "./pages/CurrentSettings";
 import "./charts/ChartjsConfig";
-
+import MFAtotp from "./pages/MFA";
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
@@ -45,6 +45,7 @@ function App() {
             path="/settings"
             element={user ? <UserSettings /> : <Login />}
           />
+          <Route path="/Mfa" element={user ? <Dashboard /> : <MFAtotp />} />
           <Route
             path="/userSettings"
             element={user ? <CurrentSettings /> : <Login />}
