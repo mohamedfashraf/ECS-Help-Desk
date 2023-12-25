@@ -13,13 +13,5 @@
       "src": "/api/(.*)",
       "dest": "app.js"
     }
-  ],
-  "env": {
-    "DATABASE_URL": "@database_url"
-  },
-  "build": {
-    "env": {
-      "MONGO_URI": "@mongo_uri"
-    }
-  }
+  ]
 }

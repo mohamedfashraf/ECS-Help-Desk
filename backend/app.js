@@ -25,7 +25,6 @@ const emailSystemRoutes = require("./Routes/emailSystemRoute");
 const queuesRoutes = require("./Routes/queuesRoute");
 const { performBackup } = require("./Controller/userController");
 
-
 // Initialize Express app and HTTP server
 const app = express();
 
@@ -52,7 +51,8 @@ app.use("/auth", authRoutes);
 
 // Set CORS options
 const corsOptions = {
-  origin: "http://localhost:5173", // Replace with your frontend's origin
+  origin:
+    "https://vercel.com/yassa122s-projects/ecs-project-clbe/3cWX6RLFjE4YbZeP3BPGipsXTFg8", // Replace with your frontend's origin
   credentials: true,
 };
 
@@ -63,7 +63,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // MongoDB Connection
-const mongoURI = process.env.MONGO_URI;
+const mongoURI =
+  "mongodb+srv://ECSDBdeployment:eCS123@ecsdbdeployment.7tmnkom.mongodb.net/";
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB..."))
@@ -71,8 +72,6 @@ mongoose
 
 // Auth routes (login, register, etc.)
 app.use("/api/v1", authRoutes);
-
-
 
 // Backup MongoDB Route
 // Ensure authentication middleware is used before the "/api/backup" route
@@ -82,13 +81,11 @@ app.get("/api/backup", (req, res) => {
   return res.status(200).json({ message: "Backup initiated" });
 });
 
-
 // Schedule backup using cron job (every 1 minute)
 cron.schedule("*/1 * * * *", () => {
   // Trigger the backup function
   performBackup();
 });
-
 
 // Protected routes with authentication middleware
 app.use(
