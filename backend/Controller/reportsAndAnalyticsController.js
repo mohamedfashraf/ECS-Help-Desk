@@ -123,8 +123,6 @@ async function getCommonIssuesAnalytics(req, res) {
     }
 }
 
-
-
 module.exports = {
     createReport,
     getAllReports,

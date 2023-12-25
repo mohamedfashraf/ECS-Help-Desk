@@ -30,8 +30,7 @@ const Tickets = () => {
             marginLeft: "20px", // Adjust the left margin as needed
             marginRight: "20px", // Adjust the right margin as needed
           }}
-        >
-        </div>
+        ></div>
         <div
           className="flex flex-col flex-grow"
           style={{
@@ -41,7 +40,7 @@ const Tickets = () => {
             marginRight: "20px", // Adjust the right margin as needed
           }}
         >
-          <UserProfile/>
+          <UserProfile />
         </div>
       </div>
     </div>

@@ -98,7 +98,7 @@ export function FrameWithBorder() {
           />
 
           <button
-            type="submit"
+            type="onSubmit"
             className="gradient-button hover:bg-customblack"
           >
             Signup

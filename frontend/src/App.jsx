@@ -9,13 +9,15 @@ import Tickets from "./pages/Tickets";
 import UserSettings from "./pages/UserSettings";
 import AutomatedWorkflows from "./pages/AutomatedWorkflows";
 import "./css/style.css";
-
+import CurrentSettings from "./pages/CurrentSettings";
 import "./charts/ChartjsConfig";
-
+import MFAtotp from "./pages/MFA";
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
-// import SendEmail from "./pages/sendEmail";
+
+import SendEmail from "./pages/sendEmail";
+import AddFAQs from "./pages/addFAQs";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -46,12 +48,19 @@ function App() {
             path="/settings"
             element={user ? <UserSettings /> : <Login />}
           />
+          <Route path="/Mfa" element={user ? <Dashboard /> : <MFAtotp />} />
+          <Route
+            path="/userSettings"
+            element={user ? <CurrentSettings /> : <Login />}
+          />
+
           <Route
             path="/register"
             element={user ? <Dashboard /> : <Register />}
           />
           <Route path="/tickets" element={user ? <Tickets /> : <Login />} />
-          {/* <Route path="/sendEmail" element={user ? <SendEmail /> : <Login />} /> */}
+          <Route path="/sendEmail" element={user ? <SendEmail /> : <Login />} />
+          <Route path="/addFAQs" element={user ? <AddFAQs /> : <Login />} />
         </Routes>
       </ChatContextProvider>
     </>
