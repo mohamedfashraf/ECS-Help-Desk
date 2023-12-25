@@ -14,6 +14,7 @@ import MFAtotp from "./pages/MFA";
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
+
 import SendEmail from "./pages/sendEmail";
 import AddFAQs from "./pages/addFAQs";
 

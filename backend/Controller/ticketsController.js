@@ -1,6 +1,10 @@
 const Ticket = require('../Models/ticektsModelSchema');
 const SupportAgent = require('../Models/supportAgentModelSchema');
 const Queues = require('../Models/queuesSchema');
+const Issue = require('../Models/knowledgeBaseModelSchema');
+const UserModel = require("../Models/usersModelSchema");
+const nodemailer = require('nodemailer');
+
 
 async function createTicket(req, res) {
     try {
@@ -249,9 +253,27 @@ async function updateTicket(req, res) {
         // Save the current status before updating
         const currentStatus = ticket.status;
 
+
+        
+
         // Update the ticket
         Object.keys(updates).forEach((update) => (ticket[update] = updates[update]));
         await ticket.save();
+
+        
+
+        // If the resolution details are updated
+        if ('resolutionDetails' in updates && updates.resolutionDetails !== ticket.resolutionDetails) {
+            // Create a new issue in the knowledge base
+            const newIssue = new Issue({
+                content: updates.resolutionDetails,
+                category: ticket.category,
+                keyWords: [ticket.subCategory],
+            });
+
+            await newIssue.save();
+        }
+
 
         // If the status is being updated to "Closed" and the previous status was not "Closed"
         if (ticket.status === "Closed" && currentStatus !== "Closed") {
@@ -268,6 +290,43 @@ async function updateTicket(req, res) {
             // Check the ticket queue and assign tickets to available agents
             await processTicketQueues();
         }
+
+
+
+
+        if (req.user.role == "agent"){
+
+            const user = await UserModel.findById(ticket.createdBy);
+            const userEmail = user.email;
+            const message = `Your ticket has been updated.\n
+                    Description: ${ticket.description}\n
+                    Status: ${ticket.status}\n
+                    Resolution Details: ${ticket.resolutionDetails}`;   
+
+            // Send email notification to the user who created the ticket
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: "agent.se.project@gmail.com",
+                    pass: "grtrdrwufhoilhll"
+                },
+                secure: true
+            });
+
+            
+            const mailOptions = {
+                from: "agent.se.project@gmail.com",
+                to: userEmail,
+                subject: 'New Message from ',
+                text: message
+            };
+
+            await transporter.sendMail(mailOptions);
+}
+
+
+
+
 
         res.status(200).json(ticket);
     } catch (error) {
