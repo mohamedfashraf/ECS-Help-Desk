@@ -3,15 +3,14 @@
   "name": "backend",
   "builds": [
     {
-      "src": "app.js",
-      "use": "@vercel/node",
-      "config": { "maxLambdaSize": "50mb" }
+      "src": "./app.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "app.js"
+      "src": "/(.*)",
+      "dest": "/"
     }
   ]
 }
