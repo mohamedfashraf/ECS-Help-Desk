@@ -109,20 +109,28 @@ async function getReportsByTicketStatus(req, res) {
 // Example: Analytics to Identify Common Issues
 async function getCommonIssuesAnalytics(req, res) {
     try {
-        // Use aggregation to count occurrences of all keywords
-        const analyticsResult = await Report.aggregate([
-            { $match: { type: 'issue' } }, // Filter to only include reports of type 'issue'
-            { $unwind: '$keyWords' },      // Unwind the array of keywords
-            { $group: { _id: '$keyWords', count: { $sum: 1 } } }, // Group by keywords and count occurrences
-            { $sort: { count: -1 } }      // Optionally, sort the results by count in descending order
+        // Perform aggregation to count each keyword
+        const keywordAnalyticsResult = await Report.aggregate([
+            { $match: { keyWords: { $exists: true, $ne: [] } } },
+            { $unwind: '$keyWords' },
+            { $group: { _id: '$keyWords', count: { $sum: 1 } } },
+            { $sort: { count: -1 } }
         ]);
 
-        res.status(200).json(analyticsResult);
+        // Perform aggregation to count each type
+        const typeAnalyticsResult = await Report.aggregate([
+            { $match: { type: { $exists: true, $ne: null } } },
+            { $group: { _id: '$type', count: { $sum: 1 } } },
+            { $sort: { count: -1 } }
+        ]);
+
+        // Return both results
+        res.status(200).json({ keywords: keywordAnalyticsResult, types: typeAnalyticsResult });
     } catch (error) {
+        console.error('Error in getCommonIssuesAnalytics:', error);
         res.status(500).json({ error: error.message });
     }
 }
-
 
 
 module.exports = {

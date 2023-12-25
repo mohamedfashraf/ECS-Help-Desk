@@ -17,46 +17,42 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const Dropbox = require('dropbox').Dropbox;
 
-const dbx = new Dropbox({ accessToken: 'sl.BsVxhIb3zmB4ZrfadTZCzkjH5oDTiftqrJVZwWoAr5ORkKPIy-_H7K2-k0HpoaSyIJCKHJBpX0TePpMcCuljG3qdHH-stGPF6mHhqrw32Kqe8vZDYAqT8-NWOyyEe6QgfFiDlDtITNu3QekZtmUQ', fetch: fetch });
+const dropboxToken = 'sl.BsatRBgkfsNK15maKWKuDb2rVCExI7yX-VBHxGkweOyL9GeP2TO6rXIpalVewktufleovgEQZHp1kcuwDE1YamPpyP8BMEwAsZ6LLHL-J2opUPjsIMsi4hj-yGxoU9IjXuTwFHgAwIj5IPXkXMZp';
+const dropbox = new Dropbox({ accessToken: dropboxToken });
 
-async function uploadToDropbox(folderPath) {
+async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {
   try {
     // List all items (files and directories) in the folder
     const items = fs.readdirSync(folderPath, { withFileTypes: true });
 
-    // Iterate through each item and upload files to Dropbox
+    // Iterate through each item
     for (const item of items) {
-      // Check if the item is a file
+      const itemPath = `${folderPath}/${item.name}`;
+      const dropboxItemPath = `${dropboxFolderPath}/${item.name}`;
+
       if (item.isFile()) {
-        const filePath = `${folderPath}/${item.name}`;
-        const fileContent = fs.readFileSync(filePath);
-
-        // Specify the file path in Dropbox
-        const dropboxPath = `/ECS-help-desk/backup/${item.name}`;
-
-        try {
-          // Upload the file to Dropbox
-          const response = await dbx.filesUpload({ path: dropboxPath, contents: fileContent });
-          console.log('File uploaded to Dropbox:', response);
-        } catch (uploadError) {
-          console.error(`Error uploading file to Dropbox:`, uploadError);
-        }
+        // If it's a file, upload it to Dropbox
+        const fileContent = fs.readFileSync(itemPath);
+        await dropbox.filesUpload({ path: dropboxItemPath, contents: fileContent });
+        console.log(`File uploaded to Dropbox: ${item.name}`);
+      } else if (item.isDirectory()) {
+        // If it's a directory, recursively upload its contents
+        await uploadFolderToDropbox(itemPath, dropboxItemPath);
       }
     }
 
-    console.log('Folder uploaded to Dropbox.');
+    console.log(`Folder uploaded to Dropbox: ${dropboxFolderPath}`);
   } catch (error) {
-    console.error('Error uploading folder to Dropbox:', error);
+    console.error(`Error uploading folder to Dropbox: ${error.message}`);
   }
 }
-
 
 const performBackup = async (user) => {
   if (user) {
     if (user.isBackupEnabled) {
-      const backupFolder = "C:\\Users\\moham\\OneDrive\\Desktop\\backups";
-      const timestamp = new Date().toISOString().replace(/[-:]/g, "");
-      const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
+      const backupFolder = 'C:/Users/moham/OneDrive/Desktop/backups';
+      const timestamp = new Date().toISOString().replace(/[-:]/g, '');
+      const mongoURI = 'mongodb://127.0.0.1:27017/SE-Project';
 
       const backupPath = `${backupFolder}/${timestamp}`;
       const mongodumpCommand = `"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump" --uri=${mongoURI} --out=${backupPath} --db=SE-Project`;
@@ -67,32 +63,16 @@ const performBackup = async (user) => {
         console.log(`Backup successful: ${backupPath}`);
 
         // Upload the backup to Dropbox
-        await uploadToDropbox(backupPath);
+        await uploadFolderToDropbox("C:/Users/moham/OneDrive/Desktop/backups");
       } catch (error) {
         console.error(`Error during backup: ${error.message}`);
       }
     } else {
-      console.log("Backup not initiated. User backup is not enabled.");
+      console.log('Backup not initiated. User backup is not enabled.');
     }
   } else {
-    console.log("Backup not initiated. User not logged in.");
+    console.log('Backup not initiated. User not logged in.');
   }
-};
-
-
-
-const createZip = async (source, out) => {
-  const { exec } = require("child_process");
-  return new Promise((resolve, reject) => {
-    const command = `zip -r ${out} ${source}`;
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject(new Error(`Error creating zip file: ${error.message}`));
-      } else {
-        resolve();
-      }
-    });
-  });
 };
 
 async function adminRegister(req, res) {
