@@ -31,7 +31,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/Home" element={<LandingPage />} />
 
         <Route exact path="/login" element={user ? <Dashboard /> : <Login />} />
         <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
