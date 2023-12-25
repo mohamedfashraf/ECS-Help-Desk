@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "name": "backend",
+  "builds": [
+    {
+      "src": "app.js",
+      "use": "@vercel/node",
+      "config": { "maxLambdaSize": "50mb" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "app.js"
+    }
+  ],
+  "env": {
+    "DATABASE_URL": "@database_url"
+  },
+  "build": {
+    "env": {
+      "MONGO_URI": "@mongo_uri"
+    }
+  }
+}
