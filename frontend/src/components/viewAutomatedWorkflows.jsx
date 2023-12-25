@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 
 
 const ViewAutomatedWorkflows = () => {
@@ -11,6 +13,8 @@ const ViewAutomatedWorkflows = () => {
   const [allWorkflows, setAllWorkflows] = useState([]);
   const [feedbackProvided, setFeedbackProvided] = useState(''); // Ensure feedbackProvided is declared here
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const userRole = user.role;
 
 
   useEffect(() => {
@@ -92,6 +96,8 @@ const ViewAutomatedWorkflows = () => {
     navigate('/');
   };
 
+  
+
   return (
 <div>
     <div style={{ marginBottom: '10vh' }}>
@@ -132,33 +138,34 @@ const ViewAutomatedWorkflows = () => {
         />
       </div>
 
-      {selectedIssueType && selectedSubcategory && (
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10vh' }}>
-          {feedbackProvided ? (
-            <>
-              {feedbackProvided === 'yes' ? (
-                <p>We are pleased to help you!</p>
-              ) : (
-                <>
-                  <p>Try creating a ticket</p>
-                  <button onClick={handleCreateTicket} style={{ marginLeft: '3vh', padding: '1vh',paddingLeft:'3vh', paddingRight:'3vh', backgroundColor: 'Black' }}>
-                    Create a Ticket
-                  </button>
-                </>
-              )}
-            </>
-          ) : ( 
-            <>
-              <p>Was this helpful?</p>
-              <button onClick={handleFeedbackYes}style={{ marginLeft: '3vh', padding: '1vh',paddingLeft:'3vh', paddingRight:'3vh', backgroundColor: 'Black' }}>
-                Yes
-              </button>
-              <button onClick={handleFeedbackNo} style={{ marginLeft: '3vh', padding: '1vh',paddingLeft:'3vh', paddingRight:'3vh', backgroundColor: 'Black' }}>
-                No
-              </button>
-            </>
-          )}
-        </div>
+      {selectedIssueType && selectedSubcategory && userRole.includes('user') && (
+  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10vh' }}>
+    {feedbackProvided  ? (
+      <>
+        {feedbackProvided === 'yes' ? (
+          <p>We are pleased to help you!</p>
+        ) : (
+          <>
+            <p>Try creating a ticket</p>
+            <button onClick={handleCreateTicket} style={{ marginLeft: '3vh', padding: '1vh', paddingLeft:'3vh', paddingRight:'3vh', backgroundColor: 'Black' }}>
+              Create a Ticket
+            </button>
+          </>
+        )}
+      </>
+    ) : ( 
+      <>
+        <p>Was this helpful?</p>
+        <button onClick={handleFeedbackYes} style={{ marginLeft: '3vh', padding: '1vh', paddingLeft:'3vh', paddingRight:'3vh', backgroundColor: 'Black' }}>
+          Yes
+        </button>
+        <button onClick={handleFeedbackNo} style={{ marginLeft: '3vh', padding: '1vh', paddingLeft:'3vh', paddingRight:'3vh', backgroundColor: 'Black' }}>
+          No
+        </button>
+      </>
+    )}
+  </div>
+
       )}
 </div>
   );

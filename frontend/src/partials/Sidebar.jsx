@@ -568,18 +568,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 Forum
                               </span>
                             </NavLink>
-<<<<<<< HEAD
                           </li>
-=======
                           </li> */}
->>>>>>> fca8d9b8072545a8cc0e48c7c478c236abaf1da5
                         </ul>
                       </div>
                     </React.Fragment>
                   );
                 }}
               </SidebarLinkGroup>
-<<<<<<< HEAD
 
 
 
@@ -642,8 +638,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
 
 
-=======
->>>>>>> fca8d9b8072545a8cc0e48c7c478c236abaf1da5
 
               {/* Messages */}
               {shouldRenderMessages && (
