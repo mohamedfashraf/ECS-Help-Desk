@@ -39,7 +39,6 @@ const session = require("express-session");
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/auth", authRoutes);
 
 // Set CORS options
 const corsOptions = {
