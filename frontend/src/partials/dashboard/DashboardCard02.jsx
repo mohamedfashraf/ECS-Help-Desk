@@ -127,7 +127,7 @@ function DashboardCard02() {
         </h3>
         {/* Display user tickets in a dropdown */}
         <select
-            className="mt-11 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          className="mt-11 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           onChange={(e) => handleTicketSelect(JSON.parse(e.target.value))}
         >
           <option value="" disabled selected>
@@ -146,7 +146,7 @@ function DashboardCard02() {
             <form>
               {/* Add input fields for new information */}
               <div className="mb-4">
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   New Description
                 </label>
                 <input
@@ -160,7 +160,7 @@ function DashboardCard02() {
               </div>
               {/* Add dropdowns for category and priority */}
               <div className="mb-4">
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   New Category
                 </label>
                 <select
@@ -176,7 +176,7 @@ function DashboardCard02() {
                 </select>
               </div>
               <div className="mb-4">
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   New Subcategory
                 </label>
                 <input
@@ -189,7 +189,7 @@ function DashboardCard02() {
                 />
               </div>
               <div className="mb-2">
-              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   New Priority
                 </label>
                 <select

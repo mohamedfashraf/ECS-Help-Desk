@@ -3,12 +3,36 @@ const router = express.Router();
 const UserController = require("../Controller/userController");
 const authorizationMiddleware = require("../Middleware/authorization");
 
+router.put(
+  "/setBackupStatus",
+  authorizationMiddleware(["admin", "user", "agent", "manager"]),
+  UserController.setBackupStatus
+);
 router.get("/", authorizationMiddleware(["admin"]), UserController.getAllUsers);
 
-// Place specific routes before the generic :id routes
-router.post("/enable2fa", UserController.enable2FA);
-router.get("/check-2fa-status", UserController.check2FAStatus);
-router.post("/verify2fa", UserController.verifyTwoFactorAuth);
+router.post(
+  "/enable2fa",
+  authorizationMiddleware(["user", "agent", "admin"]),
+  UserController.enable2FA
+);
+
+router.get(
+  "/check-2fa-status",
+  authorizationMiddleware(["user", "agent", "admin"]),
+  UserController.check2FAStatus
+);
+
+router.post(
+  "/verify2fa",
+  authorizationMiddleware(["user", "agent", "admin"]),
+  UserController.verifyTwoFactorAuth
+);
+
+router.post(
+  "/disable2fa",
+  authorizationMiddleware(["user", "agent", "admin"]),
+  UserController.disableMFA
+);
 
 router.post(
   "/admin-register",
@@ -23,8 +47,8 @@ router.get(
 );
 
 router.put(
-  "/:id",
-  authorizationMiddleware(["admin"]),
+  "/update/:id",
+  authorizationMiddleware(["admin", "user"]),
   UserController.updateUser
 );
 
@@ -36,7 +60,7 @@ router.delete(
 
 router.put(
   "/updateById/:id",
-  authorizationMiddleware(["admin"]),
+  authorizationMiddleware(["admin", "user"]),
   UserController.updateById
 );
 

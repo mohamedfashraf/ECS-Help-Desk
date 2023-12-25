@@ -6,8 +6,9 @@ async function createEmail(req, res) {
     try {
         const loggedInUser = req.user.role;
         const senderName = req.user.name;
+        console.log("loggedInUser", loggedInUser);
 
-        if (loggedInUser == "agent" || loggedInUser == "admin") {
+        if (loggedInUser.includes("agent") || loggedInUser.includes("admin")) {
             const { userEmail, messages } = req.body;
             const agentName = req.user.name;
             const agentEmail = req.user.email;
@@ -41,7 +42,7 @@ async function createEmail(req, res) {
             }
 
             res.status(201).json(conversation);
-        } else if (loggedInUser == "user") {
+        } else if (loggedInUser.includes("user")) {
             const { messages } = req.body;
             const userName = req.user.name;
             const userEmail = req.user.email;
@@ -52,17 +53,10 @@ async function createEmail(req, res) {
                 messages: messages.map(({ message }) => ({ sender: senderName, message })),
             });
 
-            // await conversation.save();
-            // for (const { message } of messages) {
-            //     const mailOptions = {
-            //         from: userEmail,
-            //         to: agentEmail,
-            //         subject: 'New Message from ' + agentName,
-            //         text: message
-            //     };
+            await conversation.save();
 
-            //     await transporter.sendMail(mailOptions);
-            // }
+            // TODO: Add email sending logic for users if needed
+            // Example: sendEmailToUser(userEmail, 'New Message', 'You have a new message.');
 
             res.status(201).json(conversation);
         } else {
@@ -70,9 +64,10 @@ async function createEmail(req, res) {
         }
     } catch (error) {
         console.error('Error in createEmail:', error);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 
 // Get all user emails messages by email "works"
 async function getUserEmailsMessages(req, res) {
@@ -95,17 +90,29 @@ async function getUserEmailsMessages(req, res) {
 }
 
 
-// Get all user emails "works"
+// Get all user emails "updated"
 async function getUserEmails(req, res) {
     try {
-        const userEmail = req.user.email;
-        const conversations = await Emails.find({ userEmail: userEmail });
-        console.log('Retrieved Conversations:', conversations);
-        res.status(200).json(conversations);
+        const loggedInUser = req.user.role;
+
+        if (loggedInUser.includes("agent") || loggedInUser.includes("admin")) {
+            // Fetch emails for agents
+            const conversations = await Emails.find({ agentEmail: req.user.email });
+            res.status(200).json(conversations);
+        } else if (loggedInUser.includes("user")) {
+            // Fetch emails for users
+            const userEmail = req.user.email;
+            const conversations = await Emails.find({ userEmail: userEmail });
+            res.status(200).json(conversations);
+        } else {
+            res.status(400).json({ error: 'Invalid user type' });
+        }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
+
 
 // Get a specific email by ID "works"
 async function getEmailById(req, res) {
@@ -175,10 +182,6 @@ async function replyMessages(req, res) {
         res.status(400).json({ error: error.message });
     }
 }
-
-
-
-
 
 // Delete a conversation by ID "works"
 async function deleteConversation(req, res) {

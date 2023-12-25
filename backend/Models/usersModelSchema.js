@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: function() {
+    required: function () {
       return !this.isOAuthUser; // Only require password if it's not an OAuth user
     }
   },
@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
   twoFactorAuthSecret: {
     type: String,
     default: "",
+  },
+  isBackupEnabled: {
+    type: Boolean,
+    default: false,
   },
 });
 

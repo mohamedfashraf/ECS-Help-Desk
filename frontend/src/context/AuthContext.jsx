@@ -1,6 +1,7 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import { postRequest } from "../utils/services";
 import { baseUrl } from "../utils/services";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
@@ -12,12 +13,14 @@ export const AuthContextProvider = ({ children }) => {
     name: "",
     email: "",
     password: "",
+    userEnteredToken: "",
   });
   const [loginError, setLoginError] = useState(null);
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     email: "",
     password: "",
+    userEnteredToken: "",
   });
 
   const loginUserWithGoogle = useCallback(async (googleToken) => {
@@ -49,13 +52,17 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // Restore user and token from localStorage
     const storedUserData = localStorage.getItem("User");
     const storedToken = localStorage.getItem("Token");
-    // console.log("storedToken", storedToken);
+
     if (storedUserData && storedToken) {
-      const parsedUserData = JSON.parse(storedUserData);
-      setUser(parsedUserData); // Ensure this matches the structure of your user data
+      try {
+        const parsedUserData = JSON.parse(storedUserData);
+        setUser(parsedUserData);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        // Handle parsing error (e.g., clear localStorage, redirect to login)
+      }
     }
   }, []);
 
@@ -91,42 +98,111 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const loginUser = useCallback(
-    async (e) => {
-      e.preventDefault();
+    async (userEnteredToken) => {
       setLoginLoading(true);
       setLoginError(null);
 
       try {
-        const response = await fetch(`${baseUrl}/v1/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(loginInfo),
-        });
+        let response;
+        let responseData;
 
-        const responseData = await response.json();
+        // Check if MFA token is provided
+        if (userEnteredToken) {
+          // If MFA token is provided, verify it
+          response = await fetch(`${baseUrl}/v1/verifyMFA`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: loginInfo.userId,
+              mfaToken: userEnteredToken,
+            }),
+          });
+        } else {
+          // If no MFA token, attempt initial login
+          response = await fetch(`${baseUrl}/v1/login`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginInfo),
+          });
+        }
 
+        responseData = await response.json();
         setLoginLoading(false);
 
         if (response.ok) {
-          console.log(
-            "Login successful, storing user and token in localStorage"
-          );
+          // Check if the response indicates MFA is required
+          if (responseData.message === "MFA required") {
+            sessionStorage.setItem("userIdForMFA", responseData.userId); // Store userId
+
+            return {
+              isSuccess: false,
+              twoFactorAuthRequired: true,
+            };
+          }
+
+          // Handle successful login or MFA verification
           localStorage.setItem("User", JSON.stringify(responseData.user));
           localStorage.setItem("Token", responseData.token);
           setUser(responseData.user);
+
+          return {
+            isSuccess: true,
+            twoFactorAuthRequired: false,
+          };
         } else {
-          console.error("Login failed");
-          setLoginError("Login failed");
+          setLoginError(responseData.message || "Login failed");
+          return {
+            isSuccess: false,
+            twoFactorAuthRequired: false,
+          };
         }
       } catch (error) {
         console.error("Error during login:", error);
         setLoginError(error.message || "An error occurred during login");
+        return { isSuccess: false, twoFactorAuthRequired: false };
       }
     },
     [loginInfo]
   );
+  const verifyMFA = async (mfaCode) => {
+    console.log("Verifying MFA code:", mfaCode); // Debugging line
+    const userId = sessionStorage.getItem("userIdForMFA"); // Retrieve userId
+    if (!userId) {
+      throw new Error("User ID not found for MFA verification");
+    }
+
+    try {
+      const response = await fetch(`${baseUrl}/v1/verifyMFA`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, mfaToken: mfaCode }),
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        // Handle successful verification
+        localStorage.setItem("User", JSON.stringify(responseData.user));
+        localStorage.setItem("Token", responseData.token);
+        setUser(responseData.user); // Assuming setUser updates the AuthContext
+        return { isSuccess: true };
+      } else {
+        return { isSuccess: false, message: responseData.message };
+      }
+    } catch (error) {
+      console.error("Error verifying MFA:", error);
+      return {
+        isSuccess: false,
+        message: error.message || "An error occurred during MFA verification",
+      };
+    }
+  };
 
   const logoutUser = useCallback(() => {
     console.log("Logging out, clearing user and token from localStorage");
@@ -151,6 +227,7 @@ export const AuthContextProvider = ({ children }) => {
         loginLoading,
         loginUser,
         loginUserWithGoogle,
+        verifyMFA,
       }}
     >
       {children}

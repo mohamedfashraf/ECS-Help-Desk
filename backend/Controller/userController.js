@@ -12,11 +12,72 @@ const qrcode = require("qrcode");
 
 require("dotenv").config();
 
+const fs = require('fs');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+const Dropbox = require('dropbox').Dropbox;
+
+const dropboxToken = 'sl.BsatRBgkfsNK15maKWKuDb2rVCExI7yX-VBHxGkweOyL9GeP2TO6rXIpalVewktufleovgEQZHp1kcuwDE1YamPpyP8BMEwAsZ6LLHL-J2opUPjsIMsi4hj-yGxoU9IjXuTwFHgAwIj5IPXkXMZp';
+const dropbox = new Dropbox({ accessToken: dropboxToken });
+
+async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {
+  try {
+    // List all items (files and directories) in the folder
+    const items = fs.readdirSync(folderPath, { withFileTypes: true });
+
+    // Iterate through each item
+    for (const item of items) {
+      const itemPath = `${folderPath}/${item.name}`;
+      const dropboxItemPath = `${dropboxFolderPath}/${item.name}`;
+
+      if (item.isFile()) {
+        // If it's a file, upload it to Dropbox
+        const fileContent = fs.readFileSync(itemPath);
+        await dropbox.filesUpload({ path: dropboxItemPath, contents: fileContent });
+        console.log(`File uploaded to Dropbox: ${item.name}`);
+      } else if (item.isDirectory()) {
+        // If it's a directory, recursively upload its contents
+        await uploadFolderToDropbox(itemPath, dropboxItemPath);
+      }
+    }
+
+    console.log(`Folder uploaded to Dropbox: ${dropboxFolderPath}`);
+  } catch (error) {
+    console.error(`Error uploading folder to Dropbox: ${error.message}`);
+  }
+}
+
+const performBackup = async (user) => {
+  if (user) {
+    if (user.isBackupEnabled) {
+      const backupFolder = 'C:/Users/moham/OneDrive/Desktop/backups';
+      const timestamp = new Date().toISOString().replace(/[-:]/g, '');
+      const mongoURI = 'mongodb://127.0.0.1:27017/SE-Project';
+
+      const backupPath = `${backupFolder}/${timestamp}`;
+      const mongodumpCommand = `"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump" --uri=${mongoURI} --out=${backupPath} --db=SE-Project`;
+
+      try {
+        // Execute mongodump command
+        await exec(mongodumpCommand);
+        console.log(`Backup successful: ${backupPath}`);
+
+        // Upload the backup to Dropbox
+        await uploadFolderToDropbox("C:/Users/moham/OneDrive/Desktop/backups");
+      } catch (error) {
+        console.error(`Error during backup: ${error.message}`);
+      }
+    } else {
+      console.log('Backup not initiated. User backup is not enabled.');
+    }
+  } else {
+    console.log('Backup not initiated. User not logged in.');
+  }
+};
+
 async function adminRegister(req, res) {
   try {
-
-    const { name, email, role, password, expertise } =
-      req.body;
+    const { name, email, role, password, expertise } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const userRole = req.user.role;
     const newId = new mongoose.Types.ObjectId();
@@ -28,7 +89,7 @@ async function adminRegister(req, res) {
         email,
         role,
         password: hashedPassword,
-        expertise
+        expertise,
       });
       await agent.save();
       const user = new UserModel({
@@ -99,8 +160,8 @@ async function register(req, res) {
 async function login(req, res) {
   try {
     const { email, password, userEnteredToken } = req.body;
-
     const user = await UserModel.findOne({ email });
+
     if (!user) {
       return res.status(404).json({ message: "Email not found" });
     }
@@ -110,12 +171,20 @@ async function login(req, res) {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
+    // Check if MFA is enabled for the user
+    if (user.twoFactorAuthEnabled) {
+      // If MFA is enabled, just notify the client
+      return res.status(200).json({
+        message: "MFA required",
+        userId: user._id, // send user ID for the next step
+      });
+    }
+
     // Create a token
     const token = jwt.sign(
       { userId: user._id, role: user.role, name: user.name, email: user.email },
-
       secretKey,
-      { expiresIn: "30m" } // Token expires in 30 minutes
+      { expiresIn: "2.5h" } // Token expires in 2.5 hours
     );
 
     // Calculate expiration time for the cookie
@@ -141,6 +210,56 @@ async function login(req, res) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 }
+
+async function verifyMFA(req, res) {
+  try {
+    const { userId, mfaToken } = req.body;
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isValidToken = authenticator.verify({
+      secret: user.twoFactorAuthSecret,
+      token: mfaToken,
+    });
+
+    if (!isValidToken) {
+      return res.status(401).json({ message: "Invalid MFA token" });
+    }
+
+    // Create a full-access token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role, name: user.name, email: user.email },
+      secretKey,
+      { expiresIn: "2.5h" } // Token expires in 2.5 hours
+    );
+
+    // Calculate expiration time for the cookie
+    const currentDateTime = new Date();
+    const expiresAt = new Date(currentDateTime.getTime() + 9e6); // 9e6 milliseconds = 2.5 hours
+
+    // Set token in a cookie
+    res.cookie("token", token, {
+      expires: expiresAt,
+      httpOnly: false, // Consider setting to true for security
+      sameSite: "None", // Adjust based on your requirements
+      secure: false, // Set to true if using HTTPS
+    });
+
+    // Include the token in the JSON response
+    return res.status(200).json({
+      message: "Login successfully",
+      user,
+      token, // Send the token here
+    });
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
 async function isValid2FA(user, token) {
   if (user.twoFactorAuthEnabled) {
     const isValid = authenticator.verify({
@@ -263,22 +382,15 @@ async function enable2FA(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (user.twoFactorAuthEnabled) {
-      return res
-        .status(400)
-        .json({ message: "2FA is already enabled for this user" });
-    }
-
     // Generate a new 2FA secret for the user
     const secret = authenticator.generateSecret();
-    const otpauthURL = authenticator.keyuri(user.email, "YourAppName", secret);
+    const otpauthURL = authenticator.keyuri(user.email, "ECS-MFA", secret);
 
     // Generate QR code for the OTP auth URL
     const qrCodeURL = await generateQRCode(otpauthURL);
 
     // Update the user with the 2FA secret and mark it as enabled
     user.twoFactorAuthSecret = secret;
-    user.twoFactorAuthEnabled = true;
     await user.save();
 
     res.status(200).json({ otpauthURL, qrCodeURL });
@@ -301,7 +413,9 @@ const verifyTwoFactorAuth = async (req, res) => {
     // Check if the Authorization header is present
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-      return res.status(401).json({ message: "No authorization header provided" });
+      return res
+        .status(401)
+        .json({ message: "No authorization header provided" });
     }
 
     // Decode the JWT token to get the user ID
@@ -332,6 +446,10 @@ const verifyTwoFactorAuth = async (req, res) => {
       return res.status(400).json({ message: "Invalid 2FA token" });
     }
 
+    // If token is valid, enable 2FA for the user
+    user.twoFactorAuthEnabled = true;
+    await user.save();
+
     // Token is valid, proceed with the intended action
     res.status(200).json({ message: "2FA token verified successfully" });
   } catch (error) {
@@ -339,7 +457,6 @@ const verifyTwoFactorAuth = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 async function check2FAStatus(req, res) {
   try {
@@ -363,6 +480,101 @@ async function check2FAStatus(req, res) {
   }
 }
 
+async function disableMFA(req, res) {
+  try {
+    // Verify the JWT token and extract user ID
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, secretKey); // Use your JWT secret key
+    const userId = decoded.userId;
+
+    // Find the user in the database
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Check if MFA is already disabled
+    if (!user.twoFactorAuthEnabled) {
+      return res.status(400).json({ message: "MFA is already disabled." });
+    }
+
+    // Update the user's record to disable MFA
+    user.twoFactorAuthEnabled = false;
+    user.twoFactorAuthSecret = ""; // Clear any 2FA secret if stored
+    await user.save();
+
+    res.status(200).json({ message: "MFA disabled successfully." });
+  } catch (error) {
+    console.error("Error disabling MFA:", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+}
+
+// async function updateMFAStatus(req, res) {
+//   try {
+//     const userId = await UserModel.findById(req.params._id);
+//     const { mfaEnabled } = req.body;
+
+//     const user = await UserModel.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     user.mfaEnabled = mfaEnabled;
+//     await user.save();
+
+//     res.status(200).json({ message: "MFA status updated successfully" });
+//   } catch (error) {
+//     console.error("Error updating MFA status:", error);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// }
+const setBackupStatus = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { isBackupEnabled } = req.body;
+
+    // Find the user by ID and update the isBackupEnabled field
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      { $set: { isBackupEnabled } },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // If backup is enabled, schedule a backup every minute
+    if (isBackupEnabled) {
+      // Initial backup
+      performBackup(user);
+
+      // Schedule subsequent backups every 1 minute
+      const backupInterval = setInterval(() => {
+        performBackup(user);
+      }, 60 * 1000); // 60 seconds * 1000 milliseconds
+
+      // Store the interval ID in the user object (to clear it later if needed)
+      user.backupInterval = backupInterval;
+    } else {
+      // If backup is disabled, clear the scheduled interval (if it exists)
+      if (user.backupInterval) {
+        clearInterval(user.backupInterval);
+        user.backupInterval = null; // Set it to null after clearing
+      }
+    }
+
+    res.status(200).json({ message: "Backup status updated successfully" });
+  } catch (error) {
+    console.error("Error updating backup status:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+
 
 module.exports = enable2FA;
 
@@ -378,4 +590,8 @@ module.exports = {
   verifyTwoFactorAuth,
   check2FAStatus,
   updateById,
+  disableMFA,
+  verifyMFA,
+  //updateMFAStatus
+  setBackupStatus,
 };
