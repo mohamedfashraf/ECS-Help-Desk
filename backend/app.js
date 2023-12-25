@@ -9,20 +9,20 @@ const { exec } = require("child_process");
 const cron = require("node-cron");
 
 // Import routes and middleware
-const authRoutes = require("./Routes/auth");
+const authRoutes = require("./routes/auth");
 const authenticationMiddleware = require("./Middleware/authentication");
-const userRoutes = require("./Routes/usersRoute");
-const ticketsRoute = require("./Routes/ticketsRoute");
-const securitySettingsRoutes = require("./Routes/securitySettingsRoute");
-const knowledgeBaseRoutes = require("./Routes/knowledgeBaseRoute");
-const reportsAndAnalyticsRoutes = require("./Routes/reportsAndAnalyticsRoute");
-const supportAgentRoutes = require("./Routes/supportAgentRoute");
-const customizationSettingsRoute = require("./Routes/customizationSettingsRoute");
-const automatedWorkflowsRoutes = require("./Routes/automatedWorkflowsRoute");
-const chatRoute = require("./Routes/chatRoute");
-const messageRoute = require("./Routes/messageRoute");
-const emailSystemRoutes = require("./Routes/emailSystemRoute");
-const queuesRoutes = require("./Routes/queuesRoute");
+const userRoutes = require("./routes/usersRoute");
+const ticketsRoute = require("./routes/ticketsRoute");
+const securitySettingsRoutes = require("./routes/securitySettingsRoute");
+const knowledgeBaseRoutes = require("./routes/knowledgeBaseRoute");
+const reportsAndAnalyticsRoutes = require("./routes/reportsAndAnalyticsRoute");
+const supportAgentRoutes = require("./routes/supportAgentRoute");
+const customizationSettingsRoute = require("./routes/customizationSettingsRoute");
+const automatedWorkflowsRoutes = require("./routes/automatedWorkflowsRoute");
+const chatRoute = require("./routes/chatRoute");
+const messageRoute = require("./routes/messageRoute");
+const emailSystemRoutes = require("./routes/emailSystemRoute");
+const queuesRoutes = require("./routes/queuesRoute");
 const { performBackup } = require("./Controller/userController");
 
 // Initialize Express app and HTTP server
