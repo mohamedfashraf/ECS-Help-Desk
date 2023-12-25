@@ -22,6 +22,8 @@ module.exports = {
       },
       backgroundImage: {
         linearButton: "linear-gradient(to right, #2E4CEE, #221EBF, #040F75)",
+        'custom-gradient': 'linear-gradient()',
+
         // other background images...
       },
 

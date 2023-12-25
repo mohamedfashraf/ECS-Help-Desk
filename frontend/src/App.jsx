@@ -16,7 +16,7 @@ import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
 import SendEmail from "./pages/sendEmail";
 import AddFAQs from "./pages/addFAQs";
-
+import LandingPage from "./pages/LandingPage";
 function App() {
   const { user } = useContext(AuthContext);
   console.log("user logged in ", user);
@@ -30,36 +30,26 @@ function App() {
 
   return (
     <>
-      <ChatContextProvider user={user}>
-        <Routes>
-          <Route
-            exact
-            path="/login"
-            element={user ? <Dashboard /> : <Login />}
-          />
-          <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
-          <Route exact path="*" element={<Navigate to="/" />} />
-          <Route path="/chats" element={user ? <Chats /> : <Login />} />
-          <Route path="/FAQs" element={user ? <FAQs /> : <Login />} />
-          <Route
-            path="/settings"
-            element={user ? <UserSettings /> : <Login />}
-          />
-          <Route path="/Mfa" element={user ? <Dashboard /> : <MFAtotp />} />
-          <Route
-            path="/userSettings"
-            element={user ? <CurrentSettings /> : <Login />}
-          />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
 
-          <Route
-            path="/register"
-            element={user ? <Dashboard /> : <Register />}
-          />
-          <Route path="/tickets" element={user ? <Tickets /> : <Login />} />
-          <Route path="/sendEmail" element={user ? <SendEmail /> : <Login />} />
-          <Route path="/addFAQs" element={user ? <AddFAQs /> : <Login />} />
-        </Routes>
-      </ChatContextProvider>
+        <Route exact path="/login" element={user ? <Dashboard /> : <Login />} />
+        <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
+        <Route exact path="*" element={<Navigate to="/" />} />
+        <Route path="/chats" element={user ? <Chats /> : <Login />} />
+        <Route path="/FAQs" element={user ? <FAQs /> : <Login />} />
+        <Route path="/settings" element={user ? <UserSettings /> : <Login />} />
+        <Route path="/Mfa" element={user ? <Dashboard /> : <MFAtotp />} />
+        <Route
+          path="/userSettings"
+          element={user ? <CurrentSettings /> : <Login />}
+        />
+
+        <Route path="/register" element={user ? <Dashboard /> : <Register />} />
+        <Route path="/tickets" element={user ? <Tickets /> : <Login />} />
+        <Route path="/sendEmail" element={user ? <SendEmail /> : <Login />} />
+        <Route path="/addFAQs" element={user ? <AddFAQs /> : <Login />} />
+      </Routes>
     </>
   );
 }
