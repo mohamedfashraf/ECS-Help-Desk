@@ -35,14 +35,6 @@ const passportStrategy = require("./passport");
 
 const session = require("express-session");
 
-app.use(
-  session({
-    secret: "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", // Replace with your own secret
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === "production" },
-  })
-);
 
 app.use(passport.initialize());
 app.use(passport.session());
