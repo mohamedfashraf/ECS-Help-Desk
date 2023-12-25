@@ -4,7 +4,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const http = require("http");
 const { exec } = require("child_process");
 const cron = require("node-cron");
 
@@ -35,10 +34,8 @@ const passportStrategy = require("./passport");
 
 const session = require("express-session");
 
-
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 // Set CORS options
 const corsOptions = {
@@ -108,12 +105,8 @@ app.use("/api/chat", authenticationMiddleware, chatRoute);
 app.use("/api/message", authenticationMiddleware, messageRoute);
 
 // Create an HTTP server using the Express app
-const server = http.createServer(app);
 
 // Set the port for the server
-const port = process.env.PORT || 3000;
 
 // Start the server
-server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+module.exports = app;
