@@ -10,6 +10,7 @@ const CurrentSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [userEnteredToken, setUserEnteredToken] = useState("");
+
   const [isBackupEnabled, setIsBackupEnabled] = useState(false); // New state for backup status
 
   useEffect(() => {
@@ -106,6 +107,7 @@ const CurrentSettings = () => {
     }
   };
 
+
   // Function to toggle backup status
   // Function to toggle backup status
   const toggleBackupStatus = async () => {
@@ -184,6 +186,7 @@ const CurrentSettings = () => {
             </label>
           </div>
 
+
           {/* Toggle for Backup Status */}
           <div className="flex items-center justify-between py-4">
             <div className="flex flex-col flex-grow">
@@ -211,6 +214,7 @@ const CurrentSettings = () => {
         <div className="mt-6">
           <button
             type="button"
+
             onClick={goToBackupLink}
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >
