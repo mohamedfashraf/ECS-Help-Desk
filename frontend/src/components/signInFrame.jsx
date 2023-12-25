@@ -83,7 +83,9 @@ export function SignInFrame() {
           />
           <button
             onClick={handleLoginClick}
-            type="button"
+            type="onSubmit"
+            className="gradient-button2 hover:bg-customblack"
+
             disabled={loginLoading}
           >
             Login
