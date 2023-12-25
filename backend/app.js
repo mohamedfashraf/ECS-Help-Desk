@@ -105,8 +105,12 @@ app.use("/api/chat", authenticationMiddleware, chatRoute);
 app.use("/api/message", authenticationMiddleware, messageRoute);
 
 // Create an HTTP server using the Express app
+const server = http.createServer(app);
 
 // Set the port for the server
+const port = 8080 || process.env.PORT;
 
 // Start the server
-module.exports = app;
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
