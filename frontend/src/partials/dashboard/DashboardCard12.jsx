@@ -1,161 +1,113 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import DoughnutChart from "../../charts/DoughnutChart";
+import BarChart from "../../charts/BarChart"; // Import BarChart component
+import axios from "axios";
 
 function DashboardCard12() {
+  const [keywordChartData, setKeywordChartData] = useState({
+    labels: [],
+    datasets: [{ data: [], backgroundColor: [] }],
+  });
+
+  const [typeChartData, setTypeChartData] = useState({
+    labels: [],
+    datasets: [{ data: [], backgroundColor: [] }],
+  });
+
+  // Array of colors for the charts
+  const colors = [
+    "#FF6384",
+    "#36A2EB",
+    "#FFCE56",
+    "#4BC0C0",
+    "#9966FF",
+    "#FF9F40",
+    "#FF6384",
+    "#36A2EB",
+    // ... add more colors as needed
+  ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("Token");
+        const response = await axios.get(
+          "http://localhost:3000/api/reports/analytics/issues",
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        // Transform keyword data
+        const keywordLabels = response.data.keywords.map((item) => item._id);
+        const keywordData = response.data.keywords.map((item) => item.count);
+
+        setKeywordChartData({
+          labels: keywordLabels,
+          datasets: [
+            {
+              data: keywordData,
+              backgroundColor: colors.slice(0, keywordData.length),
+            },
+          ],
+        });
+
+        // Transform type data
+        const typeLabels = response.data.types.map((item) => item._id);
+        const typeData = response.data.types.map((item) => item.count);
+
+        setTypeChartData({
+          labels: typeLabels,
+          datasets: [
+            {
+              data: typeData,
+              backgroundColor: colors.slice(0, typeData.length),
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("Error fetching analytics data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const barChartOptions = {
+    // Customize your chart options here
+  };
+
   return (
-    <div className="col-span-full xl:col-span-6 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+    <div className="flex flex-col col-span-full sm:col-span-full xl:col-span-full bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
       <header className="px-5 py-4 border-b border-slate-100 dark:border-slate-700">
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Recent Activity</h2>
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100">
+          Analytics
+        </h2>
       </header>
-      <div className="p-3">
-        {/* Card content */}
-        {/* "Today" group */}
-        <div>
-          <header className="text-xs uppercase text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-700 dark:bg-opacity-50 rounded-sm font-semibold p-2">
-            Today
-          </header>
-          <ul className="my-1">
-            {/* Item */}
-            <li className="flex px-2">
-              <div className="w-9 h-9 rounded-full shrink-0 bg-indigo-500 my-2 mr-3">
-                <svg className="w-9 h-9 fill-current text-indigo-50" viewBox="0 0 36 36">
-                  <path d="M18 10c-4.4 0-8 3.1-8 7s3.6 7 8 7h.6l5.4 2v-4.4c1.2-1.2 2-2.8 2-4.6 0-3.9-3.6-7-8-7zm4 10.8v2.3L18.9 22H18c-3.3 0-6-2.2-6-5s2.7-5 6-5 6 2.2 6 5c0 2.2-2 3.8-2 3.8z" />
-                </svg>
-              </div>
-              <div className="grow flex items-center border-b border-slate-100 dark:border-slate-700 text-sm py-2">
-                <div className="grow flex justify-between">
-                  <div className="self-center">
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      Nick Mark
-                    </a>{' '}
-                    mentioned{' '}
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      Sara Smith
-                    </a>{' '}
-                    in a new post
-                  </div>
-                  <div className="shrink-0 self-end ml-2">
-                    <a className="font-medium text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400" href="#0">
-                      View<span className="hidden sm:inline"> -&gt;</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </li>
-            {/* Item */}
-            <li className="flex px-2">
-              <div className="w-9 h-9 rounded-full shrink-0 bg-rose-500 my-2 mr-3">
-                <svg className="w-9 h-9 fill-current text-rose-50" viewBox="0 0 36 36">
-                  <path d="M25 24H11a1 1 0 01-1-1v-5h2v4h12v-4h2v5a1 1 0 01-1 1zM14 13h8v2h-8z" />
-                </svg>
-              </div>
-              <div className="grow flex items-center border-b border-slate-100 dark:border-slate-700 text-sm py-2">
-                <div className="grow flex justify-between">
-                  <div className="self-center">
-                    The post{' '}
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      Post Name
-                    </a>{' '}
-                    was removed by{' '}
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      Nick Mark
-                    </a>
-                  </div>
-                  <div className="shrink-0 self-end ml-2">
-                    <a className="font-medium text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400" href="#0">
-                      View<span className="hidden sm:inline"> -&gt;</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </li>
-            {/* Item */}
-            <li className="flex px-2">
-              <div className="w-9 h-9 rounded-full shrink-0 bg-emerald-500 my-2 mr-3">
-                <svg className="w-9 h-9 fill-current text-emerald-50" viewBox="0 0 36 36">
-                  <path d="M15 13v-3l-5 4 5 4v-3h8a1 1 0 000-2h-8zM21 21h-8a1 1 0 000 2h8v3l5-4-5-4v3z" />
-                </svg>
-              </div>
-              <div className="grow flex items-center text-sm py-2">
-                <div className="grow flex justify-between">
-                  <div className="self-center">
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      Patrick Sullivan
-                    </a>{' '}
-                    published a new{' '}
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      post
-                    </a>
-                  </div>
-                  <div className="shrink-0 self-end ml-2">
-                    <a className="font-medium text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400" href="#0">
-                      View<span className="hidden sm:inline"> -&gt;</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
+      <div className="flex justify-around p-5">
+        <div
+          className="chart-container"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {keywordChartData.labels.length > 0 && (
+            <DoughnutChart data={keywordChartData} width={389} height={260} />
+          )}
         </div>
-        {/* "Yesterday" group */}
-        <div>
-          <header className="text-xs uppercase text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-700 dark:bg-opacity-50 rounded-sm font-semibold p-2">
-            Yesterday
-          </header>
-          <ul className="my-1">
-            {/* Item */}
-            <li className="flex px-2">
-              <div className="w-9 h-9 rounded-full shrink-0 bg-sky-500 my-2 mr-3">
-                <svg className="w-9 h-9 fill-current text-sky-50" viewBox="0 0 36 36">
-                  <path d="M23 11v2.085c-2.841.401-4.41 2.462-5.8 4.315-1.449 1.932-2.7 3.6-5.2 3.6h-1v2h1c3.5 0 5.253-2.338 6.8-4.4 1.449-1.932 2.7-3.6 5.2-3.6h3l-4-4zM15.406 16.455c.066-.087.125-.162.194-.254.314-.419.656-.872 1.033-1.33C15.475 13.802 14.038 13 12 13h-1v2h1c1.471 0 2.505.586 3.406 1.455zM24 21c-1.471 0-2.505-.586-3.406-1.455-.066.087-.125.162-.194.254-.316.422-.656.873-1.028 1.328.959.878 2.108 1.573 3.628 1.788V25l4-4h-3z" />
-                </svg>
-              </div>
-              <div className="grow flex items-center border-b border-slate-100 dark:border-slate-700 text-sm py-2">
-                <div className="grow flex justify-between">
-                  <div className="self-center">
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      240+
-                    </a>{' '}
-                    users have subscribed to{' '}
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      Newsletter #1
-                    </a>
-                  </div>
-                  <div className="shrink-0 self-end ml-2">
-                    <a className="font-medium text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400" href="#0">
-                      View<span className="hidden sm:inline"> -&gt;</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </li>
-            {/* Item */}
-            <li className="flex px-2">
-              <div className="w-9 h-9 rounded-full shrink-0 bg-indigo-500 my-2 mr-3">
-                <svg className="w-9 h-9 fill-current text-indigo-50" viewBox="0 0 36 36">
-                  <path d="M18 10c-4.4 0-8 3.1-8 7s3.6 7 8 7h.6l5.4 2v-4.4c1.2-1.2 2-2.8 2-4.6 0-3.9-3.6-7-8-7zm4 10.8v2.3L18.9 22H18c-3.3 0-6-2.2-6-5s2.7-5 6-5 6 2.2 6 5c0 2.2-2 3.8-2 3.8z" />
-                </svg>
-              </div>
-              <div className="grow flex items-center text-sm py-2">
-                <div className="grow flex justify-between">
-                  <div className="self-center">
-                    The post{' '}
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      Post Name
-                    </a>{' '}
-                    was suspended by{' '}
-                    <a className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white" href="#0">
-                      Nick Mark
-                    </a>
-                  </div>
-                  <div className="shrink-0 self-end ml-2">
-                    <a className="font-medium text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400" href="#0">
-                      View<span className="hidden sm:inline"> -&gt;</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
+        <div
+          className="chart-container"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "500px",
+            height: "300px",
+          }}
+        >
+          {typeChartData.labels.length > 0 && (
+            <BarChart data={typeChartData} options={barChartOptions} />
+          )}
         </div>
       </div>
     </div>

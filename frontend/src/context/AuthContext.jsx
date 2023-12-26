@@ -174,7 +174,7 @@ export const AuthContextProvider = ({ children }) => {
     if (!userId) {
       throw new Error("User ID not found for MFA verification");
     }
-  
+
     try {
       const response = await fetch(`${baseUrl}/v1/verifyMFA`, {
         method: "POST",
@@ -183,9 +183,9 @@ export const AuthContextProvider = ({ children }) => {
         },
         body: JSON.stringify({ userId, mfaToken: mfaCode }),
       });
-  
+
       const responseData = await response.json();
-  
+
       if (response.ok) {
         // Handle successful verification
         localStorage.setItem("User", JSON.stringify(responseData.user));
@@ -203,7 +203,6 @@ export const AuthContextProvider = ({ children }) => {
       };
     }
   };
-  
 
   const logoutUser = useCallback(() => {
     console.log("Logging out, clearing user and token from localStorage");

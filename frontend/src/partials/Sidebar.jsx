@@ -15,6 +15,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
   const allowedFAQsRoles = ["agent", "admin"];
 
+  const allowedErrorLogs = ["admin"];
+
   const shouldAddFAQs = allowedFAQsRoles.some((role) =>
     userRole.includes(role)
   );
@@ -25,6 +27,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   );
 
   const shouldRenderMessages = allowedMessagesRoles.some((role) =>
+    userRole.includes(role)
+  );
+
+  const shouldRenderErrorLogs = allowedErrorLogs.some((role) =>
     userRole.includes(role)
   );
 
@@ -684,6 +690,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                                     </span>
                                                   </NavLink>
                                                 </li>
+
               {/* Settings */}
               <SidebarLinkGroup activecondition={pathname.includes("settings")}>
                 {(handleClick, open) => {

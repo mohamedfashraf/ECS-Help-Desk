@@ -15,9 +15,10 @@ import Logs from "./pages/Logs";
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
+
 import SendEmail from "./pages/sendEmail";
 import AddFAQs from "./pages/addFAQs";
-
+import LandingPage from "./pages/LandingPage";
 function App() {
   const { user } = useContext(AuthContext);
   console.log("user logged in ", user);
@@ -33,6 +34,8 @@ function App() {
     <>
       <ChatContextProvider user={user}>
         <Routes>
+            <Route path="/Home" element={<LandingPage />} />
+
           <Route
             exact
             path="/login"
@@ -61,6 +64,7 @@ function App() {
           <Route path="/addFAQs" element={user ? <AddFAQs /> : <Login />} />
         </Routes>
       </ChatContextProvider>
+
     </>
   );
 }
