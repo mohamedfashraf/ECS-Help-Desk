@@ -11,6 +11,8 @@ import "./css/style.css";
 import CurrentSettings from "./pages/CurrentSettings";
 import "./charts/ChartjsConfig";
 import MFAtotp from "./pages/MFA";
+import AutomatedWorkflows from "./pages/AutomatedWorkflows";
+
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
@@ -43,6 +45,9 @@ function App() {
           <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
           <Route exact path="*" element={<Navigate to="/" />} />
           <Route path="/chats" element={user ? <Chats /> : <Login />} />
+          <Route path="/automatedWorflows" element={user ? <AutomatedWorkflows /> : <Login />} />
+
+
           <Route path="/FAQs" element={user ? <FAQs /> : <Login />} />
           <Route
             path="/settings"
@@ -67,4 +72,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;
