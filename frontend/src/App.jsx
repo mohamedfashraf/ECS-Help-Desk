@@ -13,9 +13,11 @@ import "./charts/ChartjsConfig";
 import MFAtotp from "./pages/MFA";
 import AutomatedWorkflows from "./pages/AutomatedWorkflows";
 
+import Logs from "./pages/Logs";
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
+
 
 import SendEmail from "./pages/sendEmail";
 import AddFAQs from "./pages/addFAQs";
@@ -37,6 +39,7 @@ function App() {
         <Routes>
           <Route path="/Home" element={<LandingPage />} />
 
+
           <Route
             exact
             path="/login"
@@ -46,6 +49,7 @@ function App() {
           <Route exact path="*" element={<Navigate to="/" />} />
           <Route path="/chats" element={user ? <Chats /> : <Login />} />
           <Route path="/automatedWorflows" element={user ? <AutomatedWorkflows /> : <Login />} />
+
 
           <Route path="/FAQs" element={user ? <FAQs /> : <Login />} />
           <Route
@@ -58,6 +62,7 @@ function App() {
             element={user ? <CurrentSettings /> : <Login />}
           />
 
+          <Route path="/logs" element={user ? <Logs /> : <Login />} />
           <Route
             path="/register"
             element={user ? <Dashboard /> : <Register />}
@@ -72,3 +77,4 @@ function App() {
 }
 
 export default App;
+

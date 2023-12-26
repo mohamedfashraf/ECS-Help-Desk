@@ -37,7 +37,8 @@
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
     "speakeasy": "^2.0.0",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

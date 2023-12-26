@@ -1,3 +1,4 @@
+const logger = require('../Controller/loggerController'); // Adjust the path accordingly
 const mongoose = require("mongoose");
 const SecuritySettings = require("../Models/securitySettingsModelSchema");
 const User = require("../Models/usersModelSchema"); // Adjust the path based on your actual user model location
@@ -39,49 +40,58 @@ async function createSecuritySettings(req, res) {
     });
 
     await securitySettings.save();
+
+    logger.info('Security settings created successfully');
     res.status(201).json(securitySettings);
   } catch (error) {
+    logger.error(`Error creating security settings: ${error.message}`);
     res.status(400).json({ error: error.message });
   }
 }
 
-module.exports = createSecuritySettings;
-
-// Get all security settings "works"
+// Get all security settings
 async function getAllSecuritySettings(req, res) {
   try {
-    const securitySettings = await SecuritySettings.find({});
+    const securitySettings = await SecuritySettings.find();
+    logger.info('Retrieved all security settings successfully');
     res.status(200).json(securitySettings);
   } catch (error) {
+    logger.error(`Error retrieving all security settings: ${error.message}`);
     res.status(500).json({ error: error.message });
   }
 }
 
-// Get specific security setting by ID "works"
+// Get specific security setting by ID
 async function getSecuritySettingById(req, res) {
   try {
     const securitySetting = await SecuritySettings.findById(req.params.id);
     if (!securitySetting) {
+      logger.warn('Security setting not found');
       return res.status(404).json({ error: "Security setting not found" });
     }
+    logger.info('Retrieved security setting by ID successfully');
     res.status(200).json(securitySetting);
   } catch (error) {
+    logger.error(`Error retrieving security setting by ID: ${error.message}`);
     res.status(500).json({ error: error.message });
   }
 }
 
-// Update a security setting by ID "works"
+// Update a security setting by ID
 async function updateSecuritySetting(req, res) {
   try {
     const updates = Object.keys(req.body);
     const securitySetting = await SecuritySettings.findById(req.params.id);
     if (!securitySetting) {
+      logger.warn('Security setting not found for updating');
       return res.status(404).json({ error: "Security setting not found" });
     }
     updates.forEach((update) => (securitySetting[update] = req.body[update]));
     await securitySetting.save();
+    logger.info('Security setting updated successfully');
     res.status(200).json(securitySetting);
   } catch (error) {
+    logger.error(`Error updating security setting: ${error.message}`);
     res.status(400).json({ error: error.message });
   }
 }
@@ -93,10 +103,13 @@ async function deleteSecuritySetting(req, res) {
       req.params.id
     );
     if (!securitySetting) {
+      logger.warn('Security setting not found for deletion');
       return res.status(404).json({ error: "Security setting not found" });
     }
+    logger.info('Security setting deleted successfully');
     res.status(200).json({ message: "Security setting deleted successfully" });
   } catch (error) {
+    logger.error(`Error deleting security setting: ${error.message}`);
     res.status(500).json({ error: error.message });
   }
 }
