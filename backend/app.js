@@ -35,7 +35,6 @@ const passportStrategy = require("./passport");
 
 const session = require("express-session");
 
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -56,7 +55,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // MongoDB Connection
 const mongoURI =
-  "mongodb+srv://ECSDBdeployment:eCS123@ecsdbdeployment.7tmnkom.mongodb.net/";
+  "mongodb+srv://ECSDBdeployment:eCS123@ecsdbdeployment.7tmnkom.mongodb.net/?retryWrites=true&w=majority";
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB..."))
