@@ -47,6 +47,7 @@ function App() {
           <Route path="/chats" element={user ? <Chats /> : <Login />} />
           <Route path="/automatedWorflows" element={user ? <AutomatedWorkflows /> : <Login />} />
 
+
           <Route path="/FAQs" element={user ? <FAQs /> : <Login />} />
           <Route
             path="/settings"

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test spe0cified\" && exit 1",
     "start": "node app.js",
@@ -13,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "adm-zip": "^0.5.10",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "child_process": "^1.0.2",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",

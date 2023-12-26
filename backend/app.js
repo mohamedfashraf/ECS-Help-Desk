@@ -25,34 +25,16 @@ const emailSystemRoutes = require("./Routes/emailSystemRoute");
 const queuesRoutes = require("./Routes/queuesRoute");
 const { performBackup } = require("./Controller/userController");
 
-
 // Initialize Express app and HTTP server
 const app = express();
 
 //google auth2
-const passport = require("passport");
-const cookieSession = require("cookie-session");
-const passportStrategy = require("./passport");
-
-const session = require("express-session");
-
-app.use(
-  session({
-    secret: "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", // Replace with your own secret
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === "production" },
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use("/auth", authRoutes);
 
 // Set CORS options
 const corsOptions = {
-  origin: "http://localhost:5173", // Replace with your frontend's origin
+  origin: "https://ecs-project-clbe.vercel.app", // Replace with your frontend's origin
   credentials: true,
 };
 
@@ -63,7 +45,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // MongoDB Connection
-const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
+const mongoURI =
+  "mongodb+srv://ECSDBdeployment:eCS123@ecsdbdeployment.7tmnkom.mongodb.net/?retryWrites=true&w=majority";
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB..."))
@@ -71,8 +54,6 @@ mongoose
 
 // Auth routes (login, register, etc.)
 app.use("/api/v1", authRoutes);
-
-
 
 // Backup MongoDB Route
 // Ensure authentication middleware is used before the "/api/backup" route
@@ -82,13 +63,11 @@ app.get("/api/backup", (req, res) => {
   return res.status(200).json({ message: "Backup initiated" });
 });
 
-
 // Schedule backup using cron job (every 1 minute)
 cron.schedule("*/1 * * * *", () => {
   // Trigger the backup function
   performBackup();
 });
-
 
 // Protected routes with authentication middleware
 app.use(
@@ -123,7 +102,7 @@ app.use("/api/message", authenticationMiddleware, messageRoute);
 const server = http.createServer(app);
 
 // Set the port for the server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 // Start the server
 server.listen(port, () => {
