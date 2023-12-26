@@ -515,7 +515,7 @@ async function disableMFA(req, res) {
       .json({ message: "Internal server error", error: error.message });
   }
 }
-
+//
 // async function updateMFAStatus(req, res) {
 //   try {
 //     const userId = await UserModel.findById(req.params._id);
