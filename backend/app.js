@@ -29,10 +29,7 @@ const { performBackup } = require("./Controller/userController");
 const app = express();
 
 //google auth2
-const passport = require("passport");
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use("/auth", authRoutes);
 
