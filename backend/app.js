@@ -36,7 +36,7 @@ app.use("/auth", authRoutes);
 // Set CORS options
 const corsOptions = {
   origin:
-    "https://vercel.com/yassa122s-projects/ecs-project-clbe/3cWX6RLFjE4YbZeP3BPGipsXTFg8", // Replace with your frontend's origin
+    "https://ecs-project-clbe.vercel.app", // Replace with your frontend's origin
   credentials: true,
 };
 
