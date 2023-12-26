@@ -30,10 +30,6 @@ const app = express();
 
 //google auth2
 const passport = require("passport");
-const cookieSession = require("cookie-session");
-const passportStrategy = require("./passport");
-
-const session = require("express-session");
 
 app.use(passport.initialize());
 app.use(passport.session());
