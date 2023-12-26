@@ -30,13 +30,11 @@ const app = express();
 
 //google auth2
 
-
 app.use("/auth", authRoutes);
 
 // Set CORS options
 const corsOptions = {
-  origin:
-    "https://ecs-project-clbe.vercel.app", // Replace with your frontend's origin
+  origin: "https://ecs-project-clbe.vercel.app", // Replace with your frontend's origin
   credentials: true,
 };
 
