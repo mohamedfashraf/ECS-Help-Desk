@@ -26,12 +26,15 @@ export function FrameWithBorder() {
     setErrorMsg("");
 
     try {
-      await axios.post("http://localhost:3000/api/v1/register", {
-        name,
-        role: "user",
-        email,
-        password,
-      });
+      await axios.post(
+        "https://vercel.com/yassa122s-projects/ecs-project-backend/HGR3vacPAbunqEmkv4G6BsFatujr/api/v1/register",
+        {
+          name,
+          role: "user",
+          email,
+          password,
+        }
+      );
       setSuccessMsg("Registration successful! Please login.");
     } catch (error) {
       if (error.response) {
