@@ -27,7 +27,7 @@ export function FrameWithBorder() {
 
     try {
       await axios.post(
-        "https://vercel.com/yassa122s-projects/ecs-project-backend/HGR3vacPAbunqEmkv4G6BsFatujr/api/v1/register",
+        "https://ecs-project-backend.vercel.app/api/v1/register",
         {
           name,
           role: "user",
