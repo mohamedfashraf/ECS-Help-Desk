@@ -67,3 +67,12 @@
 {"level":"error","message":"No conversation found for the user"}
 {"level":"info","message":"Attempting to retrieve email messages for user: admin@gmail.com"}
 {"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Retrieved email messages successfully"}

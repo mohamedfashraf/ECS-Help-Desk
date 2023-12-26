@@ -23,10 +23,9 @@ const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
 const emailSystemRoutes = require("./Routes/emailSystemRoute");
 const queuesRoutes = require("./Routes/queuesRoute");
-const logger = require('./Controller/loggerController');
+const logger = require("./Controller/loggerController");
 
 const { performBackup } = require("./Controller/userController");
-
 
 // Initialize Express app and HTTP server
 const app = express();
@@ -48,23 +47,20 @@ app.use(
 );
 // app.js or server.js
 
-
-
 // Set up your Express app and middleware...
 
 // Handle uncaught exceptions and rejections
-process.on('uncaughtException', (err) => {
+process.on("uncaughtException", (err) => {
   logger.error(`Uncaught Exception: ${err.message}`);
   process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
+process.on("unhandledRejection", (reason, promise) => {
   logger.error(`Unhandled Rejection: ${reason}`);
   process.exit(1);
 });
 
 // ... (rest of your application setup)
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -93,8 +89,6 @@ mongoose
 // Auth routes (login, register, etc.)
 app.use("/api/v1", authRoutes);
 
-
-
 // Backup MongoDB Route
 // Ensure authentication middleware is used before the "/api/backup" route
 app.use("/api/backup", authenticationMiddleware);
@@ -103,13 +97,11 @@ app.get("/api/backup", (req, res) => {
   return res.status(200).json({ message: "Backup initiated" });
 });
 
-
 // Schedule backup using cron job (every 1 minute)
 cron.schedule("*/1 * * * *", () => {
   // Trigger the backup function
   performBackup();
 });
-
 
 // Protected routes with authentication middleware
 app.use(
@@ -120,29 +112,26 @@ app.use(
 // ... (your existing imports)
 app.use(cors(corsOptions));
 
-
 // ... (your existing middleware setup)
 
 // API endpoint to fetch logs
-const fs = require('fs');
+const fs = require("fs");
 
-app.get('/api/logs', (req, res) => {
+app.get("/api/logs", (req, res) => {
   // Read the combined.log file
-  fs.readFile('combined.log', 'utf8', (err, data) => {
+  fs.readFile("combined.log", "utf8", (err, data) => {
     if (err) {
       logger.error(`Error reading log file: ${err.message}`);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: "Internal Server Error" });
     }
 
     // Split log entries by newline
-    const logs = data.split('\n').filter((entry) => entry.trim() !== '');
+    const logs = data.split("\n").filter((entry) => entry.trim() !== "");
 
     // Send logs as the response
     return res.json({ logs });
   });
 });
-
-
 
 // ... (rest of your existing routes and setup)
 
