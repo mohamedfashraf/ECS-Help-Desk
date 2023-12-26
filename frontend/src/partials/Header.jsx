@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import SearchModal from "../components/ModalSearch";
@@ -6,11 +6,12 @@ import Notifications from "../components/DropdownNotifications";
 import Help from "../components/DropdownHelp";
 import UserMenu from "../components/DropdownProfile";
 import ThemeToggle from "../components/ThemeToggle";
-
+import { AuthContext } from "../context/AuthContext";
 function Header({ sidebarOpen, setSidebarOpen }) {
   const navigate = useNavigate();
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [remainingTime, setRemainingTime] = useState(null);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -18,7 +19,8 @@ function Header({ sidebarOpen, setSidebarOpen }) {
 
     if (token && expirationTime) {
       const updateRemainingTime = () => {
-        const timeLeft = new Date(expirationTime).getTime() - new Date().getTime();
+        const timeLeft =
+          new Date(expirationTime).getTime() - new Date().getTime();
         console.log("Time left:", timeLeft); // Debugging
         setRemainingTime(Math.max(timeLeft, 0));
       };
@@ -117,7 +119,7 @@ function Header({ sidebarOpen, setSidebarOpen }) {
             </div>
             <Notifications align="right" />
             <Help align="right" />
-            <ThemeToggle />
+            {user.role.includes("admin") && <ThemeToggle />}
             {/*  Divider */}
             <hr className="w-px h-6 bg-slate-200 dark:bg-slate-700 border-none" />
             <UserMenu align="right" />

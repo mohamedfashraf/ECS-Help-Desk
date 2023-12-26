@@ -58,7 +58,7 @@ export function SignInFrame() {
 
   return (
     //end of connection
-    <div className="frame-style pt-10">
+    <div className="frame-style pt-10 ">
       <div className="p-10">
         <h2 className="form-title text-left animate-fade-down">Login</h2>
         <p className="form-subtitle text-left">Glad you’re back.! </p>
@@ -85,7 +85,6 @@ export function SignInFrame() {
             onClick={handleLoginClick}
             type="onSubmit"
             className="gradient-button2 hover:bg-customblack"
-
             disabled={loginLoading}
           >
             Login

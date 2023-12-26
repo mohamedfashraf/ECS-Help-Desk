@@ -4,6 +4,7 @@ import "./styles/regframe.css"; // Ensure the correct path is used
 import facebookIcon from "../svgs/facebook.svg"; // Update with actual path
 import googleIcon from "../svgs/google.svg"; // Update with actual path
 import githubIcon from "../svgs/github.svg"; // Update with actual path
+import { useNavigate } from "react-router-dom";
 
 export function FrameWithBorder() {
   //connectopn for front and back(make it after frontend)
@@ -11,7 +12,7 @@ export function FrameWithBorder() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -33,6 +34,7 @@ export function FrameWithBorder() {
         password,
       });
       setSuccessMsg("Registration successful! Please login.");
+      navigate("/");
     } catch (error) {
       if (error.response) {
         setErrorMsg(

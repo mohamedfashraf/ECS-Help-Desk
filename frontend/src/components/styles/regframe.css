@@ -199,7 +199,6 @@ html {
 .gif-overlay {
   position: fixed;
   top: 0;
-  
 
   left: 0;
   width: 100%;
@@ -211,7 +210,7 @@ html {
   z-index: 1000; /* Ensure it's above other content */
 }
 .gradient-bg {
-  background-image: linear-gradient(0deg, #000A27 30%, #000000 70%);
+  background-image: linear-gradient(0deg, #000a27 30%, #000000 70%);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -229,11 +228,15 @@ html {
   clip-path: polygon(0 100%, 100% 0%, 100% 100%, 0 100%);
 }
 
-
 /* Media query for screens smaller than 600px */
 @media screen and (max-width: 500px) {
   .signup-position {
     position: absolute; /* Keep it absolute to allow centering */
     justify-items: center;
+  }
+}
+@media screen and (max-width: 600px) {
+  .responsive-table th, .responsive-table td {
+    padding: 8px; /* Smaller padding for mobile */
   }
 }
