@@ -20,6 +20,9 @@ import DashboardCard10 from "../partials/dashboard/DashboardCard10";
 import DashboardCard11 from "../partials/dashboard/DashboardCard11";
 import DashboardCard12 from "../partials/dashboard/DashboardCard12";
 import DashboardCard13 from "../partials/dashboard/DashboardCard13";
+import AgentDashboardCard01 from "../partials/dashboard/AgentDashboardCard01";
+import AgentDashboardCard07 from "../partials/dashboard/AgentDashboardCard07";
+
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -68,6 +71,8 @@ function Dashboard() {
             <div className="grid grid-cols-12 gap-6">
               {/* Line chart (create ticket) */}
               {userRole.includes("user") && <DashboardCard01 />}
+              {userRole.includes("agent") && <AgentDashboardCard01 />}
+
               {/* Line chart (update ticket) */}
               {userRole.includes("user") && <DashboardCard02 />}
               {/* Line chart (ticket status) */}
@@ -80,6 +85,8 @@ function Dashboard() {
               {userRole.includes("admin") && <DashboardCard06 />}
               {/* Table (users table) */}
               {userRole.includes("admin") && <DashboardCard07 />}
+              {userRole.includes("agent") && <AgentDashboardCard07 />}
+
               {/* Line chart (Sales Over Time) */}
               {/* <DashboardCard08 /> */}
               {/* Stacked bar chart (Sales VS Refunds) */}
