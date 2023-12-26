@@ -11,6 +11,8 @@ import "./css/style.css";
 import CurrentSettings from "./pages/CurrentSettings";
 import "./charts/ChartjsConfig";
 import MFAtotp from "./pages/MFA";
+import AutomatedWorkflows from "./pages/AutomatedWorkflows";
+
 import Logs from "./pages/Logs";
 // Import pages
 import Dashboard from "./pages/Dashboard";
@@ -35,7 +37,8 @@ function App() {
     <>
       <ChatContextProvider user={user}>
         <Routes>
-            <Route path="/Home" element={<LandingPage />} />
+          <Route path="/Home" element={<LandingPage />} />
+
 
           <Route
             exact
@@ -45,6 +48,9 @@ function App() {
           <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
           <Route exact path="*" element={<Navigate to="/" />} />
           <Route path="/chats" element={user ? <Chats /> : <Login />} />
+          <Route path="/automatedWorflows" element={user ? <AutomatedWorkflows /> : <Login />} />
+
+
           <Route path="/FAQs" element={user ? <FAQs /> : <Login />} />
           <Route
             path="/settings"
@@ -55,6 +61,7 @@ function App() {
             path="/userSettings"
             element={user ? <CurrentSettings /> : <Login />}
           />
+
           <Route path="/logs" element={user ? <Logs /> : <Login />} />
           <Route
             path="/register"
@@ -65,9 +72,9 @@ function App() {
           <Route path="/addFAQs" element={user ? <AddFAQs /> : <Login />} />
         </Routes>
       </ChatContextProvider>
-
     </>
   );
 }
 
-export default App;
+export default App;
+

@@ -7,8 +7,6 @@ import ChatBox from "../components/chat/ChatBox";
 import Header from "../partials/Header";
 import Sidebar from "../partials/Sidebar";
 import MessageBox from "../partials/dashboard/MessageBox";
-import ViewUserTickets from "../components/Tickets/viewUserTickets";
-
 import ViewTickets from "../components/Tickets/viewTickets";
 
 const Tickets = () => {
@@ -42,7 +40,7 @@ const Tickets = () => {
             marginRight: "20px", // Adjust the right margin as needed
           }}
         >
-          <ViewUserTickets />
+          
           <ViewTickets />
           
         </div>

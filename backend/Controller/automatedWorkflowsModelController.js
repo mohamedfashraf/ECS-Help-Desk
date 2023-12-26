@@ -3,22 +3,19 @@ const logger = require('../Controller/loggerController'); // Adjust the path acc
 const AutomatedWorkflow = require('../Models/automatedWorkflowsModelSchema');
 
 async function createAutomatedWorkflow(req, res) {
-  try {
-    const {
-      agentAvailability,
-      workflowType,
-      workflowDetails: { priorityLevels, routingRules, escalationPath },
-    } = req.body;
+    try {
+        const {
+            issueType,
+            subCategory,
+            workflow
+        } = req.body;
 
-    const automatedWorkflow = new AutomatedWorkflow({
-      agentAvailability,
-      workflowType,
-      workflowDetails: {
-        priorityLevels,
-        routingRules,
-        escalationPath,
-      },
-    });
+        const automatedWorkflow = new AutomatedWorkflow({
+            issueType,
+            subCategory,
+            workflow
+        });
+
 
     await automatedWorkflow.save();
     res.status(201).json(automatedWorkflow);
@@ -27,6 +24,25 @@ async function createAutomatedWorkflow(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
+
+// Get all automated workflows with optional filters
+async function getWorkflows(req, res) {
+    try {
+      const { issueType, subCategory } = req.query;
+  
+      // Construct the filter based on provided query parameters
+      const filter = {};
+      if (issueType) filter.issueType = issueType;
+      if (subCategory) filter.subCategory = subCategory;
+  
+      const automatedWorkflows = await AutomatedWorkflow.find(filter);
+      res.status(200).json(automatedWorkflows);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  
+
 
 async function getAllAutomatedWorkflows(req, res) {
   try {
@@ -80,10 +96,33 @@ async function deleteAutomatedWorkflow(req, res) {
   }
 }
 
+// Get all distinct issue types
+async function getAllIssueTypes(req, res) {
+    try {
+      const distinctIssueTypes = await AutomatedWorkflow.distinct('issueType');
+      res.status(200).json(distinctIssueTypes);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  
+  // Get all distinct subcategories
+  async function getAllSubcategories(req, res) {
+    try {
+      const distinctSubcategories = await AutomatedWorkflow.distinct('subCategory');
+      res.status(200).json(distinctSubcategories);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
 module.exports = {
-  createAutomatedWorkflow,
-  getAllAutomatedWorkflows,
-  getAutomatedWorkflowById,
-  updateAutomatedWorkflow,
-  deleteAutomatedWorkflow,
+    createAutomatedWorkflow,
+    getAllAutomatedWorkflows,
+    getAutomatedWorkflowById,
+    updateAutomatedWorkflow,
+    deleteAutomatedWorkflow,
+    getWorkflows,
+    getAllIssueTypes,
+    getAllSubcategories,
 };
