@@ -1,5 +1,3 @@
-// loggerController.js
-
 const winston = require('winston');
 
 // Create a logger instance
@@ -12,3 +10,6 @@ const logger = winston.createLogger({
 });
 
 module.exports = logger;
+
+// Log a sample message
+logger.info('Logger initialized');

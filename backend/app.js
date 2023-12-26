@@ -23,7 +23,7 @@ const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
 const emailSystemRoutes = require("./Routes/emailSystemRoute");
 const queuesRoutes = require("./Routes/queuesRoute");
-const logger = require('./Controller/loggerController'); // Adjust the path accordingly
+const logger = require('./Controller/loggerController');
 
 const { performBackup } = require("./Controller/userController");
 
@@ -117,6 +117,35 @@ app.use(
   authenticationMiddleware,
   customizationSettingsRoute
 );
+// ... (your existing imports)
+app.use(cors(corsOptions));
+
+
+// ... (your existing middleware setup)
+
+// API endpoint to fetch logs
+const fs = require('fs');
+
+app.get('/api/logs', (req, res) => {
+  // Read the combined.log file
+  fs.readFile('combined.log', 'utf8', (err, data) => {
+    if (err) {
+      logger.error(`Error reading log file: ${err.message}`);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    // Split log entries by newline
+    const logs = data.split('\n').filter((entry) => entry.trim() !== '');
+
+    // Send logs as the response
+    return res.json({ logs });
+  });
+});
+
+
+
+// ... (rest of your existing routes and setup)
+
 app.use("/api/emails", authenticationMiddleware, emailSystemRoutes);
 app.use(
   "/api/security-settings",
