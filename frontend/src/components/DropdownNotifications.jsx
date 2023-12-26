@@ -19,7 +19,7 @@ const DropdownNotifications = ({ align }) => {
     try {
       const token = localStorage.getItem("Token");
       const response = await axios.get(
-        "http://localhost:3000/api/emails/notifications",
+        "https://vercel.com/yassa122s-projects/ecs-project-backend/HGR3vacPAbunqEmkv4G6BsFatujr/api/emails/notifications",
         {
           headers: {
             Authorization: `Bearer ${token}`,
