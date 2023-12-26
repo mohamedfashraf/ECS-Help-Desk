@@ -7,17 +7,18 @@ const secretKey = "s1234rf,.lp";
 
 const otplib = require("otplib");
 const { authenticator } = otplib;
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const qrcode = require("qrcode");
 
 require("dotenv").config();
 
-const fs = require('fs');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
-const Dropbox = require('dropbox').Dropbox;
+const fs = require("fs");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
+const Dropbox = require("dropbox").Dropbox;
 
-const dropboxToken = 'sl.BsatRBgkfsNK15maKWKuDb2rVCExI7yX-VBHxGkweOyL9GeP2TO6rXIpalVewktufleovgEQZHp1kcuwDE1YamPpyP8BMEwAsZ6LLHL-J2opUPjsIMsi4hj-yGxoU9IjXuTwFHgAwIj5IPXkXMZp';
+const dropboxToken =
+  "sl.BsatRBgkfsNK15maKWKuDb2rVCExI7yX-VBHxGkweOyL9GeP2TO6rXIpalVewktufleovgEQZHp1kcuwDE1YamPpyP8BMEwAsZ6LLHL-J2opUPjsIMsi4hj-yGxoU9IjXuTwFHgAwIj5IPXkXMZp";
 const dropbox = new Dropbox({ accessToken: dropboxToken });
 
 async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {
@@ -33,7 +34,10 @@ async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {
       if (item.isFile()) {
         // If it's a file, upload it to Dropbox
         const fileContent = fs.readFileSync(itemPath);
-        await dropbox.filesUpload({ path: dropboxItemPath, contents: fileContent });
+        await dropbox.filesUpload({
+          path: dropboxItemPath,
+          contents: fileContent,
+        });
         console.log(`File uploaded to Dropbox: ${item.name}`);
       } else if (item.isDirectory()) {
         // If it's a directory, recursively upload its contents
@@ -50,9 +54,9 @@ async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {
 const performBackup = async (user) => {
   if (user) {
     if (user.isBackupEnabled) {
-      const backupFolder = 'C:/Users/moham/OneDrive/Desktop/backups';
-      const timestamp = new Date().toISOString().replace(/[-:]/g, '');
-      const mongoURI = 'mongodb://127.0.0.1:27017/SE-Project';
+      const backupFolder = "C:/Users/moham/OneDrive/Desktop/backups";
+      const timestamp = new Date().toISOString().replace(/[-:]/g, "");
+      const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
 
       const backupPath = `${backupFolder}/${timestamp}`;
       const mongodumpCommand = `"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump" --uri=${mongoURI} --out=${backupPath} --db=SE-Project`;
@@ -68,10 +72,10 @@ const performBackup = async (user) => {
         console.error(`Error during backup: ${error.message}`);
       }
     } else {
-      console.log('Backup not initiated. User backup is not enabled.');
+      console.log("Backup not initiated. User backup is not enabled.");
     }
   } else {
-    console.log('Backup not initiated. User not logged in.');
+    console.log("Backup not initiated. User not logged in.");
   }
 };
 
@@ -573,8 +577,6 @@ const setBackupStatus = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-
 
 module.exports = enable2FA;
 
