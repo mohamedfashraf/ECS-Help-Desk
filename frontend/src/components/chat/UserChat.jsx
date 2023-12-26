@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 
 const UserChat = ({ chat, user }) => {
-  const { recipientUser } = useFetchRecipientUser(chat, user);
+  const { recipientUser, lastMessage } = useFetchRecipientUser(chat, user);
   const { onlineUsers } = useContext(ChatContext);
 
   const isOnline = onlineUsers.some(
@@ -32,7 +32,10 @@ const UserChat = ({ chat, user }) => {
         </div>
       </div>
       <div className="flex flex-col items-end">
-        <div className="text-sm text-gray-500">12/12/2023</div>
+        <div className="text-sm text-gray-500">
+          {" "}
+          {lastMessage ? formatDate(lastMessage.createdAt) : ""}
+        </div>
         <div className="this-user-notifications bg-blue-500 text-white rounded-full p-1 text-xs">
           2
         </div>
@@ -53,5 +56,9 @@ const UserChat = ({ chat, user }) => {
     </div>
   );
 };
-
+const formatDate = (dateString) => {
+  // Use a date library like moment.js or date-fns for better formatting
+  const date = new Date(dateString);
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+};
 export default UserChat;

@@ -4,7 +4,7 @@ import eclipse4 from "../svgs/Ellipse4.svg";
 
 const LoginComponent = () => {
   return (
-    <div className=" flex flex-col min-h-fit relative mt-5 ">
+    <div className=" flex flex-col min-h-fit bg-black relative mt-5 ">
       <p
         className="hidden sm:block absolute text-white ml-[173px] mt-[430px] font-sans "
         style={{

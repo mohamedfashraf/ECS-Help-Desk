@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChatContext } from "../context/ChatContext";
 import UserChat from "../components/chat/UserChat";
 import { AuthContext } from "../context/AuthContext";
@@ -14,6 +14,7 @@ const Tickets = () => {
   const { user } = useContext(AuthContext);
   const { userChats, isUserChatsLoading, currentChat, updateCurrentChat } =
     useContext(ChatContext);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     console.log("Current Chat:", currentChat);
@@ -21,9 +22,9 @@ const Tickets = () => {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        <Header />
+        <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <div
           style={{
             padding: "20px", // Adjust the padding as needed

@@ -4,7 +4,7 @@ import eclipse2 from "../svgs/Ellipse2.svg";
 
 const SignupComponent = () => {
   return (
-    <div className="bg-customblack flex flex-col min-h-fit relative mt-5 ">
+    <div className="bg-customblack flex flex-col bg-black min-h-fit relative mt-5 ">
       <p
         className="hidden sm:block absolute text-white ml-[173px] mt-[430px] font-sans "
         style={{

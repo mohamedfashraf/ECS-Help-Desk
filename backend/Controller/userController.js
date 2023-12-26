@@ -9,17 +9,17 @@ const otplib = require("otplib");
 const { authenticator } = otplib;
 const bcrypt = require("bcrypt");
 const qrcode = require("qrcode");
-const logger = require('../Controller/loggerController'); // Adjust the path accordingly
-
+const logger = require("../Controller/loggerController"); // Adjust the path accordingly
 
 require("dotenv").config();
 
-const fs = require('fs');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
-const Dropbox = require('dropbox').Dropbox;
+const fs = require("fs");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
+const Dropbox = require("dropbox").Dropbox;
 
-const dropboxToken = 'sl.BsatRBgkfsNK15maKWKuDb2rVCExI7yX-VBHxGkweOyL9GeP2TO6rXIpalVewktufleovgEQZHp1kcuwDE1YamPpyP8BMEwAsZ6LLHL-J2opUPjsIMsi4hj-yGxoU9IjXuTwFHgAwIj5IPXkXMZp';
+const dropboxToken =
+  "sl.BsatRBgkfsNK15maKWKuDb2rVCExI7yX-VBHxGkweOyL9GeP2TO6rXIpalVewktufleovgEQZHp1kcuwDE1YamPpyP8BMEwAsZ6LLHL-J2opUPjsIMsi4hj-yGxoU9IjXuTwFHgAwIj5IPXkXMZp";
 const dropbox = new Dropbox({ accessToken: dropboxToken });
 
 async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {
@@ -41,14 +41,16 @@ async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {
 
         try {
           // Upload the file to Dropbox
-          const response = await dbx.filesUpload({ path: dropboxPath, contents: fileContent });
-          console.log('File uploaded to Dropbox:', response);
+          const response = await dbx.filesUpload({
+            path: dropboxPath,
+            contents: fileContent,
+          });
+          console.log("File uploaded to Dropbox:", response);
         } catch (uploadError) {
           logger.error(`Error uploading filer to Dropbox: ${error.message}`);
 
           console.error(`Error uploading file to Dropbox:`, uploadError);
         }
-
       }
     }
 
@@ -63,9 +65,9 @@ async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {
 const performBackup = async (user) => {
   if (user) {
     if (user.isBackupEnabled) {
-      const backupFolder = 'C:/Users/moham/OneDrive/Desktop/backups';
-      const timestamp = new Date().toISOString().replace(/[-:]/g, '');
-      const mongoURI = 'mongodb://127.0.0.1:27017/SE-Project';
+      const backupFolder = "C:/Users/moham/OneDrive/Desktop/backups";
+      const timestamp = new Date().toISOString().replace(/[-:]/g, "");
+      const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
 
       const backupPath = `${backupFolder}/${timestamp}`;
       const mongodumpCommand = `"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump" --uri=${mongoURI} --out=${backupPath} --db=SE-Project`;
@@ -83,7 +85,9 @@ const performBackup = async (user) => {
         console.error(`Error during backup: ${error.message}`);
       }
     } else {
-      logger.error(`Backup not initiated. User backup is not enabled.: ${error.message}`);
+      logger.error(
+        `Backup not initiated. User backup is not enabled.: ${error.message}`
+      );
 
       console.log("Backup not initiated. User backup is not enabled.");
     }
@@ -91,7 +95,6 @@ const performBackup = async (user) => {
     logger.error(`Backup not initiated. User not logged in.: ${error.message}`);
 
     console.log("Backup not initiated. User not logged in.");
-
   }
 };
 
@@ -192,9 +195,8 @@ async function login(req, res) {
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      logger.error(`Error in someFunction: ${error.message}`);
+      logger.error(`Error in someFunction: ${error}`);
 
-      
       return res.status(401).json({ message: "Incorrect password" });
     }
 
@@ -429,7 +431,7 @@ async function enable2FA(req, res) {
 
     // Generate a new 2FA secret for the user
     const secret = authenticator.generateSecret();
-    const otpauthURL = authenticator.keyuri(user.email, "ECS-MFA", secret);
+    const otpauthURL = authenticator.keyuri(user.name, "ECS-MFA", secret);
 
     // Generate QR code for the OTP auth URL
     const qrCodeURL = await generateQRCode(otpauthURL);
@@ -440,7 +442,6 @@ async function enable2FA(req, res) {
 
     res.status(200).json({ otpauthURL, qrCodeURL });
   } catch (error) {
-    
     logger.error(`Error Enabling 2FA: ${error.message}`);
 
     console.error("Error enabling 2FA:", error);
@@ -500,7 +501,6 @@ const verifyTwoFactorAuth = async (req, res) => {
       logger.error(`Invalid 2FA token: ${error.message}`);
 
       return res.status(400).json({ message: "Invalid 2FA token" });
-
     }
 
     // If token is valid, enable 2FA for the user
@@ -644,8 +644,6 @@ const setBackupStatus = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-
 
 module.exports = enable2FA;
 
