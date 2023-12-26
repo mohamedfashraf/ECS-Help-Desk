@@ -1,4 +1,4 @@
-export const baseUrl = "http://localhost:3000/api";
+export const baseUrl = "https://ecs-project-backend.vercel.app";
 
 export const postRequest = async (url, body) => {
   const token = localStorage.getItem("Token");
