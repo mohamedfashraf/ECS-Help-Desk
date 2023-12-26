@@ -1,11 +1,67 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const UserController = require('../Controller/userController'); // Adjust the path to where your UserController is located
+const UserController = require("../Controller/userController");
+const authorizationMiddleware = require("../Middleware/authorization");
 
-router.post('/', UserController.createUser);
-router.get('/', UserController.getAllUsers);
-router.get('/:id', UserController.getUserById);
-router.put('/:id', UserController.updateUser);
-router.delete('/:id', UserController.deleteUser);
+router.put(
+  "/setBackupStatus",
+  authorizationMiddleware(["admin", "user", "agent", "manager"]),
+  UserController.setBackupStatus
+);
+router.get("/", authorizationMiddleware(["admin"]), UserController.getAllUsers);
+
+router.post(
+  "/enable2fa",
+  authorizationMiddleware(["user", "agent", "admin"]),
+  UserController.enable2FA
+);
+
+router.get(
+  "/check-2fa-status",
+  authorizationMiddleware(["user", "agent", "admin"]),
+  UserController.check2FAStatus
+);
+
+router.post(
+  "/verify2fa",
+  authorizationMiddleware(["user", "agent", "admin"]),
+  UserController.verifyTwoFactorAuth
+);
+
+router.post(
+  "/disable2fa",
+  authorizationMiddleware(["user", "agent", "admin"]),
+  UserController.disableMFA
+);
+
+router.post(
+  "/admin-register",
+  authorizationMiddleware(["admin"]),
+  UserController.adminRegister
+);
+
+router.get(
+  "/:id",
+  authorizationMiddleware(["user", "agent", "admin"]),
+  UserController.getUserById
+);
+
+router.put(
+  "/update/:id",
+  authorizationMiddleware(["admin", "user"]),
+  UserController.updateUser
+);
+
+router.delete(
+  "/:id",
+  authorizationMiddleware(["admin"]),
+  UserController.deleteUser
+);
+
+router.put(
+  "/updateById/:id",
+  authorizationMiddleware(["admin", "user"]),
+  UserController.updateById
+);
 
 module.exports = router;

@@ -2,28 +2,24 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const WorkflowDetailsSchema = new Schema({
-  priorityLevels: {
-    type: [String],
-    enum: ["High", "Medium", "Low"],
-  },
-  routingRules: {
-    High: String,
-    Medium: String,
-    Low: String,
-  },
-  escalationPath: [String],
-});
-
-const TicketRoutingSchema = new Schema({
-  _id: Schema.Types.ObjectId,
-  agentAvailability: Boolean,
-  workflowType: {
+const automatedWorkflowsModelSchema = new Schema({
+  issueType: {
     type: String,
-    default: "Ticket Routing",
+    required: true
   },
-  workflowDetails: WorkflowDetailsSchema,
-});
-const TicketRouting = mongoose.model("TicketRouting", TicketRoutingSchema);
 
-module.exports = TicketRouting;
+
+  subCategory: {
+      type: String,
+      required: true
+  },
+
+  workflow:{
+    type: String,
+    required: true
+  }
+});
+
+const automatedWorkflows = mongoose.model("automatedWorkflows", automatedWorkflowsModelSchema);
+
+module.exports = automatedWorkflows;

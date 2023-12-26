@@ -1,26 +1,51 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   role: {
     type: [String],
-    enum: ['user', 'admin', 'supportAgent', 'manager'],
-    required: true
+    enum: ["user", "admin", "agent", "manager"],
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
-  }
+    required: function () {
+      return !this.isOAuthUser; // Only require password if it's not an OAuth user
+    }
+  },
+  isOAuthUser: {
+    type: Boolean,
+    default: false
+  },
+
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+
+  twoFactorAuthEnabled: {
+    type: Boolean,
+    default: false,
+  },
+  twoFactorAuthSecret: {
+    type: String,
+    default: "",
+  },
+  isBackupEnabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
