@@ -1,6 +1,11 @@
+const logger = require('../Controller/loggerController'); // Adjust the path accordingly
 const Ticket = require('../Models/ticektsModelSchema');
 const SupportAgent = require('../Models/supportAgentModelSchema');
 const Queues = require('../Models/queuesSchema');
+const Issue = require('../Models/knowledgeBaseModelSchema');
+const UserModel = require("../Models/usersModelSchema");
+const nodemailer = require('nodemailer');
+
 
 async function createTicket(req, res) {
     try {
@@ -11,11 +16,9 @@ async function createTicket(req, res) {
 
         let status;
         if (assignedAgent) {
-            // Support agent available, assign the ticket
             await assignTicketToAgentCreate(assignedAgent, user_id, description, category, subCategory, priority, "Pending");
             status = "Pending";
         } else {
-            // No available agent, add the ticket to the appropriate priority queue
             const ticket = new Ticket({
                 user_id,
                 description,
@@ -45,32 +48,10 @@ async function createTicket(req, res) {
             },
         });
     } catch (error) {
+        logger.error(`Error creating ticket: ${error.message}`);
         res.status(400).json({ message: error.message });
     }
 }
-
-async function addToPriorityQueue(ticket) {
-    try {
-        const queues = await Queues.findOne({}); // Assuming there's only one document for the queues
-
-        switch (ticket.priority) {
-            case 'High':
-                queues.highQueue.push(ticket._id);
-                break;
-            case 'Medium':
-                queues.mediumQueue.push(ticket._id);
-                break;
-            case 'Low':
-                queues.lowQueue.push(ticket._id);
-                break;
-        }
-
-        await queues.save();
-    } catch (error) {
-        console.error(`Error adding ticket to priority queue: ${error.message}`);
-    }
-}
-
 async function removeFromPriorityQueue(ticket) {
     try {
         const queues = await Queues.findOne({});
@@ -249,9 +230,27 @@ async function updateTicket(req, res) {
         // Save the current status before updating
         const currentStatus = ticket.status;
 
+
+        
+
         // Update the ticket
         Object.keys(updates).forEach((update) => (ticket[update] = updates[update]));
         await ticket.save();
+
+        
+
+        // If the resolution details are updated
+        if ('resolutionDetails' in updates && updates.resolutionDetails !== ticket.resolutionDetails) {
+            // Create a new issue in the knowledge base
+            const newIssue = new Issue({
+                content: updates.resolutionDetails,
+                category: ticket.category,
+                keyWords: [ticket.subCategory],
+            });
+
+            await newIssue.save();
+        }
+
 
         // If the status is being updated to "Closed" and the previous status was not "Closed"
         if (ticket.status === "Closed" && currentStatus !== "Closed") {
@@ -268,6 +267,43 @@ async function updateTicket(req, res) {
             // Check the ticket queue and assign tickets to available agents
             await processTicketQueues();
         }
+
+
+
+
+        if (req.user.role == "agent"){
+
+            const user = await UserModel.findById(ticket.createdBy);
+            const userEmail = user.email;
+            const message = `Your ticket has been updated.\n
+                    Description: ${ticket.description}\n
+                    Status: ${ticket.status}\n
+                    Resolution Details: ${ticket.resolutionDetails}`;   
+
+            // Send email notification to the user who created the ticket
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: "agent.se.project@gmail.com",
+                    pass: "grtrdrwufhoilhll"
+                },
+                secure: true
+            });
+
+            
+            const mailOptions = {
+                from: "agent.se.project@gmail.com",
+                to: userEmail,
+                subject: 'New Message from ',
+                text: message
+            };
+
+            await transporter.sendMail(mailOptions);
+}
+
+
+
+
 
         res.status(200).json(ticket);
     } catch (error) {
