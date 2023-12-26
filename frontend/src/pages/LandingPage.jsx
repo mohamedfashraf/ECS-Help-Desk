@@ -29,16 +29,15 @@ function App() {
         }}
       >
         <span style={{ display: "flex", alignItems: "center" }}>
-          We 
+          We
           <span style={{ margin: "0 20px" }}>Provide</span>
           {/* Inline SVG here */}
- <img
+          <img
             src={pulb}
             alt="Desk"
             style={{ width: "100px", height: "auto" }} // Adjust the style as needed
-          />            {/* SVG content */}
-
-            
+          />{" "}
+          {/* SVG content */}
         </span>
         Smart Business
         <br />
@@ -93,13 +92,8 @@ function App() {
         <img
           src={EcsLayers}
           alt="Overlay"
-          style={{
-            position: "absolute",
-            width: "500px", // Adjust size as needed
-            top: "900px", // Adjust position as needed
-            left: "40%", // Adjust position as needed
-            transform: "translate(-50%, -50%)", // Center the SVG
-          }}
+          className="absolute w-72 left-32 -bottom-40 transform translate-x-1/3 -translate-y-1/2
+                 sm:w-96 md:w-128 lg:w-[500px] xl:top-[900px] xl:left-40"
         />
         <div
           style={{
@@ -118,18 +112,18 @@ function App() {
       </div>
       {/* Footer with a horizontal line and carousel */}
       <footer className="w-full py-4 bg-black text-white flex flex-col items-center">
-        <hr className="w-1/2 border-t border-gray-700" />{" "}
-        {/* Horizontal line */}
-        <div className="my-4">
+        <hr className="w-full md:w-1/2 border-t border-gray-700" />{" "}
+        {/* Full width on small screens, half-width on medium and above */}
+        <div className="my-4 w-full px-4">
+          {" "}
+          {/* Full width with padding */}
           {/* Carousel placeholder */}
-          <div className="flex justify-center items-center space-x-4">
+          <div className="flex flex-wrap justify-center items-center gap-4">
+            {" "}
+            {/* Wrap items and space them */}
             {/* Replace these divs with actual company logos */}
             <div className="h-12 w-40 rounded-md flex justify-center items-center">
-              <img
-                src={logo1}
-                alt="Desk"
-                style={{ width: "auto", height: "auto" }} // Adjust the style as needed
-              />
+              <img src={logo1} alt="Logo" className="w-auto h-auto" />
             </div>
             <div className="h-12 w-40 rounded-md flex justify-center items-center">
               <img
