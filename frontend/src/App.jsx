@@ -11,6 +11,7 @@ import "./css/style.css";
 import CurrentSettings from "./pages/CurrentSettings";
 import "./charts/ChartjsConfig";
 import MFAtotp from "./pages/MFA";
+import Logs from "./pages/Logs";
 // Import pages
 import Dashboard from "./pages/Dashboard";
 import FAQs from "./pages/FAQs";
@@ -31,26 +32,39 @@ function App() {
 
   return (
     <>
-      <Routes>
-        <Route path="/Home" element={<LandingPage />} />
+      <ChatContextProvider user={user}>
+        <Routes>
+            <Route path="/Home" element={<LandingPage />} />
 
-        <Route exact path="/login" element={user ? <Dashboard /> : <Login />} />
-        <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
-        <Route exact path="*" element={<Navigate to="/" />} />
-        <Route path="/chats" element={user ? <Chats /> : <Login />} />
-        <Route path="/FAQs" element={user ? <FAQs /> : <Login />} />
-        <Route path="/settings" element={user ? <UserSettings /> : <Login />} />
-        <Route path="/Mfa" element={user ? <Dashboard /> : <MFAtotp />} />
-        <Route
-          path="/userSettings"
-          element={user ? <CurrentSettings /> : <Login />}
-        />
+          <Route
+            exact
+            path="/login"
+            element={user ? <Dashboard /> : <Login />}
+          />
+          <Route exact path="/" element={user ? <Dashboard /> : <Login />} />
+          <Route exact path="*" element={<Navigate to="/" />} />
+          <Route path="/chats" element={user ? <Chats /> : <Login />} />
+          <Route path="/FAQs" element={user ? <FAQs /> : <Login />} />
+          <Route
+            path="/settings"
+            element={user ? <UserSettings /> : <Login />}
+          />
+          <Route path="/Mfa" element={user ? <Dashboard /> : <MFAtotp />} />
+          <Route
+            path="/userSettings"
+            element={user ? <CurrentSettings /> : <Login />}
+          />
+          <Route path="/logs" element={user ? <Logs /> : <Login />} />
+          <Route
+            path="/register"
+            element={user ? <Dashboard /> : <Register />}
+          />
+          <Route path="/tickets" element={user ? <Tickets /> : <Login />} />
+          <Route path="/sendEmail" element={user ? <SendEmail /> : <Login />} />
+          <Route path="/addFAQs" element={user ? <AddFAQs /> : <Login />} />
+        </Routes>
+      </ChatContextProvider>
 
-        <Route path="/register" element={user ? <Dashboard /> : <Register />} />
-        <Route path="/tickets" element={user ? <Tickets /> : <Login />} />
-        <Route path="/sendEmail" element={user ? <SendEmail /> : <Login />} />
-        <Route path="/addFAQs" element={user ? <AddFAQs /> : <Login />} />
-      </Routes>
     </>
   );
 }
