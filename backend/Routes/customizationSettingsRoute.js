@@ -4,10 +4,10 @@ const router = express.Router();
 const customizationSettingsController = require('../Controller/customizationSettingsController');
 const authorizationMiddleware = require('../Middleware/authorization');
 
-router.get('/', authorizationMiddleware(['admin'])
+router.get('/currentTheme', authorizationMiddleware(['admin'])
     , customizationSettingsController.getSettings);
 
-router.put('/', authorizationMiddleware(['admin'])
+router.put('/changeTheme', authorizationMiddleware(['admin'])
     , customizationSettingsController.updateSettings);
 
 module.exports = router;

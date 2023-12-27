@@ -104,11 +104,7 @@ cron.schedule("*/1 * * * *", () => {
 });
 
 // Protected routes with authentication middleware
-app.use(
-  "/api/customizationSettings",
-  authenticationMiddleware,
-  customizationSettingsRoute
-);
+
 // ... (your existing imports)
 app.use(cors(corsOptions));
 
@@ -140,6 +136,11 @@ app.use(
   "/api/security-settings",
   authenticationMiddleware,
   securitySettingsRoutes
+);
+app.use(
+  "/api/customizationSettings",
+  authenticationMiddleware,
+  customizationSettingsRoute
 );
 app.use("/api/knowledgeBase", authenticationMiddleware, knowledgeBaseRoutes);
 app.use("/api/reports", authenticationMiddleware, reportsAndAnalyticsRoutes);
