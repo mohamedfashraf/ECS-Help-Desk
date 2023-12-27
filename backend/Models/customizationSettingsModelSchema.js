@@ -1,63 +1,14 @@
 const mongoose = require("mongoose");
 
-const CustomizationSettingsSchema = new mongoose.Schema({
-  branding: {
-    theme: {
-      primaryColor: {
-        type: String,
-        default: "#005f73",
-      },
-      secondaryColor: {
-        type: String,
-        default: "#0a9396",
-      },
-      backgroundColor: {
-        type: String,
-        default: "#94d2bd",
-      },
-      headerColor: {
-        type: String,
-        default: "#e9d8a6",
-      },
-      footerColor: {
-        type: String,
-        default: "#ee9b00",
-      },
-      fontColor: {
-        type: String,
-        default: "#ca6702",
-      },
-      buttonTextColor: {
-        type: String,
-        default: "#bb3e03",
-      },
-      linkColor: {
-        type: String,
-        default: "#ae2012",
-      },
-      hoverEffectColor: {
-        type: String,
-        default: "#9b2226",
-      },
-    },
-    logo: {
-      url: {
-        type: String,
-        default: "/images/logo.png",
-      },
-      altText: {
-        type: String,
-        default: "Company Logo",
-      },
-    },
+const customizationSchema = new mongoose.Schema({
+  theme: {
+    type: String,
+    enum: ["dark", "light"],
+    default: "dark",
   },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
+  // You can add more settings here as needed
 });
 
-module.exports = mongoose.model(
-  "customizationSettings",
-  CustomizationSettingsSchema
-);
+const Customization = mongoose.model("Customization", customizationSchema);
+
+module.exports = Customization;
