@@ -68,7 +68,7 @@ function DashboardCard07() {
 
       // Send the updated data to the server
       await axios.put(
-        `http://localhost:3000/api/users/${userId}`,
+        `http://localhost:3000/api/users/update/${userId}`,
         updatedData,
         {
           headers: {
