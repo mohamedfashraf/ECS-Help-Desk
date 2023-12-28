@@ -1,10 +1,12 @@
-import { useContext } from "react";
+import { useContext, useRef, useEffect } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import { useFetchRecipientUser } from "../../hooks/useFetchRecipient";
 import { AuthContext } from "../../context/AuthContext";
 import moment from "moment";
 import InputEmoji from "react-input-emoji";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const ChatBox = () => {
   const { user } = useContext(AuthContext);
@@ -16,25 +18,39 @@ const ChatBox = () => {
   );
 
   const [textMessage, setTextMessage] = useState("");
+  const inputRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
-  if (!recipientUser) {
-    return (
-      <p className="text-center w-full">No Conversation selected yet...</p>
-    );
-  }
+  const handleSendMessage = async () => {
+    await sendTextMessage(textMessage, user, currentChat._id, sendTextMessage);
+    setTextMessage(""); // Reset the input after sending
+  };
 
-  if (isMessagesLoading) {
-    return <p className="text-center w-full">Loading chat...</p>;
-  }
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault(); // Prevent the newline character
+      handleSendMessage();
+    }
+  };
+
+  useEffect(() => {
+    // Scroll to the last message when messages are updated
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
-    <div className="flex flex-col flex-grow p-4 chat-box h-full">
-      <div className="flex-shrink-0 mb-6">
+    <div className="flex flex-col flex-grow p-4 chat-box h-full bg-gray-800 rounded-lg shadow-md text-white">
+      <div className="flex-shrink-0 mb-4">
         <div className="chat-header">
-          <strong className="text-lg">{recipientUser?.name}</strong>
+          <strong className="text-xl text-blue-300">
+            {recipientUser?.name}
+          </strong>
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto messages mb-10">
+      <div
+        className="flex-1 overflow-y-auto messages"
+        style={{ maxHeight: "500px" }}
+      >
         {messages.map((message, index) => (
           <div
             key={index}
@@ -47,42 +63,35 @@ const ChatBox = () => {
             <div
               className={`${
                 message?.senderId === user?._id
-                  ? "self-message-box bg-green-500 text-white"
-                  : "other-message-box bg-gray-300 text-black"
-              } p-2 rounded`}
+                  ? "self-message-box bg-blue-500 text-white"
+                  : "other-message-box bg-gray-700 text-white"
+              } p-2 rounded shadow-md`}
             >
               <span className="text-md break-words">{message.text}</span>
-              <span className="message-footer text-sm text-gray-500">
+              <br />
+              <span className="message-footer text-sm text-gray-300">
                 {moment(message.createdAt).calendar()}
               </span>
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
-      <div className="flex space-x-3 chat-input">
+      <div className="flex space-x-3 chat-input mt-4">
         <InputEmoji
           value={textMessage}
           onChange={setTextMessage}
-          fontFamily="nunito"
+          onKeyPress={handleKeyPress} // Handle "Enter" key press
+          fontFamily="Your-Font-Family" // Replace with your desired font family
           borderColor="rgba(72,112,223,0.2)"
-          className="flex-1"
+          className="flex-1 py-2 px-4 border rounded-md focus:outline-none focus:ring focus:border-blue-300 bg-gray-600"
+          ref={inputRef}
         />
         <button
           className="send-btn bg-blue-500 text-white h-12 w-12 rounded-full flex items-center justify-center hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-          onClick={async () =>
-            sendTextMessage(textMessage, user, currentChat._id, sendTextMessage)
-          }
+          onClick={handleSendMessage}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-send-fill"
-            viewBox="0 0 16 16"
-          >
-            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
-          </svg>
+          <FontAwesomeIcon icon={faPaperPlane} />
         </button>
       </div>
     </div>
