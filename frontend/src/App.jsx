@@ -36,7 +36,7 @@ function App() {
     <>
       <ChatContextProvider user={user}>
         <Routes>
-          <Route path="/Home" element={<LandingPage />} />
+          <Route exact path="/home" element={<LandingPage />} />
 
           <Route
             exact
