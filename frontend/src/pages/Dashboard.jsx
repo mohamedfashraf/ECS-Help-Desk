@@ -22,7 +22,7 @@ import DashboardCard12 from "../partials/dashboard/DashboardCard12";
 import DashboardCard13 from "../partials/dashboard/DashboardCard13";
 import AgentDashboardCard01 from "../partials/dashboard/AgentDashboardCard01";
 import AgentDashboardCard07 from "../partials/dashboard/AgentDashboardCard07";
-
+import DashboardCard20 from "../partials/dashboard/DashboardCard20";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -75,6 +75,8 @@ function Dashboard() {
 
               {/* Line chart (update ticket) */}
               {userRole.includes("user") && <DashboardCard02 />}
+              {userRole.includes("user") && <DashboardCard20 />}
+
               {/* Line chart (ticket status) */}
               {userRole.includes("user") && <DashboardCard03 />}
               {/* Bar chart (Direct vs Indirect) */}

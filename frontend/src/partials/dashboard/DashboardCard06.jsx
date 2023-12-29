@@ -11,10 +11,15 @@ function DashboardCard06() {
   const [expertise, setExpertise] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [expertiseHigh, setExpertiseHigh] = useState("");
+  const [expertiseMedium, setExpertiseMedium] = useState("");
+  const [expertiseLow, setExpertiseLow] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState(new Set());
 
   const handleRegister = async () => {
     try {
       const token = localStorage.getItem("Token");
+      
       const response = await axios.post(
         "http://localhost:3000/api/users/admin-register",
         {
@@ -48,6 +53,17 @@ function DashboardCard06() {
       // Toggle error message
       setShowSuccessMessage(false);
       setShowErrorMessage(true);
+    }
+  };
+
+  const handleDropdownChange = (level, value) => {
+    setSelectedOptions(new Set([...selectedOptions, value]));
+    if (level === "High") {
+      setExpertiseHigh(value);
+    } else if (level === "Medium") {
+      setExpertiseMedium(value);
+    } else {
+      setExpertiseLow(value);
     }
   };
 
@@ -111,18 +127,28 @@ function DashboardCard06() {
         </select>
 
         {role === "agent" && (
-          <>
-            <label className="block text-sm font-medium text-gray-700 mt-4">
-              Expertise
-            </label>
-            <input
-              type="text"
-              className="mt-1 p-2 w-full border rounded-md dark:bg-slate-700"
-              value={expertise}
-              onChange={(e) => setExpertise(e.target.value)}
-            />
-          </>
-        )}
+  <>
+    {['High', 'Medium', 'Low'].map((level) => (
+      <div key={level}>
+        <label className="block text-sm font-medium text-gray-700 mt-4">
+          {`${level} Expertise`}
+        </label>
+        <select
+          className="mt-1 p-2 w-full border rounded-md dark:bg-slate-700"
+          value={level === 'High' ? expertiseHigh : level === 'Medium' ? expertiseMedium : expertiseLow}
+          onChange={(e) => handleDropdownChange(level, e.target.value)}
+          disabled={selectedOptions.has(level)}
+        >
+          <option value="">Select Expertise</option>
+          <option value="Hardware" disabled={selectedOptions.has('Hardware')}>Hardware</option>
+          <option value="Software" disabled={selectedOptions.has('Software')}>Software</option>
+          <option value="Network" disabled={selectedOptions.has('Network')}>Network</option>
+        </select>
+      </div>
+    ))}
+  </>
+)}
+
 
         <label className="block text-sm font-medium text-gray-700 mt-4">
           Password
