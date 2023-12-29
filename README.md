@@ -17,9 +17,13 @@ This project is built using a robust stack of frontend technologies, ensuring a 
 
 ## Screenshots
 ![Alt text](https://i.imgur.com/Qzy1f7C.png)
+
 ![Alt text](https://i.imgur.com/STFYkG8.png)
+
 ![Alt text](https://i.imgur.com/Rr75FHG.png)
+
 ![Alt text](https://i.imgur.com/ygz2e3B.png)
+
 ![Alt text](https://i.imgur.com/XXXAJZo.png)
 
 
