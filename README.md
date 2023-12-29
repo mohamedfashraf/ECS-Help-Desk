@@ -15,6 +15,15 @@ This project is built using a robust stack of frontend technologies, ensuring a 
 - **Custom Hooks**: Custom React hooks are employed to encapsulate and manage the application's logic, promoting code reuse and simplicity.
 - **SVGs and Assets**: The use of SVGs and other assets enhances the visual appeal and user experience of the application.
 
+## Screenshots
+![Alt text](https://i.imgur.com/Qzy1f7C.png)
+![Alt text](https://i.imgur.com/STFYkG8.png)
+![Alt text](https://i.imgur.com/Rr75FHG.png)
+![Alt text](https://i.imgur.com/ygz2e3B.png)
+![Alt text](https://i.imgur.com/XXXAJZo.png)
+
+
+
 
 
 ### Backend
