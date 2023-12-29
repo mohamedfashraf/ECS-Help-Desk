@@ -1,5 +1,5 @@
-# ECS Help Desk
-
+# ECS Help Desk 
+https://ecs-project-omega.vercel.app
 
 ## Introduction
 Welcome to our comprehensive web application, designed to streamline and enhance user interaction and data visualization. This project is an amalgamation of modern web technologies and best practices, tailored to create an intuitive and responsive user experience. From interactive charts and data management to user authentication and messaging, our application covers a wide array of functionalities, making it versatile for various use cases.
@@ -14,6 +14,20 @@ This project is built using a robust stack of frontend technologies, ensuring a 
 - **Context API**: Utilizing React's Context API for state management, we ensure a smooth and coherent state flow across different components.
 - **Custom Hooks**: Custom React hooks are employed to encapsulate and manage the application's logic, promoting code reuse and simplicity.
 - **SVGs and Assets**: The use of SVGs and other assets enhances the visual appeal and user experience of the application.
+
+## Screenshots
+
+![Alt text](https://i.imgur.com/Qzy1f7C.png)
+
+![Alt text](https://i.imgur.com/STFYkG8.png)
+
+![Alt text](https://i.imgur.com/Rr75FHG.png)
+
+![Alt text](https://i.imgur.com/ygz2e3B.png)
+
+![Alt text](https://i.imgur.com/XXXAJZo.png)
+
+
 
 
 
@@ -39,7 +53,7 @@ To get the project up and running on your local machine, follow these steps:
 2. **Backend Setup**
    - Navigate to the backend folder:
      ```
-     cd path/to/backend
+     cd backend
      ```
    - Install the necessary npm packages:
      ```
@@ -53,7 +67,7 @@ To get the project up and running on your local machine, follow these steps:
 3. **Frontend Setup**
    - Navigate to the frontend folder:
      ```
-     cd path/to/frontend
+     cd frontend
      ```
    - Install the necessary npm packages:
      ```
