@@ -16,6 +16,7 @@ This project is built using a robust stack of frontend technologies, ensuring a 
 - **SVGs and Assets**: The use of SVGs and other assets enhances the visual appeal and user experience of the application.
 
 ## Screenshots
+
 ![Alt text](https://i.imgur.com/Qzy1f7C.png)
 
 ![Alt text](https://i.imgur.com/STFYkG8.png)
