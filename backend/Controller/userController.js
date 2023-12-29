@@ -65,7 +65,7 @@ async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {
 const performBackup = async (user) => {
   if (user) {
     if (user.isBackupEnabled) {
-      const backupFolder = "C:/Users/moham/OneDrive/Desktop/backups";
+      const backupFolder = "C:\Users\User\OneDrive\Desktop\back";
       const timestamp = new Date().toISOString().replace(/[-:]/g, "");
       const mongoURI = "mongodb://127.0.0.1:27017/SE-Project";
 
