@@ -6,7 +6,7 @@ module.exports = function authorizationMiddleware(roles) {
       return res
         .status(403)
         .json({ message: "Unauthorized access: No user role found" });
-    }
+    } 
 
     const userRoles = req.user.role;
     // console.log("User roles:", userRoles); // Debugging statement
