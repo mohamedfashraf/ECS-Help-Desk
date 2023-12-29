@@ -48,7 +48,7 @@ To get the project up and running on your local machine, follow these steps:
 2. **Backend Setup**
    - Navigate to the backend folder:
      ```
-     cd path/to/backend
+     cd backend
      ```
    - Install the necessary npm packages:
      ```
@@ -62,7 +62,7 @@ To get the project up and running on your local machine, follow these steps:
 3. **Frontend Setup**
    - Navigate to the frontend folder:
      ```
-     cd path/to/frontend
+     cd frontend
      ```
    - Install the necessary npm packages:
      ```
