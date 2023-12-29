@@ -328,6 +328,7 @@
 {"level":"error","message":"Error creating ticket: addToPriorityQueue is not defined"}
 {"level":"error","message":"Error creating ticket: addToPriorityQueue is not defined"}
 {"level":"error","message":"Error in someFunction: error is not defined"}
+
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
@@ -368,6 +369,18 @@
 {"level":"error","message":"Error during backup: Command failed: \"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump\" --uri=mongodb://127.0.0.1:27017/SE-Project --out=C:/Users/moham/OneDrive/Desktop/backups/20231227T233739.906Z --db=SE-Project\nThe system cannot find the path specified.\r\n"}
 {"level":"error","message":"Error during backup: Command failed: \"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump\" --uri=mongodb://127.0.0.1:27017/SE-Project --out=C:/Users/moham/OneDrive/Desktop/backups/20231227T233839.909Z --db=SE-Project\nThe system cannot find the path specified.\r\n"}
 {"level":"error","message":"Error in someFunction: error is not defined"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"Erro disabling MFA: error is not defined"}
+{"level":"error","message":"Erro disabling MFA: error is not defined"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
@@ -424,6 +437,7 @@
 {"level":"error","message":"Error during backup: Command failed: \"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump\" --uri=mongodb://127.0.0.1:27017/SE-Project --out=C:UsersUserOneDriveDesktop\back/20231228T212708.875Z --db=SE-Project\nThe system cannot find the path specified.\r\n"}
 {"level":"error","message":"Error during backup: Command failed: \"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump\" --uri=mongodb://127.0.0.1:27017/SE-Project --out=C:UsersUserOneDriveDesktop\back/20231228T225842.523Z --db=SE-Project\nThe system cannot find the path specified.\r\n"}
 {"level":"error","message":"Error during backup: Command failed: \"C:\\Program Files\\MongoDB\\Tools\\100\\bin\\mongodump\" --uri=mongodb://127.0.0.1:27017/SE-Project --out=C:UsersUserOneDriveDesktop\back/20231228T225944.117Z --db=SE-Project\nThe system cannot find the path specified.\r\n"}
+
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
@@ -437,6 +451,10 @@
 {"level":"error","message":"Error.: SupportAgent validation failed: expertise.Low: Path `expertise.Low` is required., expertise.Medium: Path `expertise.Medium` is required., expertise.High: Path `expertise.High` is required."}
 {"level":"error","message":"Error.: SupportAgent validation failed: expertise.Low: Path `expertise.Low` is required., expertise.Medium: Path `expertise.Medium` is required., expertise.High: Path `expertise.High` is required."}
 {"level":"error","message":"Error.: SupportAgent validation failed: expertise.Low: Path `expertise.Low` is required., expertise.Medium: Path `expertise.Medium` is required., expertise.High: Path `expertise.High` is required."}
+{"level":"error","message":"Error.: User validation failed: name: Path `name` is required., email: Path `email` is required., role.0: `` is not a valid enum value for path `role.0`."}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
@@ -445,6 +463,7 @@
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"Error.: SupportAgent validation failed: expertise.Low: Path `expertise.Low` is required., expertise.Medium: Path `expertise.Medium` is required., expertise.High: Path `expertise.High` is required."}
 {"level":"error","message":"Error.: SupportAgent validation failed: expertise.Low: Path `expertise.Low` is required., expertise.Medium: Path `expertise.Medium` is required., expertise.High: Path `expertise.High` is required."}
+
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
@@ -462,3 +481,17 @@
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"No conversation found for the user"}
+
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"Error in someFunction: error is not defined"}
+{"level":"error","message":"Error in someFunction: error is not defined"}
+{"level":"error","message":"Error in someFunction: error is not defined"}

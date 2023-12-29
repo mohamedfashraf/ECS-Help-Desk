@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import { AuthContext } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,42 +11,33 @@ const PotentialChats = () => {
   const { user } = useContext(AuthContext);
   const { potentialChats, createChat, onlineUsers } = useContext(ChatContext);
 
-  console.log("onlineUsers:", onlineUsers);
-
   return (
-    <div className="all-users">
+    <div className="potential-chats bg-gray-800 rounded-md shadow-md p-4 text-white">
       {potentialChats &&
-        potentialChats.map((u, index) => {
+        potentialChats.map((user, index) => {
           const isUserOnline = onlineUsers?.some(
-            (onlineUser) => onlineUser?.userId === u?._id
+            (onlineUser) => onlineUser?.userId === user?._id
           );
 
           return (
             <div
               key={index}
-              className={`single-user cursor-pointer flex items-center justify-between px-4 py-2 border-b border-gray-300 hover:bg-gray-100`}
-              onClick={() => createChat(user._id, u._id)}
+              className={`chat-user cursor-pointer flex items-center justify-between p-3 border-b border-gray-700 hover:bg-gray-700 rounded-md transition duration-300 ease-in-out`}
+              onClick={() => createChat(user._id, user._id)}
             >
               <div className="flex items-center">
-                <span className="font-bold">{u.name}</span>
-                {isUserOnline ? (
-                  <span className="text-green-500 ml-1">Online</span>
-                ) : (
-                  <span className="text-gray-500 ml-1">Offline</span>
-                )}
+                <span className="font-bold">{user.name}</span>
+                <span
+                  className={`text-${isUserOnline ? "green" : "gray"}-500 ml-2`}
+                >
+                  {isUserOnline ? "Online" : "Offline"}
+                </span>
               </div>
               <span className="text-lg">
-                {isUserOnline ? (
-                  <FontAwesomeIcon
-                    icon={faCheckCircle}
-                    className="text-green-500"
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faTimesCircle}
-                    className="text-red-500"
-                  />
-                )}
+                <FontAwesomeIcon
+                  icon={isUserOnline ? faCheckCircle : faTimesCircle}
+                  className={`text-${isUserOnline ? "green" : "red"}-500`}
+                />
               </span>
             </div>
           );

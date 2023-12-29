@@ -1477,6 +1477,138 @@
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"info","message":"Retrieved all support agents successfully"}
+=======
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Logger initialized"}
+{"level":"error","message":"Erro disabling MFA: error is not defined"}
+{"level":"error","message":"Erro disabling MFA: error is not defined"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"New message created successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve user emails"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve user emails"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Attempting to retrieve user emails"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Attempting to retrieve user emails"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
@@ -1490,17 +1622,28 @@
 {"level":"error","message":"No conversation found for the user"}
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
 {"level":"info","message":"Attempting to retrieve user emails"}
+{"level":"info","message":"Attempting to retrieve user emails"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve user emails"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
 {"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all issues successfully"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all issues successfully"}
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"info","message":"Retrieved all support agents successfully"}
 {"level":"info","message":"User chats retrieved successfully"}
+
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
 {"level":"error","message":"No conversation found for the user"}
 {"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
@@ -1628,6 +1771,170 @@
 {"level":"info","message":"Retrieved email messages successfully"}
 {"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
 {"level":"info","message":"Retrieved all support agents successfully"}
+=======
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"Error.: User validation failed: name: Path `name` is required., email: Path `email` is required., role.0: `` is not a valid enum value for path `role.0`."}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"info","message":"Attempting to retrieve user emails"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"info","message":"Attempting to retrieve user emails"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all issues successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@icloud.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all issues successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved all issues successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved all issues successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all issues successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all issues successfully"}
+{"level":"info","message":"Retrieved issues based on keyword successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: jana@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"Error in someFunction: error is not defined"}
+{"level":"error","message":"Error in someFunction: error is not defined"}
+{"level":"error","message":"Error in someFunction: error is not defined"}
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"New message created successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"New message created successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
 {"level":"info","message":"Retrieved email messages successfully"}
 {"level":"info","message":"User chats retrieved successfully"}
 {"level":"info","message":"Retrieved all support agents successfully"}
@@ -1797,3 +2104,64 @@
 {"level":"info","message":"Retrieved all support agents successfully"}
 {"level":"info","message":"Retrieved all reports successfully"}
 {"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"New message created successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"New message created successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"New message created successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: mohameddashraff89@gmail.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Retrieved messages successfully"}
