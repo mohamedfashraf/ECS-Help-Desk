@@ -27,7 +27,8 @@ Detailed instructions on setting up the project locally. Include steps for:
 2. Setting up the database
 3. Configuring the environment
 
-## Usage
+## Folder Structure
+```plaintext
 .
 ├── App.css
 ├── App.jsx
