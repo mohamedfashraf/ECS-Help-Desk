@@ -1,5 +1,5 @@
-# Project Title
-ECS Help Desk
+# ECS Help Desk
+
 
 ## Introduction
 Welcome to our comprehensive web application, designed to streamline and enhance user interaction and data visualization. This project is an amalgamation of modern web technologies and best practices, tailored to create an intuitive and responsive user experience. From interactive charts and data management to user authentication and messaging, our application covers a wide array of functionalities, making it versatile for various use cases.
