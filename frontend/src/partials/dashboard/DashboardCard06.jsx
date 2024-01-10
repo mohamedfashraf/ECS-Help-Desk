@@ -19,7 +19,17 @@ function DashboardCard06() {
   const handleRegister = async () => {
     try {
       const token = localStorage.getItem("Token");
-      
+  
+      // Construct the expertise object if role is agent
+      let expertiseObj = {};
+      if (role === "agent") {
+        expertiseObj = {
+          High: expertiseHigh,
+          Medium: expertiseMedium,
+          Low: expertiseLow,
+        };
+      }
+  
       const response = await axios.post(
         "http://localhost:3000/api/users/admin-register",
         {
@@ -27,7 +37,7 @@ function DashboardCard06() {
           email,
           role,
           password,
-          expertise,
+          expertise: role === "agent" ? expertiseObj : null, // Send expertise object only for agents
         },
         {
           headers: {
@@ -36,25 +46,25 @@ function DashboardCard06() {
         }
       );
       console.log("User registered successfully:", response.data);
-
-      // Toggle success message
+  
+      // Toggle success message and reset form fields
       setShowSuccessMessage(true);
       setShowErrorMessage(false);
-
-      // Reset form fields after successful registration
       setName("");
       setEmail("");
       setRole("");
       setPassword("");
-      setExpertise("");
+      setExpertiseHigh(""); // Reset expertise fields
+      setExpertiseMedium("");
+      setExpertiseLow("");
+      setSelectedOptions(new Set());
     } catch (error) {
       console.error("Error registering user:", error.message);
-
-      // Toggle error message
       setShowSuccessMessage(false);
       setShowErrorMessage(true);
     }
   };
+  
 
   const handleDropdownChange = (level, value) => {
     setSelectedOptions(new Set([...selectedOptions, value]));

@@ -1797,3 +1797,74 @@
 {"level":"info","message":"Retrieved all support agents successfully"}
 {"level":"info","message":"Retrieved all reports successfully"}
 {"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Logger initialized"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all reports successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: ysa.ashraf@yahoo.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: ysa.ashraf@yahoo.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: yassa.ashraf@yahoo.com"}
+{"level":"info","message":"Retrieved email messages successfully"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"info","message":"User chats retrieved successfully"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Attempting to retrieve email messages for user: agent.se.project@gmail.com"}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"info","message":"Retrieved all support agents successfully"}
+{"level":"error","message":"Error.: SupportAgent validation failed: expertise.Low: Path `expertise.Low` is required., expertise.Medium: Path `expertise.Medium` is required., expertise.High: Path `expertise.High` is required."}
+{"level":"info","message":"Logger initialized"}
+{"level":"error","message":"Error.: SupportAgent validation failed: expertise.Low: Path `expertise.Low` is required., expertise.Medium: Path `expertise.Medium` is required., expertise.High: Path `expertise.High` is required."}
+{"level":"info","message":"Logger initialized"}
