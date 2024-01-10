@@ -19,7 +19,7 @@ const exec = util.promisify(require("child_process").exec);
 const Dropbox = require("dropbox").Dropbox;
 
 const dropboxToken =
-  "sl.BsatRBgkfsNK15maKWKuDb2rVCExI7yX-VBHxGkweOyL9GeP2TO6rXIpalVewktufleovgEQZHp1kcuwDE1YamPpyP8BMEwAsZ6LLHL-J2opUPjsIMsi4hj-yGxoU9IjXuTwFHgAwIj5IPXkXMZp";
+  "sl.Bslo33OMbweQFtr1BTiJH4dXzAAP3fOB9gkjo0Wuo7jTabTMrQPCzAry5AjN77n8wkKq3RU2C48XhKHRVfXc6Cb2wwlb4dOp18l8swcEGwyftu-QzcvkHixMYdgLGEUU9sdG_6hkDHTphc6a_yqa";
 const dropbox = new Dropbox({ accessToken: dropboxToken });
 
 async function uploadFolderToDropbox(folderPath, dropboxFolderPath = "") {

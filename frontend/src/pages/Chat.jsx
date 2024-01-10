@@ -21,29 +21,12 @@ const Chat = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+      <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         <Header />
-        <div
-          style={{
-            padding: "20px", // Adjust the padding as needed
-            marginTop: "5px", // Adjust the top margin as needed
-            marginLeft: "20px", // Adjust the left margin as needed
-            marginRight: "20px", // Adjust the right margin as needed
-          }}
-        >
+        <div className="p-4">
           <MessageBox />
         </div>
-        <div
-          className="flex flex-col flex-grow p-4 chat-box"
-          style={{
-            backgroundColor: "rgba(30, 41, 59, 1)",
-            padding: "20px", // Adjust the padding as needed
-            // Adjust the top margin as needed
-            marginBottom: "20px", // Adjust the bottom margin as needed
-            marginLeft: "20px", // Adjust the left margin as needed
-            marginRight: "20px", // Adjust the right margin as needed
-          }}
-        >
+        <div className="flex flex-col flex-grow p-4 chat-box bg-gray-800 rounded-lg shadow-md text-white">
           <PotentialChats />
           {userChats?.length < 1 ? null : (
             <div className="flex gap-4 items-start">
@@ -53,7 +36,7 @@ const Chat = () => {
                   <div
                     key={index}
                     onClick={() => updateCurrentChat(chat)}
-                    className="hover:bg-gray-700 hover:cursor-pointer hover:shadow-md transition duration-300 ease-in-out rounded p-3"
+                    className="hover:bg-gray-700 cursor-pointer shadow-md transition duration-300 ease-in-out rounded p-3"
                   >
                     <UserChat chat={chat} user={user} />
                   </div>
