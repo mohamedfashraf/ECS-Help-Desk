@@ -470,3 +470,5 @@
 {"level":"error","message":"No conversation found for the user"}
 {"level":"error","message":"Error.: SupportAgent validation failed: expertise.Low: Path `expertise.Low` is required., expertise.Medium: Path `expertise.Medium` is required., expertise.High: Path `expertise.High` is required."}
 {"level":"error","message":"Error.: SupportAgent validation failed: expertise.Low: Path `expertise.Low` is required., expertise.Medium: Path `expertise.Medium` is required., expertise.High: Path `expertise.High` is required."}
+{"level":"error","message":"No conversation found for the user"}
+{"level":"error","message":"No conversation found for the user"}
